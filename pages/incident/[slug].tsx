@@ -51,15 +51,12 @@ const Page = () => {
     pushNewEntry(index)
   }, [pushNewEntry, slug])
 
-  const onSubmit = useCallback(
-    (formData) => {
-      // 1. dispatch form data to state
-      // 2. proceed to the next step
+  const onSubmit = useCallback(() => {
+    // 1. dispatch form data to state
+    // 2. proceed to the next step
 
-      canGoNext && goNext()
-    },
-    [canGoNext, goNext]
-  )
+    canGoNext && goNext()
+  }, [canGoNext, goNext])
 
   return (
     <FormContext.Provider
