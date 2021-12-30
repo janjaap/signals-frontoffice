@@ -7,6 +7,8 @@ import {
 } from '@amsterdam/asc-ui'
 import styled from 'styled-components'
 
+import Logo from '../Logo'
+
 const ContentWrapper = styled.div`
   background: white;
   max-width: 1400px;
@@ -60,8 +62,8 @@ const Layout = ({ children }) => (
       tall
       fullWidth
       headerLogoTextAs="div"
-      title="Meldingen"
       homeLink="./"
+      logo={Logo}
     />
 
     <div className="container">
