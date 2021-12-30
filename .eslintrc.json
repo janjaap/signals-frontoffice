@@ -6,7 +6,6 @@
     "plugin:react-hooks/recommended",
     "plugin:jsx-a11y/recommended",
     "plugin:promise/recommended",
-    "plugin:redux-saga/recommended",
     "prettier",
     "prettier/react",
     "plugin:@typescript-eslint/recommended"
