@@ -1,5 +1,3 @@
-import { FIELD_TYPE_MAP } from 'signals/incident/containers/IncidentContainer/constants'
-
 type Condition = {
   category?: string | Array<string>
   subcategory?: string | Array<string>
@@ -25,7 +23,7 @@ const locatie = {
     },
     shortLabel: 'Waar is het?',
   },
-  render: FIELD_TYPE_MAP.asset_select,
+  render: 'AssetSelect',
   options: {
     validators: ['required'],
   },

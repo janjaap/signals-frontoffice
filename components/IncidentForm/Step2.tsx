@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form'
 
 import type { RootState } from '../../app/store/store'
 import FormNavigation from '../FormNavigation'
-import FormContext from '../../pages/incident/context'
+import FormContext from '../../app/incident/context'
 
 type FormData = {
   source: string

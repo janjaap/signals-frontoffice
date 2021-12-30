@@ -9,7 +9,7 @@ import AddNote from '../../components/AddNote'
 import FormNavigation from '../../components/FormNavigation'
 
 import { fetchClassification, setSource } from '../../app/store/slices/incident'
-import FormContext from '../../pages/incident/context'
+import FormContext from '../../app/incident/context'
 import type { RootState } from 'app/store/store'
 
 type FormData = {

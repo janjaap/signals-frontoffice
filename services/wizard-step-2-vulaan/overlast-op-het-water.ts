@@ -1,6 +1,3 @@
-// SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2021 Gemeente Amsterdam
-import { FIELD_TYPE_MAP } from 'signals/incident/containers/IncidentContainer/constants'
 import locatie from './locatie'
 
 export const overlastOpHetWater = {
@@ -21,7 +18,7 @@ export const overlastOpHetWater = {
       },
     },
     options: { validators: ['required'] },
-    render: FIELD_TYPE_MAP.radio_input,
+    render: 'Radio',
   },
   extra_boten_snelheid_rederij: {
     meta: {
@@ -33,7 +30,7 @@ export const overlastOpHetWater = {
         extra_boten_snelheid_typeboot: 'rondvaartboot_of_salonboot',
       },
     },
-    render: FIELD_TYPE_MAP.text_input,
+    render: 'TextInput',
   },
   extra_boten_snelheid_naamboot: {
     meta: {
@@ -52,7 +49,7 @@ export const overlastOpHetWater = {
         },
       },
     },
-    render: FIELD_TYPE_MAP.text_input,
+    render: 'TextInput',
   },
   extra_boten_snelheid_meer: {
     meta: {
@@ -73,7 +70,7 @@ export const overlastOpHetWater = {
         },
       },
     },
-    render: FIELD_TYPE_MAP.textarea_input,
+    render: 'Textarea',
   },
   extra_boten_geluid_meer: {
     meta: {
@@ -86,7 +83,7 @@ export const overlastOpHetWater = {
         subcategory: 'overlast-op-het-water-geluid',
       },
     },
-    render: FIELD_TYPE_MAP.textarea_input,
+    render: 'Textarea',
   },
   extra_boten_gezonken_meer: {
     meta: {
@@ -99,7 +96,7 @@ export const overlastOpHetWater = {
         subcategory: 'overlast-op-het-water-gezonken-boot',
       },
     },
-    render: FIELD_TYPE_MAP.textarea_input,
+    render: 'Textarea',
   },
 }
 

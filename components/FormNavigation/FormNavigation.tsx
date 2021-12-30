@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import type { FC } from 'react'
 
 import Button from '../Button'
-import FormContext from '../../pages/incident/context'
+import FormContext from '../../app/incident/context'
 
 const Wrapper = styled.fieldset`
   display: flex;

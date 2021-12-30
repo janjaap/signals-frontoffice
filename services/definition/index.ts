@@ -1,1 +1,1 @@
-export { machine, GO, GO_NEXT, GO_PREVIOUS } from './definition'
+export { machine, GO_NEXT, GO_PREVIOUS } from './definition'

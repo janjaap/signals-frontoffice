@@ -10,7 +10,7 @@ import VulAan from '../../components/IncidentForm/Step2'
 import Contact from '../../components/IncidentForm/Step3'
 import Versturen from '../../components/IncidentForm/Step4'
 
-import FormContext from './context'
+import FormContext from '../../app/incident/context'
 
 const steps: Record<string, ReactElement> = {
   beschrijf: <Beschrijf />,

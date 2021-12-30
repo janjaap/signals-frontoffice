@@ -1,7 +1,3 @@
-// SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2018 - 2021 Gemeente Amsterdam
-import { FIELD_TYPE_MAP } from 'signals/incident/containers/IncidentContainer/constants'
-
 import locatie from './locatie'
 
 export const overlastPersonenEnGroepen = {
@@ -28,7 +24,7 @@ export const overlastPersonenEnGroepen = {
     options: {
       validators: ['required'],
     },
-    render: FIELD_TYPE_MAP.radio_input,
+    render: 'Radio',
   },
   extra_drugs_verkoop_ja: {
     meta: {
@@ -39,7 +35,7 @@ export const overlastPersonenEnGroepen = {
       value:
         'De politie behandelt meldingen van verkoop van drugs en overlast van straatdealers. Bel de politie op [0900 8844](tel:09008844). U hoeft dit formulier niet meer verder in te vullen.',
     },
-    render: FIELD_TYPE_MAP.plain_text,
+    render: 'Text',
   },
   extra_jongeren_text: {
     meta: {
@@ -51,7 +47,7 @@ export const overlastPersonenEnGroepen = {
       value:
         'Weet u de naam van de jongere(n)? Gebruik dan het formulier [Melding zorg en woonoverlast](https://www.amsterdam.nl/zorg-ondersteuning/contact/meldpunt-zorg/). Dan komt uw melding direct bij het juiste team terecht.',
     },
-    render: FIELD_TYPE_MAP.plain_text,
+    render: 'Text',
   },
   extra_personen_overig: {
     meta: {
@@ -71,7 +67,7 @@ export const overlastPersonenEnGroepen = {
     options: {
       validators: ['required'],
     },
-    render: FIELD_TYPE_MAP.radio_input,
+    render: 'Radio',
   },
   extra_personen_overig_vaker: {
     meta: {
@@ -89,7 +85,7 @@ export const overlastPersonenEnGroepen = {
     options: {
       validators: ['required'],
     },
-    render: FIELD_TYPE_MAP.radio_input,
+    render: 'Radio',
   },
   extra_personen_overig_vaker_momenten: {
     meta: {
@@ -104,7 +100,7 @@ export const overlastPersonenEnGroepen = {
     options: {
       validators: ['required'],
     },
-    render: FIELD_TYPE_MAP.textarea_input,
+    render: 'Textarea',
   },
 }
 

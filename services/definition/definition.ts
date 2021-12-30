@@ -20,7 +20,7 @@ const formSubmissionStates: MachineConfig<
   key: 'step',
   initial: 'beschrijf',
   states: {
-    beschrijf: {
+    wonen: {
       on: {
         [GO_NEXT]: { target: 'vulaan' },
       },
