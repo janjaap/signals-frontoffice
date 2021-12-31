@@ -1,10 +1,28 @@
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
-import resolveClassification, {
-  Prediction,
-} from '../../../services/classification'
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+
+import type { PayloadAction } from '@reduxjs/toolkit'
+import type { Prediction } from '../../../services/classification'
+
+import resolveClassification from '../../../services/classification'
+
+
+type Category =
+  | 'afval'
+  | 'civiele-constructies'
+  | 'ondermijning'
+  | 'openbaar-groen-en-water'
+  | 'overig'
+  | 'overlast-bedrijven-en-horeca'
+  | 'overlast-in-de-openbare-ruimte'
+  | 'overlast-op-het-water'
+  | 'overlast-van-dieren'
+  | 'overlast-van-en-door-personen-of-groepen'
+  | 'schoon'
+  | 'wegen-verkeer-straatmeubilair'
+  | 'wonen'
 
 export type Classification = {
-  category: string
+  category: Category
   subcategory: string
 }
 
@@ -16,8 +34,8 @@ export interface IncidentState extends Classification {
 const initialState: IncidentState = {
   source: 'online',
   description: '',
-  category: '',
-  subcategory: '',
+  category: undefined,
+  subcategory: undefined,
 }
 
 const fetchClassification = createAsyncThunk(

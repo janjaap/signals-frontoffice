@@ -24,7 +24,7 @@ export const overlastPersonenEnGroepen = {
     options: {
       validators: ['required'],
     },
-    render: 'Radio',
+    render: 'RadioInput',
   },
   extra_drugs_verkoop_ja: {
     meta: {
@@ -35,7 +35,7 @@ export const overlastPersonenEnGroepen = {
       value:
         'De politie behandelt meldingen van verkoop van drugs en overlast van straatdealers. Bel de politie op [0900 8844](tel:09008844). U hoeft dit formulier niet meer verder in te vullen.',
     },
-    render: 'Text',
+    render: 'PlainText',
   },
   extra_jongeren_text: {
     meta: {
@@ -47,7 +47,7 @@ export const overlastPersonenEnGroepen = {
       value:
         'Weet u de naam van de jongere(n)? Gebruik dan het formulier [Melding zorg en woonoverlast](https://www.amsterdam.nl/zorg-ondersteuning/contact/meldpunt-zorg/). Dan komt uw melding direct bij het juiste team terecht.',
     },
-    render: 'Text',
+    render: 'PlainText',
   },
   extra_personen_overig: {
     meta: {
@@ -67,7 +67,7 @@ export const overlastPersonenEnGroepen = {
     options: {
       validators: ['required'],
     },
-    render: 'Radio',
+    render: 'RadioInput',
   },
   extra_personen_overig_vaker: {
     meta: {
@@ -85,7 +85,7 @@ export const overlastPersonenEnGroepen = {
     options: {
       validators: ['required'],
     },
-    render: 'Radio',
+    render: 'RadioInput',
   },
   extra_personen_overig_vaker_momenten: {
     meta: {
@@ -100,7 +100,7 @@ export const overlastPersonenEnGroepen = {
     options: {
       validators: ['required'],
     },
-    render: 'Textarea',
+    render: 'TextareaInput',
   },
 }
 

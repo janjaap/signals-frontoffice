@@ -1,12 +1,15 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { createSlice } from '@reduxjs/toolkit'
 
-import { fetchClassification } from './incident'
-
-import {
-  VARIANT_NOTICE,
+import type { PayloadAction } from '@reduxjs/toolkit'
+import type {
   VARIANT_ERROR,
   VARIANT_SUCCESS,
   TYPE_GLOBAL,
+} from '../../../components/Notification/constants'
+
+import { fetchClassification } from './incident'
+import {
+  VARIANT_NOTICE,
   TYPE_LOCAL,
 } from '../../../components/Notification/constants'
 

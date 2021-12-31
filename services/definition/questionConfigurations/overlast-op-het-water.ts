@@ -18,7 +18,7 @@ export const overlastOpHetWater = {
       },
     },
     options: { validators: ['required'] },
-    render: 'Radio',
+    render: 'RadioInput',
   },
   extra_boten_snelheid_rederij: {
     meta: {
@@ -70,7 +70,7 @@ export const overlastOpHetWater = {
         },
       },
     },
-    render: 'Textarea',
+    render: 'TextareaInput',
   },
   extra_boten_geluid_meer: {
     meta: {
@@ -83,7 +83,7 @@ export const overlastOpHetWater = {
         subcategory: 'overlast-op-het-water-geluid',
       },
     },
-    render: 'Textarea',
+    render: 'TextareaInput',
   },
   extra_boten_gezonken_meer: {
     meta: {
@@ -96,7 +96,7 @@ export const overlastOpHetWater = {
         subcategory: 'overlast-op-het-water-gezonken-boot',
       },
     },
-    render: 'Textarea',
+    render: 'TextareaInput',
   },
 }
 

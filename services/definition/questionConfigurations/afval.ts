@@ -1,6 +1,8 @@
+import type { Questions } from '..'
+
 import locatie from './locatie'
 
-export const controls = {
+export default {
   locatie,
   extra_afval: {
     meta: {
@@ -11,8 +13,6 @@ export const controls = {
       shortLabel: 'Waar vandaan',
       pathMerge: 'extra_properties',
     },
-    render: 'Textarea',
+    render: 'TextareaInput',
   },
-}
-
-export default controls
+} as Questions

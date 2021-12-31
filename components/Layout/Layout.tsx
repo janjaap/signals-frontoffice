@@ -7,6 +7,8 @@ import {
 } from '@amsterdam/asc-ui'
 import styled from 'styled-components'
 
+import type { FC, PropsWithChildren } from 'react'
+
 import Logo from '../Logo'
 
 const ContentWrapper = styled.div`
@@ -56,15 +58,13 @@ const FormWrapper = styled.div`
   grid-area: form;
 `
 
-const Layout = ({ children }) => (
+interface LayoutProps {
+  className?: string
+}
+
+const Layout: FC<PropsWithChildren<LayoutProps>> = ({ children }) => (
   <ContentWrapper className="contentWrapper" id="app">
-    <Header
-      tall
-      fullWidth
-      headerLogoTextAs="div"
-      homeLink="./"
-      logo={Logo}
-    />
+    <Header tall fullWidth headerLogoTextAs="div" homeLink="./" logo={Logo} />
 
     <div className="container">
       <Main>

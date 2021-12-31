@@ -1,6 +1,9 @@
+import type { Questions } from '..'
+
 import locatie from './locatie'
 
-export const civieleConstructies = {
+
+export default {
   locatie,
   extra_brug: {
     meta: {
@@ -13,6 +16,4 @@ export const civieleConstructies = {
     },
     render: 'TextInput',
   },
-}
-
-export default civieleConstructies
+} as Questions

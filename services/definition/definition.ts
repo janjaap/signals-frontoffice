@@ -1,55 +1,62 @@
-import { createMachine, interpret } from 'xstate'
-import type { MachineConfig } from 'xstate'
+import type { Classification, IncidentState } from 'app/store/slices/incident'
 
-export const ERROR = 'ERROR'
-export const GO_NEXT = 'GO_NEXT'
-export const GO_PREVIOUS = 'GO_PREVIOUS'
+import openbaarGroenEnWaterConfig from './questionConfigurations/openbaar-groen-en-water'
+import afvalConfig from './questionConfigurations/afval'
+import overlastBedrijvenEnHoreca from './questionConfigurations/overlast-bedrijven-en-horeca'
 
-type NavigationEvent =
-  | { type: typeof ERROR }
-  | { type: typeof GO_NEXT }
-  | { type: typeof GO_PREVIOUS }
+type RenderType =
+  | 'AssetSelect'
+  | 'CaterpillarSelect'
+  | 'Caution'
+  | 'Citation'
+  | 'CheckboxInput'
+  | 'PlainText'
+  | 'RadioInput'
+  | 'SelectInput'
+  | 'TextareaInput'
+  | 'TextInput'
+  | null
 
-interface NavigationContext {}
-
-const formSubmissionStates: MachineConfig<
-  NavigationContext,
-  any,
-  NavigationEvent
-> = {
-  key: 'step',
-  initial: 'beschrijf',
-  states: {
-    wonen: {
-      on: {
-        [GO_NEXT]: { target: 'vulaan' },
-      },
-    },
-    vulaan: {
-      on: {
-        [GO_NEXT]: { target: 'contact' },
-        [GO_PREVIOUS]: { target: 'beschrijf' },
-      },
-    },
-    contact: {
-      on: {
-        [GO_NEXT]: { target: 'versturen' },
-        [GO_PREVIOUS]: { target: 'vulaan' },
-      },
-    },
-    versturen: {
-      on: {
-        [ERROR]: { target: 'fout' },
-        [GO_NEXT]: { target: 'bedankt' },
-        [GO_PREVIOUS]: { target: 'contact' },
-      },
-    },
-    bedankt: { type: 'final' },
-    fout: { type: 'final' },
-  },
+type Validator = 'required' | 'optional'
+type AssertValidator = 'max_length' | 'min_length'
+type RenderCondition = {
+  category?: Classification['category'] | Array<Classification['category']>
+  subcategory?:
+    | Classification['subcategory']
+    | Array<Classification['subcategory']>
 }
 
-const machine = createMachine(formSubmissionStates)
-const formSubmissionService = interpret(machine).start()
+interface Meta {
+  ifAllOf?: RenderCondition
+  ifOneOf?: RenderCondition
+  label?: string
+  subTitle?: string
+  values?: Record<string, string>
+  value?: string
+}
+export interface Questions {
+  [key: string]: {
+    meta: Meta
+    options?: {
+      validators?: Array<Validator | [validator: AssertValidator, arg: number]>
+    }
+    render: RenderType
+  }
+}
 
-export { machine, formSubmissionService }
+export const determineConfig = ({
+  category,
+  subcategory,
+  description,
+}: Classification & Pick<IncidentState, 'description'>): Questions => {
+  switch (category) {
+    case 'afval':
+      return afvalConfig
+
+    case 'openbaar-groen-en-water':
+      return openbaarGroenEnWaterConfig
+
+    case 'overlast-bedrijven-en-horeca':
+      return overlastBedrijvenEnHoreca
+  }
+}

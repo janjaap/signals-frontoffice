@@ -1,8 +1,9 @@
-import locatie from './locatie'
+// import locatie from './locatie'
+import type { Questions } from '..'
 
-export const overlastBedrijvenEnHoreca = {
-  locatie,
-  extra_bedrijven_horeca_wat: {
+export default {
+  // locatie,
+  wat: {
     meta: {
       ifAllOf: {
         category: 'overlast-bedrijven-en-horeca',
@@ -21,15 +22,15 @@ export const overlastBedrijvenEnHoreca = {
       },
     },
     options: { validators: ['required'] },
-    render: 'Radio',
+    render: 'RadioInput',
   },
-  extra_bedrijven_horeca_naam: {
+  naam: {
     meta: {
       ifAllOf: {
         category: 'overlast-bedrijven-en-horeca',
       },
       ifOneOf: {
-        extra_bedrijven_horeca_wat: [
+        wat: [
           'horecabedrijf',
           'ander_soort_bedrijf',
           'evenement_festival_markt',
@@ -42,13 +43,13 @@ export const overlastBedrijvenEnHoreca = {
     },
     render: 'TextInput',
   },
-  extra_bedrijven_horeca_adres: {
+  adres: {
     meta: {
       ifAllOf: {
         category: 'overlast-bedrijven-en-horeca',
       },
       ifOneOf: {
-        extra_bedrijven_horeca_wat: [
+        wat: [
           'horecabedrijf',
           'ander_soort_bedrijf',
           'evenement_festival_markt',
@@ -63,13 +64,13 @@ export const overlastBedrijvenEnHoreca = {
     render: 'TextInput',
   },
 
-  extra_bedrijven_horeca_muziek_direct_naast: {
+  muziek_direct_naast: {
     meta: {
       ifAllOf: {
         subcategory: 'geluidsoverlast-muziek',
       },
       ifOneOf: {
-        extra_bedrijven_horeca_wat: ['horecabedrijf', 'ander_soort_bedrijf'],
+        wat: ['horecabedrijf', 'ander_soort_bedrijf'],
       },
       label:
         'Woont u direct boven of naast het gebouw waar het geluid vandaan komt?',
@@ -82,16 +83,16 @@ export const overlastBedrijvenEnHoreca = {
         nee: 'Nee, ik woon er niet direct naast',
       },
     },
-    render: 'Radio',
+    render: 'RadioInput',
   },
 
-  extra_bedrijven_horeca_muziek_ramen_dicht: {
+  muziek_ramen_dicht: {
     meta: {
       ifAllOf: {
         subcategory: 'geluidsoverlast-muziek',
       },
       ifOneOf: {
-        extra_bedrijven_horeca_wat: ['horecabedrijf', 'ander_soort_bedrijf'],
+        wat: ['horecabedrijf', 'ander_soort_bedrijf'],
       },
       label:
         'Hebt u ook last van het geluid als uw ramen en deuren gesloten zijn?',
@@ -102,15 +103,15 @@ export const overlastBedrijvenEnHoreca = {
         nee: 'Nee, geen last met ramen en deuren gesloten',
       },
     },
-    render: 'Radio',
+    render: 'RadioInput',
   },
-  extra_bedrijven_horeca_muziek_ramen_dicht_onderneming: {
+  muziek_ramen_dicht_onderneming: {
     meta: {
       ifAllOf: {
         subcategory: 'geluidsoverlast-muziek',
       },
       ifOneOf: {
-        extra_bedrijven_horeca_wat: ['horecabedrijf', 'ander_soort_bedrijf'],
+        wat: ['horecabedrijf', 'ander_soort_bedrijf'],
       },
       label: 'Staan de ramen of deuren open van het horecabedrijf?',
       shortLabel: 'Ramen/deuren horeca open',
@@ -120,16 +121,16 @@ export const overlastBedrijvenEnHoreca = {
         nee: 'Nee, ramen en deuren zijn gesloten',
       },
     },
-    render: 'Radio',
+    render: 'RadioInput',
   },
-  extra_bedrijven_horeca_muziek_ramen_dicht_onderneming_lang: {
+  muziek_ramen_dicht_onderneming_lang: {
     meta: {
       ifAllOf: {
         subcategory: 'geluidsoverlast-muziek',
-        extra_bedrijven_horeca_muziek_ramen_dicht_onderneming: 'ja',
+        muziek_ramen_dicht_onderneming: 'ja',
       },
       ifOneOf: {
-        extra_bedrijven_horeca_wat: ['horecabedrijf', 'ander_soort_bedrijf'],
+        wat: ['horecabedrijf', 'ander_soort_bedrijf'],
       },
       label: 'Gaan de ramen of deuren kort of lang open?',
       shortLabel: 'Ramen/deuren gaan',
@@ -139,14 +140,14 @@ export const overlastBedrijvenEnHoreca = {
         lang: 'Lang open',
       },
     },
-    render: 'Radio',
+    render: 'RadioInput',
   },
 
-  extra_bedrijven_horeca_muziek_evenement: {
+  muziek_evenement: {
     meta: {
       ifAllOf: {
         subcategory: 'geluidsoverlast-muziek',
-        extra_bedrijven_horeca_wat: 'evenement_festival_markt',
+        wat: 'evenement_festival_markt',
       },
       label: 'Heeft iemand van de organisatie u geïnformeerd?',
       shortLabel: 'Geïnformeerd door organisator',
@@ -157,15 +158,15 @@ export const overlastBedrijvenEnHoreca = {
       },
     },
     options: { validators: ['required'] },
-    render: 'Radio',
+    render: 'RadioInput',
   },
 
-  extra_bedrijven_horeca_muziek_evenement_einde: {
+  muziek_evenement_einde: {
     meta: {
       ifAllOf: {
         subcategory: 'geluidsoverlast-muziek',
-        extra_bedrijven_horeca_wat: 'evenement_festival_markt',
-        extra_bedrijven_horeca_muziek_evenement: 'ja',
+        wat: 'evenement_festival_markt',
+        muziek_evenement: 'ja',
       },
       label: 'Weet u hoe laat het evenement eindigt?',
       shortLabel: 'Evenement eindigt om',
@@ -175,13 +176,13 @@ export const overlastBedrijvenEnHoreca = {
     render: 'TextInput',
   },
 
-  extra_bedrijven_horeca_installaties: {
+  installaties: {
     meta: {
       ifAllOf: {
         subcategory: 'geluidsoverlast-installaties',
       },
       ifOneOf: {
-        extra_bedrijven_horeca_wat: [
+        wat: [
           'horecabedrijf',
           'ander_soort_bedrijf',
           'evenement_festival_markt',
@@ -197,13 +198,13 @@ export const overlastBedrijvenEnHoreca = {
     render: 'TextInput',
   },
 
-  extra_bedrijven_horeca_personen: {
+  personen: {
     meta: {
       ifAllOf: {
         subcategory: 'overlast-door-bezoekers-niet-op-terras',
       },
       ifOneOf: {
-        extra_bedrijven_horeca_wat: [
+        wat: [
           'horecabedrijf',
           'ander_soort_bedrijf',
           'evenement_festival_markt',
@@ -222,16 +223,16 @@ export const overlastBedrijvenEnHoreca = {
       },
       pathMerge: 'extra_properties',
     },
-    render: 'Checkbox',
+    render: 'CheckboxInput',
   },
 
-  extra_bedrijven_horeca_terrassen: {
+  terrassen: {
     meta: {
       ifAllOf: {
         subcategory: 'overlast-terrassen',
       },
       ifOneOf: {
-        extra_bedrijven_horeca_wat: [
+        wat: [
           'horecabedrijf',
           'ander_soort_bedrijf',
           'evenement_festival_markt',
@@ -251,16 +252,16 @@ export const overlastBedrijvenEnHoreca = {
       },
       pathMerge: 'extra_properties',
     },
-    render: 'Checkbox',
+    render: 'CheckboxInput',
   },
 
-  extra_bedrijven_horeca_stank: {
+  stank: {
     meta: {
       ifAllOf: {
         subcategory: 'stankoverlast',
       },
       ifOneOf: {
-        extra_bedrijven_horeca_wat: [
+        wat: [
           'horecabedrijf',
           'ander_soort_bedrijf',
           'evenement_festival_markt',
@@ -275,13 +276,13 @@ export const overlastBedrijvenEnHoreca = {
     render: 'TextInput',
   },
 
-  extra_bedrijven_horeca_stank_oorzaak: {
+  stank_oorzaak: {
     meta: {
       ifAllOf: {
         subcategory: 'stankoverlast',
       },
       ifOneOf: {
-        extra_bedrijven_horeca_wat: [
+        wat: [
           'horecabedrijf',
           'ander_soort_bedrijf',
           'evenement_festival_markt',
@@ -296,13 +297,13 @@ export const overlastBedrijvenEnHoreca = {
     render: 'TextInput',
   },
 
-  extra_bedrijven_horeca_stank_weer: {
+  stank_weer: {
     meta: {
       ifAllOf: {
         subcategory: 'stankoverlast',
       },
       ifOneOf: {
-        extra_bedrijven_horeca_wat: [
+        wat: [
           'horecabedrijf',
           'ander_soort_bedrijf',
           'evenement_festival_markt',
@@ -316,13 +317,13 @@ export const overlastBedrijvenEnHoreca = {
     render: 'TextInput',
   },
 
-  extra_bedrijven_horeca_stank_ramen: {
+  stank_ramen: {
     meta: {
       ifAllOf: {
         subcategory: 'stankoverlast',
       },
       ifOneOf: {
-        extra_bedrijven_horeca_wat: [
+        wat: [
           'horecabedrijf',
           'ander_soort_bedrijf',
           'evenement_festival_markt',
@@ -338,16 +339,16 @@ export const overlastBedrijvenEnHoreca = {
         nee: 'Nee, ramen en deuren zijn gesloten',
       },
     },
-    render: 'Radio',
+    render: 'RadioInput',
   },
 
-  extra_bedrijven_horeca_vaker: {
+  vaker: {
     meta: {
       ifAllOf: {
         category: 'overlast-bedrijven-en-horeca',
       },
       ifOneOf: {
-        extra_bedrijven_horeca_wat: [
+        wat: [
           'horecabedrijf',
           'ander_soort_bedrijf',
           'evenement_festival_markt',
@@ -363,16 +364,16 @@ export const overlastBedrijvenEnHoreca = {
         nee: 'Nee, het is de eerste keer',
       },
     },
-    render: 'Radio',
+    render: 'RadioInput',
   },
-  extra_bedrijven_horeca_tijdstippen: {
+  tijdstippen: {
     meta: {
       ifAllOf: {
         category: 'overlast-bedrijven-en-horeca',
-        extra_bedrijven_horeca_vaker: 'ja',
+        vaker: 'ja',
       },
       ifOneOf: {
-        extra_bedrijven_horeca_wat: [
+        wat: [
           'horecabedrijf',
           'ander_soort_bedrijf',
           'evenement_festival_markt',
@@ -386,13 +387,13 @@ export const overlastBedrijvenEnHoreca = {
     render: 'TextInput',
   },
 
-  extra_bedrijven_horeca_muziek_geluidmeting_muziek: {
+  muziek_geluidmeting_muziek: {
     meta: {
       ifAllOf: {
         subcategory: 'geluidsoverlast-muziek',
       },
       ifOneOf: {
-        extra_bedrijven_horeca_wat: [
+        wat: [
           'horecabedrijf',
           'ander_soort_bedrijf',
           'evenement_festival_markt',
@@ -409,15 +410,15 @@ export const overlastBedrijvenEnHoreca = {
       },
     },
     options: { validators: ['required'] },
-    render: 'Radio',
+    render: 'RadioInput',
   },
-  extra_bedrijven_horeca_muziek_geluidmeting_installaties: {
+  muziek_geluidmeting_installaties: {
     meta: {
       ifAllOf: {
         subcategory: 'geluidsoverlast-installaties',
       },
       ifOneOf: {
-        extra_bedrijven_horeca_wat: [
+        wat: [
           'horecabedrijf',
           'ander_soort_bedrijf',
           'evenement_festival_markt',
@@ -434,15 +435,15 @@ export const overlastBedrijvenEnHoreca = {
       },
     },
     options: { validators: ['required'] },
-    render: 'Radio',
+    render: 'RadioInput',
   },
-  extra_bedrijven_horeca_muziek_geluidmeting_overige: {
+  muziek_geluidmeting_overige: {
     meta: {
       ifAllOf: {
         subcategory: 'overig-horecabedrijven',
       },
       ifOneOf: {
-        extra_bedrijven_horeca_wat: [
+        wat: [
           'horecabedrijf',
           'ander_soort_bedrijf',
           'evenement_festival_markt',
@@ -459,26 +460,25 @@ export const overlastBedrijvenEnHoreca = {
       },
     },
     options: { validators: ['required'] },
-    render: 'Radio',
+    render: 'RadioInput',
   },
-  extra_bedrijven_horeca_muziek_geluidmeting_caution: {
+  muziek_geluidmeting_caution: {
     meta: {
       ifOneOf: {
-        extra_bedrijven_horeca_muziek_geluidmeting_muziek: 'ja',
-        extra_bedrijven_horeca_muziek_geluidmeting_installaties: 'ja',
-        extra_bedrijven_horeca_muziek_geluidmeting_overige: 'ja',
+        muziek_geluidmeting_muziek: 'ja',
+        muziek_geluidmeting_installaties: 'ja',
+        muziek_geluidmeting_overige: 'ja',
       },
       value: 'Let op! Vul uw telefoonnummer in op de volgende pagina',
-      type: 'caution',
     },
-    render: 'Text',
+    render: 'Caution',
   },
-  extra_bedrijven_horeca_muziek_geluidmeting_ja: {
+  muziek_geluidmeting_ja: {
     meta: {
       ifOneOf: {
-        extra_bedrijven_horeca_muziek_geluidmeting_muziek: 'ja',
-        extra_bedrijven_horeca_muziek_geluidmeting_installaties: 'ja',
-        extra_bedrijven_horeca_muziek_geluidmeting_overige: 'ja',
+        muziek_geluidmeting_muziek: 'ja',
+        muziek_geluidmeting_installaties: 'ja',
+        muziek_geluidmeting_overige: 'ja',
       },
       label: 'Mogen we u nu bellen?',
       shortLabel: 'Bel moment',
@@ -489,12 +489,12 @@ export const overlastBedrijvenEnHoreca = {
         not_now: 'Niet nu',
       },
     },
-    render: 'Radio',
+    render: 'RadioInput',
   },
-  extra_bedrijven_horeca_muziek_geluidmeting_ja_nietnu: {
+  muziek_geluidmeting_ja_nietnu: {
     meta: {
       ifOneOf: {
-        extra_bedrijven_horeca_muziek_geluidmeting_ja: 'not_now',
+        muziek_geluidmeting_ja: 'not_now',
       },
       label: 'Wanneer mogen we u bellen?',
       shortLabel: 'Ander bel moment',
@@ -502,12 +502,12 @@ export const overlastBedrijvenEnHoreca = {
     },
     render: 'TextInput',
   },
-  extra_bedrijven_horeca_muziek_geluidmeting_nee: {
+  muziek_geluidmeting_nee: {
     meta: {
       ifOneOf: {
-        extra_bedrijven_horeca_muziek_geluidmeting_muziek: 'nee',
-        extra_bedrijven_horeca_muziek_geluidmeting_installaties: 'nee',
-        extra_bedrijven_horeca_muziek_geluidmeting_overige: 'nee',
+        muziek_geluidmeting_muziek: 'nee',
+        muziek_geluidmeting_installaties: 'nee',
+        muziek_geluidmeting_overige: 'nee',
       },
       label: 'Waarom hebt u liever geen contact?',
       shortLabel: 'Liever geen contact',
@@ -516,13 +516,13 @@ export const overlastBedrijvenEnHoreca = {
     render: 'TextInput',
   },
 
-  extra_bedrijven_horeca_caution: {
+  caution: {
     meta: {
       ifAllOf: {
         category: 'overlast-bedrijven-en-horeca',
       },
       ifOneOf: {
-        extra_bedrijven_horeca_wat: [
+        wat: [
           'horecabedrijf',
           'ander_soort_bedrijf',
           'evenement_festival_markt',
@@ -531,10 +531,7 @@ export const overlastBedrijvenEnHoreca = {
       },
       value:
         'Wij geven uw gegevens niet aan de (horeca)ondernemer of organisator.\n\nMeldingen met telefoonnummer en/of e-mailadres pakken wij sneller op dan meldingen zonder telefoonnummer en/of e-mailadres.',
-      type: 'caution',
     },
-    render: 'Text',
+    render: 'Caution',
   },
-}
-
-export default overlastBedrijvenEnHoreca
+} as Questions

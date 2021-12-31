@@ -1,17 +1,36 @@
 {
   "extends": [
-    "next/core-web-vitals",
     "eslint:recommended",
-    "plugin:react/recommended",
-    "plugin:react-hooks/recommended",
+    "next/core-web-vitals",
+    "plugin:@typescript-eslint/recommended",
     "plugin:jsx-a11y/recommended",
     "plugin:promise/recommended",
+    "plugin:react-hooks/recommended",
+    "plugin:react/recommended",
     "prettier",
-    "prettier/react",
-    "plugin:@typescript-eslint/recommended"
+    "plugin:react/jsx-runtime"
   ],
-  "plugins": ["react-hooks"],
   "rules": {
-    "react-hooks/exhaustive-deps": "error"
+    "react-hooks/exhaustive-deps": "error",
+    "import/first": "error",
+    "import/order": [
+      "error",
+      {
+        "groups": [
+          [
+            "builtin",
+            "external"
+          ],
+          "type",
+          [
+            "parent",
+            "sibling"
+          ],
+          "index"
+        ],
+        "newlines-between": "always-and-inside-groups"
+      }
+    ],
+    "@typescript-eslint/consistent-type-imports": "error"
   }
 }

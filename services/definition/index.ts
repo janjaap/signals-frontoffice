@@ -1,1 +1,2 @@
-export { machine, GO_NEXT, GO_PREVIOUS } from './definition'
+export { determineConfig } from './definition'
+export type { Questions } from './definition'

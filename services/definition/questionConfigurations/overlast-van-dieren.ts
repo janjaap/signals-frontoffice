@@ -22,7 +22,7 @@ const overlastVanDieren = {
     options: {
       validators: ['required'],
     },
-    render: 'Radio',
+    render: 'RadioInput',
   },
   extra_dieren_waar_wespen: {
     meta: {
@@ -41,7 +41,7 @@ const overlastVanDieren = {
     options: {
       validators: ['required'],
     },
-    render: 'Radio',
+    render: 'RadioInput',
   },
   extra_dieren_waar_dode_dieren: {
     meta: {
@@ -64,7 +64,7 @@ const overlastVanDieren = {
     options: {
       validators: ['required'],
     },
-    render: 'Radio',
+    render: 'RadioInput',
   },
 
   extra_dieren_waar_dode_dieren_woning: {
@@ -76,7 +76,7 @@ const overlastVanDieren = {
         'De eigenaar, woningcorporatie of VVE van de woning moet het dode of zieke dier laten verwijderen of verzorgen. U hoeft dit formulier niet meer verder in te vullen.',
       type: 'info',
     },
-    render: 'Text',
+    render: 'PlainText',
   },
   extra_dieren_waar_dode_dieren_water: {
     meta: {
@@ -87,7 +87,7 @@ const overlastVanDieren = {
         'Dode of zieke dieren in het water kunt u melden bij Waternet, telefoon: [0900 9394](tel:09009394). U hoeft dit formulier niet meer verder in te vullen.',
       type: 'info',
     },
-    render: 'Text',
+    render: 'PlainText',
   },
   extra_dieren_waar_dode_dieren_openbaar_huisdieren_vogels: {
     meta: {
@@ -98,7 +98,7 @@ const overlastVanDieren = {
         'Dode of zieke dieren en vogels in de openbare ruimte kunt u melden bij de Dierenambulance: [020 626 2121](tel:0206262121) (24 uur per dag, 7 dagen per week bereikbaar). U hoeft dit formulier niet meer verder in te vullen.',
       type: 'info',
     },
-    render: 'Text',
+    render: 'PlainText',
   },
   extra_dieren_waar_duiven: {
     meta: {
@@ -116,7 +116,7 @@ const overlastVanDieren = {
     options: {
       validators: ['required'],
     },
-    render: 'Radio',
+    render: 'RadioInput',
   },
   extra_dieren_waar_meeuwen: {
     meta: {
@@ -134,7 +134,7 @@ const overlastVanDieren = {
     options: {
       validators: ['required'],
     },
-    render: 'Radio',
+    render: 'RadioInput',
   },
   extra_dieren_waar_ganzen: {
     meta: {
@@ -152,7 +152,7 @@ const overlastVanDieren = {
     options: {
       validators: ['required'],
     },
-    render: 'Radio',
+    render: 'RadioInput',
   },
   extra_dieren_waar_duiven_meeuwen_ganzen: {
     meta: {
@@ -170,7 +170,7 @@ const overlastVanDieren = {
     options: {
       validators: ['required'],
     },
-    render: 'Radio',
+    render: 'RadioInput',
   },
   extra_dieren_waar_duiven_meeuwen_ganzen_woning: {
     meta: {
@@ -184,7 +184,7 @@ const overlastVanDieren = {
         'De eigenaar, woningcorporatie of VVE van de woning kan u helpen de overlast te verminderen. U vindt adressen van specialisten dierplaagbestrijding op [nvbp.org](https://nvbp.org) of [kad.nl](https://kad.nl). U hoeft dit formulier niet meer verder in te vullen.',
       type: 'info',
     },
-    render: 'Text',
+    render: 'PlainText',
   },
   extra_dieren_waar_ratten: {
     meta: {
@@ -206,7 +206,7 @@ const overlastVanDieren = {
     options: {
       validators: ['required'],
     },
-    render: 'Radio',
+    render: 'RadioInput',
   },
   extra_dieren_waar_ratten_woning: {
     meta: {
@@ -217,7 +217,7 @@ const overlastVanDieren = {
         'Wij willen u graag bellen over het vervolg. Vul daarom uw telefoonnummer in bij de volgende vraag.',
       type: 'info',
     },
-    render: 'Text',
+    render: 'PlainText',
   },
   extra_dieren_waar_ratten_ander_gebouw: {
     meta: {
@@ -228,7 +228,7 @@ const overlastVanDieren = {
         'Het bedrijf, kantoor of ziekenhuis moet zelf een specialist dierplaagbestrijding inhuren. U vindt adressen van specialisten dierplaagbestrijding op [nvbp.org](https://nvbp.org) of [kad.nl](https://kad.nl). U hoeft dit formulier niet meer verder in te vullen.',
       type: 'info',
     },
-    render: 'Text',
+    render: 'PlainText',
   },
 }
 
