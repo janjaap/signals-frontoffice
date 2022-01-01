@@ -5,6 +5,9 @@ import type { Prediction } from '../../../services/classification'
 
 import resolveClassification from '../../../services/classification'
 
+type StrictRecord<KeyT extends PropertyKey, ValueT> = {
+  [Key in KeyT]: Record<string, ValueT>
+}[KeyT]
 
 type Category =
   | 'afval'
@@ -21,6 +24,8 @@ type Category =
   | 'wegen-verkeer-straatmeubilair'
   | 'wonen'
 
+export type ExtraProperties = StrictRecord<Category, any>
+
 export type Classification = {
   category: Category
   subcategory: string
@@ -29,6 +34,7 @@ export type Classification = {
 export interface IncidentState extends Classification {
   description: string
   source: string
+  extra_properties: ExtraProperties
 }
 
 const initialState: IncidentState = {
@@ -36,6 +42,11 @@ const initialState: IncidentState = {
   description: '',
   category: undefined,
   subcategory: undefined,
+  extra_properties: {
+    afval: {
+      wat: 456,
+    },
+  },
 }
 
 const fetchClassification = createAsyncThunk(
@@ -74,6 +85,9 @@ export const incidentSlice = createSlice({
       state.category = category
       state.subcategory = subcategory
     },
+    setExtraProperties: (state, action: PayloadAction<ExtraProperties>) => {
+      state.extra_properties = action.payload
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(fetchClassification.fulfilled, (state, action) => {
@@ -86,8 +100,12 @@ export const incidentSlice = createSlice({
 })
 
 // Action creators are generated for each case reducer function
-export const { setClassification, setDescription, setSource } =
-  incidentSlice.actions
+export const {
+  setClassification,
+  setDescription,
+  setExtraProperties,
+  setSource,
+} = incidentSlice.actions
 
 export { fetchClassification }
 export default incidentSlice.reducer

@@ -1,16 +1,16 @@
 import { useRouter } from 'next/router'
-import { useCallback, useState } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import { useCallback, useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
 
 import type { ReactElement } from 'react'
-import type { RootState } from '../../app/store/store'
+import type { RootState } from 'app/store/store'
 
-import Beschrijf from '../../components/IncidentForm/Step1'
-import VulAan from '../../components/IncidentForm/Step2'
-import Contact from '../../components/IncidentForm/Step3'
-import Versturen from '../../components/IncidentForm/Step4'
+import Beschrijf from 'components/IncidentForm/Step1'
+import VulAan from 'components/IncidentForm/Step2'
+import Contact from 'components/IncidentForm/Step3'
+import Versturen from 'components/IncidentForm/Step4'
 
-import FormContext from '../../app/incident/context'
+import FormContext from 'app/incident/context'
 
 const steps: Record<string, ReactElement> = {
   beschrijf: <Beschrijf />,
@@ -52,11 +52,14 @@ const Page = () => {
   }, [pushNewEntry, slug])
 
   const onSubmit = useCallback(() => {
-    // 1. dispatch form data to state
-    // 2. proceed to the next step
-
     canGoNext && goNext()
   }, [canGoNext, goNext])
+
+  useEffect(() => {
+    if (Step !== steps[slug]) {
+      setStep(steps[slug])
+    }
+  }, [slug, Step])
 
   return (
     <FormContext.Provider

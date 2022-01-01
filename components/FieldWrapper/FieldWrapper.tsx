@@ -1,9 +1,13 @@
 import styled, { css } from 'styled-components'
 import { Label, themeColor, Typography, themeSpacing } from '@amsterdam/asc-ui'
 
-import type { FC, PropsWithChildren, ReactNode } from 'react'
+import type { Control } from 'react-hook-form'
+import type { ChangeEvent, FC, PropsWithChildren, ReactNode } from 'react'
 
 const Wrapper = styled.div<{ showError: boolean }>`
+  display: flex;
+  flex-direction: column;
+
   ${({ showError }) =>
     showError &&
     css`
@@ -40,23 +44,38 @@ const StyledLabel = styled(Label)<{ hasHint: boolean }>`
     `}
 `
 
-export interface InputErrorProps {
+export interface FieldWrapperProps {
   error?: string
   hint?: string
   id: string
   label?: ReactNode
+  control?: Control
+  onChange?: (
+    event: ChangeEvent<HTMLInputElement>,
+    value: string | Array<string>
+  ) => void
+  options?: Array<{
+    id: string
+    label: string
+  }>
+  required?: boolean
 }
 
-const InputError: FC<PropsWithChildren<InputErrorProps>> = ({
+const FieldWrapper: FC<PropsWithChildren<FieldWrapperProps>> = ({
   children,
   hint,
   id,
   label,
   error,
+  options,
 }) => (
   <Wrapper showError={Boolean(error)}>
     {label && (
-      <StyledLabel hasHint={Boolean(hint)} htmlFor={id} label={label} />
+      <StyledLabel
+        hasHint={Boolean(hint)}
+        htmlFor={options ? '' : id}
+        label={label}
+      />
     )}
     {hint && <Hint>{hint}</Hint>}
     {error && <Error>{error}</Error>}
@@ -64,4 +83,4 @@ const InputError: FC<PropsWithChildren<InputErrorProps>> = ({
   </Wrapper>
 )
 
-export default InputError
+export default FieldWrapper

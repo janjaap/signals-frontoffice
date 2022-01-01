@@ -1,37 +1,56 @@
 import { RadioGroup, Label, Radio } from '@amsterdam/asc-ui'
+import styled from 'styled-components'
+import { Controller } from 'react-hook-form'
 
-import type { FC } from 'react'
-import type { InputErrorProps } from '../InputError'
+import type { ChangeEvent, FC } from 'react'
+import type { FieldWrapperProps } from '../FieldWrapper'
 
-import InputError from '../InputError'
+import FieldWrapper from '../FieldWrapper'
 
-interface RadioInputProps {
-  className?: string
-  options: Array<{
-    id: string
-    label: string
-  }>
-}
+const StyledLabel = styled(Label)`
+  align-self: baseline;
+`
 
-const RadioInput: FC<InputErrorProps & RadioInputProps> = ({
-  className = '',
+const RadioInput: FC<FieldWrapperProps> = ({
+  control,
   error,
   hint,
   id,
   label,
+  onChange,
   options,
+  required,
 }) => (
-  <InputError id={id} error={error} label={label} hint={hint}>
-    <RadioGroup className={className} name={id}>
-      {options.map(({ id, label }) => (
-        <>
-          <Label key={id} htmlFor={id} label={label}>
-            <Radio id={id} />
-          </Label>
-        </>
+  <FieldWrapper id={id} error={error} label={label} hint={hint}>
+    <RadioGroup name={id}>
+      {options.map((option) => (
+        <StyledLabel
+          key={`${id}.${option.id}`}
+          htmlFor={`${id}.${option.id}`}
+          label={option.label}
+          noActiveState
+        >
+          <Controller
+            key={`${id}.${option.id}`}
+            name={id}
+            control={control}
+            rules={{ required }}
+            render={({ field: { ref, ...field } }) => (
+              <Radio
+                id={`${id}.${option.id}`}
+                value={option.id}
+                {...field}
+                onChange={(event: ChangeEvent<HTMLInputElement>) => {
+                  field.onChange(option.id)
+                  onChange(event, option.id)
+                }}
+              />
+            )}
+          />
+        </StyledLabel>
       ))}
     </RadioGroup>
-  </InputError>
+  </FieldWrapper>
 )
 
 export default RadioInput

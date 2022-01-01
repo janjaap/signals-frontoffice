@@ -1,8 +1,7 @@
-// import locatie from './locatie'
-import type { Questions } from '..'
+import locatie from './locatie'
 
-export default {
-  // locatie,
+const config = {
+  locatie,
   wat: {
     meta: {
       ifAllOf: {
@@ -29,14 +28,6 @@ export default {
       ifAllOf: {
         category: 'overlast-bedrijven-en-horeca',
       },
-      ifOneOf: {
-        wat: [
-          'horecabedrijf',
-          'ander_soort_bedrijf',
-          'evenement_festival_markt',
-          'iets_anders',
-        ],
-      },
       label: 'Wie of wat zorgt voor deze overlast, denkt u?',
       shortLabel: 'Mogelijke veroorzaker',
       pathMerge: 'extra_properties',
@@ -47,14 +38,6 @@ export default {
     meta: {
       ifAllOf: {
         category: 'overlast-bedrijven-en-horeca',
-      },
-      ifOneOf: {
-        wat: [
-          'horecabedrijf',
-          'ander_soort_bedrijf',
-          'evenement_festival_markt',
-          'iets_anders',
-        ],
       },
       label: 'Op welk adres hebt u overlast?',
       shortLabel: 'Adres overlast',
@@ -181,14 +164,6 @@ export default {
       ifAllOf: {
         subcategory: 'geluidsoverlast-installaties',
       },
-      ifOneOf: {
-        wat: [
-          'horecabedrijf',
-          'ander_soort_bedrijf',
-          'evenement_festival_markt',
-          'iets_anders',
-        ],
-      },
       label: 'Van wat voor soort installatie hebt u last?',
       shortLabel: 'Soort installatie',
       subtitle: 'Bijvoorbeeld een afzuiger of airconditioning',
@@ -202,14 +177,6 @@ export default {
     meta: {
       ifAllOf: {
         subcategory: 'overlast-door-bezoekers-niet-op-terras',
-      },
-      ifOneOf: {
-        wat: [
-          'horecabedrijf',
-          'ander_soort_bedrijf',
-          'evenement_festival_markt',
-          'iets_anders',
-        ],
       },
       label: 'Wat is de oorzaak van de overlast?',
       shortLabel: 'Oorzaak overlast',
@@ -230,14 +197,6 @@ export default {
     meta: {
       ifAllOf: {
         subcategory: 'overlast-terrassen',
-      },
-      ifOneOf: {
-        wat: [
-          'horecabedrijf',
-          'ander_soort_bedrijf',
-          'evenement_festival_markt',
-          'iets_anders',
-        ],
       },
       label: 'Wat is de oorzaak van de overlast?',
       shortLabel: 'Oorzaak overlast',
@@ -260,14 +219,6 @@ export default {
       ifAllOf: {
         subcategory: 'stankoverlast',
       },
-      ifOneOf: {
-        wat: [
-          'horecabedrijf',
-          'ander_soort_bedrijf',
-          'evenement_festival_markt',
-          'iets_anders',
-        ],
-      },
       label: 'Welke geur ruikt u?',
       shortLabel: 'Soort geur',
       subtitle: 'Beschrijf wat voor geur het is',
@@ -280,14 +231,6 @@ export default {
     meta: {
       ifAllOf: {
         subcategory: 'stankoverlast',
-      },
-      ifOneOf: {
-        wat: [
-          'horecabedrijf',
-          'ander_soort_bedrijf',
-          'evenement_festival_markt',
-          'iets_anders',
-        ],
       },
       label: 'Wat is de oorzaak van de geuroverlast, denkt u?',
       shortLabel: 'Vermoedelijke oorzaak',
@@ -302,14 +245,6 @@ export default {
       ifAllOf: {
         subcategory: 'stankoverlast',
       },
-      ifOneOf: {
-        wat: [
-          'horecabedrijf',
-          'ander_soort_bedrijf',
-          'evenement_festival_markt',
-          'iets_anders',
-        ],
-      },
       label: 'Welk weer is het tijdens de overlast?',
       shortLabel: 'Weersomstandigheden',
       pathMerge: 'extra_properties',
@@ -321,14 +256,6 @@ export default {
     meta: {
       ifAllOf: {
         subcategory: 'stankoverlast',
-      },
-      ifOneOf: {
-        wat: [
-          'horecabedrijf',
-          'ander_soort_bedrijf',
-          'evenement_festival_markt',
-          'iets_anders',
-        ],
       },
       label:
         'Staan de deuren of ramen open van het gebouw waar de geur vandaan komt?',
@@ -347,14 +274,6 @@ export default {
       ifAllOf: {
         category: 'overlast-bedrijven-en-horeca',
       },
-      ifOneOf: {
-        wat: [
-          'horecabedrijf',
-          'ander_soort_bedrijf',
-          'evenement_festival_markt',
-          'iets_anders',
-        ],
-      },
       label: 'Gebeurt het vaker?',
       shortLabel: 'Vaker overlast',
       subtitle: 'Had u de overlast al eerder of is dit de eerste keer?',
@@ -372,14 +291,6 @@ export default {
         category: 'overlast-bedrijven-en-horeca',
         vaker: 'ja',
       },
-      ifOneOf: {
-        wat: [
-          'horecabedrijf',
-          'ander_soort_bedrijf',
-          'evenement_festival_markt',
-          'iets_anders',
-        ],
-      },
       label: 'Op welke momenten van de dag hebt u de overlast?',
       shortLabel: 'Overlast momenten',
       pathMerge: 'extra_properties',
@@ -391,14 +302,6 @@ export default {
     meta: {
       ifAllOf: {
         subcategory: 'geluidsoverlast-muziek',
-      },
-      ifOneOf: {
-        wat: [
-          'horecabedrijf',
-          'ander_soort_bedrijf',
-          'evenement_festival_markt',
-          'iets_anders',
-        ],
       },
       label: 'Mogen we contact met u opnemen over de melding?',
       subtitle: 'Bijvoorbeeld om bij u thuis het geluid te meten.',
@@ -417,14 +320,6 @@ export default {
       ifAllOf: {
         subcategory: 'geluidsoverlast-installaties',
       },
-      ifOneOf: {
-        wat: [
-          'horecabedrijf',
-          'ander_soort_bedrijf',
-          'evenement_festival_markt',
-          'iets_anders',
-        ],
-      },
       label: 'Mogen we contact met u opnemen over de melding?',
       subtitle: 'Bijvoorbeeld om bij u thuis het geluid te meten.',
       shortLabel: 'Toestemming contact opnemen',
@@ -441,14 +336,6 @@ export default {
     meta: {
       ifAllOf: {
         subcategory: 'overig-horecabedrijven',
-      },
-      ifOneOf: {
-        wat: [
-          'horecabedrijf',
-          'ander_soort_bedrijf',
-          'evenement_festival_markt',
-          'iets_anders',
-        ],
       },
       label: 'Mogen we contact met u opnemen over de melding?',
       subtitle: 'Bijvoorbeeld om bij u thuis het geluid te meten.',
@@ -521,17 +408,11 @@ export default {
       ifAllOf: {
         category: 'overlast-bedrijven-en-horeca',
       },
-      ifOneOf: {
-        wat: [
-          'horecabedrijf',
-          'ander_soort_bedrijf',
-          'evenement_festival_markt',
-          'iets_anders',
-        ],
-      },
       value:
         'Wij geven uw gegevens niet aan de (horeca)ondernemer of organisator.\n\nMeldingen met telefoonnummer en/of e-mailadres pakken wij sneller op dan meldingen zonder telefoonnummer en/of e-mailadres.',
     },
     render: 'Caution',
   },
-} as Questions
+}
+
+export default config

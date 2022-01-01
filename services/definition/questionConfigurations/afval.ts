@@ -1,8 +1,6 @@
-import type { Questions } from '..'
-
 import locatie from './locatie'
 
-export default {
+const config = {
   locatie,
   extra_afval: {
     meta: {
@@ -15,4 +13,6 @@ export default {
     },
     render: 'TextareaInput',
   },
-} as Questions
+}
+
+export default config

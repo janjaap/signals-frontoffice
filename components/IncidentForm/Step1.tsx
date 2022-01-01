@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import { useCallback, useContext, useEffect } from 'react'
+import { useCallback, useContext } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { useForm } from 'react-hook-form'
 
@@ -9,7 +9,7 @@ import type { RootState } from 'app/store/store'
 import AddNote from '../../components/AddNote'
 import FormNavigation from '../../components/FormNavigation'
 
-import { fetchClassification, setSource } from '../../app/store/slices/incident'
+import { fetchClassification } from '../../app/store/slices/incident'
 import FormContext from '../../app/incident/context'
 
 type FormData = {

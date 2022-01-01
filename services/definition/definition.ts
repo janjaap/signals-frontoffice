@@ -1,8 +1,10 @@
-import type { Classification, IncidentState } from 'app/store/slices/incident'
+import type { Classification } from 'app/store/slices/incident'
 
 import openbaarGroenEnWaterConfig from './questionConfigurations/openbaar-groen-en-water'
 import afvalConfig from './questionConfigurations/afval'
 import overlastBedrijvenEnHoreca from './questionConfigurations/overlast-bedrijven-en-horeca'
+
+import checkVisibility from './checkVisibility'
 
 type RenderType =
   | 'AssetSelect'
@@ -19,14 +21,17 @@ type RenderType =
 
 type Validator = 'required' | 'optional'
 type AssertValidator = 'max_length' | 'min_length'
-type RenderCondition = {
-  category?: Classification['category'] | Array<Classification['category']>
+export type RecordValue = Array<string | number> | string | number
+
+export interface RenderCondition {
+  category?: Classification['category']
   subcategory?:
     | Classification['subcategory']
     | Array<Classification['subcategory']>
+  [key: string]: RecordValue
 }
 
-interface Meta {
+export interface Meta {
   ifAllOf?: RenderCondition
   ifOneOf?: RenderCondition
   label?: string
@@ -34,8 +39,8 @@ interface Meta {
   values?: Record<string, string>
   value?: string
 }
-export interface Questions {
-  [key: string]: {
+export type Questions<T = Record<string, never>> = {
+  [Property in keyof T]: {
     meta: Meta
     options?: {
       validators?: Array<Validator | [validator: AssertValidator, arg: number]>
@@ -47,16 +52,40 @@ export interface Questions {
 export const determineConfig = ({
   category,
   subcategory,
-  description,
-}: Classification & Pick<IncidentState, 'description'>): Questions => {
+  ...values
+}: // description,
+// }: Classification & Pick<IncidentState, 'description'>) => {
+Classification): Questions | null => {
+  let config: Questions
+
   switch (category) {
     case 'afval':
-      return afvalConfig
+      config = afvalConfig as Questions<typeof afvalConfig>
+      break
 
     case 'openbaar-groen-en-water':
-      return openbaarGroenEnWaterConfig
+      config = openbaarGroenEnWaterConfig as Questions<
+        typeof openbaarGroenEnWaterConfig
+      >
+      break
 
     case 'overlast-bedrijven-en-horeca':
-      return overlastBedrijvenEnHoreca
+      config = overlastBedrijvenEnHoreca as Questions<
+        typeof overlastBedrijvenEnHoreca
+      >
+      break
+
+    default:
+      return null
   }
+
+  return Object.entries(config)
+    .filter(([, control]) =>
+      checkVisibility(control.meta, {
+        ...values,
+        category,
+        subcategory,
+      })
+    )
+    .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {})
 }

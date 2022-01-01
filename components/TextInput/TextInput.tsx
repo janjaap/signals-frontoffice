@@ -1,37 +1,25 @@
-import styled from 'styled-components'
-import { Input as AscInput, themeColor } from '@amsterdam/asc-ui'
-import { forwardRef } from 'react'
+import { Input } from '@amsterdam/asc-ui'
+import { Controller } from 'react-hook-form'
 
-import type { ForwardedRef } from 'react'
+import type { FC } from 'react'
 import type { InputProps as AscInputProps } from '@amsterdam/asc-ui/es/components/Input/Input'
-import type { InputErrorProps } from '../InputError'
+import type { FieldWrapperProps } from '../FieldWrapper'
 
-import InputError from '../InputError'
+import FieldWrapper from '../FieldWrapper'
 
-const StyledInput = styled(AscInput)`
-  padding: 10px; /* needed to style the textboxes as according to the design system */
-  box-shadow: initial;
-  font-family: Avenir Next;
+type TextInputProps = FieldWrapperProps & Omit<AscInputProps, 'error'>
 
-  &[disabled] {
-    border: 1px solid ${themeColor('tint', 'level4')};
-    color: ${themeColor('tint', 'level4')};
-  }
-`
-
-type TextInputProps = InputErrorProps & Omit<AscInputProps, 'error'>
-
-const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
-  (
-    { hint, label, id, error, ...rest },
-    ref: ForwardedRef<HTMLInputElement>
-  ) => (
-    <InputError error={error} hint={hint} id={id} label={label}>
-      <StyledInput id={id} ref={ref} {...rest} />
-    </InputError>
-  )
+const TextInput: FC<TextInputProps> = ({ control, required, hint, label, id, error, ...rest }) => (
+  <FieldWrapper error={error} hint={hint} id={id} label={label}>
+    <Controller
+      name={id}
+      control={control}
+      rules={{ required }}
+      render={({ field: { ref, ...field } }) => (
+        <Input id={id} {...field} {...rest} />
+      )}
+    />
+  </FieldWrapper>
 )
-
-TextInput.displayName = 'TextInput'
 
 export default TextInput

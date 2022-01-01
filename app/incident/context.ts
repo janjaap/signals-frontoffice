@@ -1,4 +1,6 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
 import { createContext } from 'react'
+
 import type { SyntheticEvent } from 'react'
 
 export interface Context {
@@ -6,10 +8,10 @@ export interface Context {
   canGoPrevious: boolean
   goPrevious: (event?: SyntheticEvent) => void
   loading: boolean
-  onSubmit: (formData?: any) => void
+  onSubmit: () => void
 }
 
-const FormContext = createContext({
+const FormContext = createContext<Context>({
   canGoNext: true,
   canGoPrevious: false,
   goPrevious: () => {},

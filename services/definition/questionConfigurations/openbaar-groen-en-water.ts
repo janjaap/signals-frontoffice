@@ -1,5 +1,3 @@
-import type { Questions } from '..'
-
 import oakIcon from '../svg/openbaar-groen-en-water/oak.svg'
 import oakReportedIcon from '../svg/openbaar-groen-en-water/oakReported.svg'
 import oakSelectedReportedIcon from '../svg/openbaar-groen-en-water/oakSelectedReported.svg'
@@ -13,7 +11,7 @@ const options = {
   iconSize: [ICON_SIZE, ICON_SIZE],
 }
 
-export default {
+const config = {
   extra_eikenprocessierups: {
     meta: {
       ifAllOf: {
@@ -128,4 +126,6 @@ export default {
     options: { validators: ['required'] },
     render: 'RadioInput',
   },
-} as Questions
+}
+
+export default config
