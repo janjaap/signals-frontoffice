@@ -2,7 +2,7 @@ import { forwardRef, useCallback, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { themeSpacing } from '@amsterdam/asc-ui'
 
-import type { SyntheticEvent, ForwardedRef, ChangeEvent, ReactNode } from 'react'
+import type { SyntheticEvent, ChangeEvent, ReactNode , MutableRefObject} from 'react'
 import type { FieldWrapperProps } from 'components/FieldWrapper'
 
 import Button from '../Button'
@@ -60,7 +60,7 @@ export const getAddNoteError = (config: {
 const AddNote = forwardRef<HTMLTextAreaElement, AddNoteProps>(
   (
     { className, error, isStandalone, label, maxContentLength, name, onChange, onSubmit, rows, value, ...rest },
-    ref: ForwardedRef<HTMLTextAreaElement>
+    ref: MutableRefObject<HTMLTextAreaElement>
   ) => {
     const [showForm, setShowForm] = useState(!isStandalone)
     const handleSubmit = useCallback(
@@ -68,7 +68,7 @@ const AddNote = forwardRef<HTMLTextAreaElement, AddNoteProps>(
         event.preventDefault()
 
         if (typeof onSubmit === 'function') {
-          const successfulSubmit = onSubmit(event, ref?.current?.value)
+          const successfulSubmit = onSubmit(event, ref.current?.value)
 
           if (successfulSubmit) {
             setShowForm(false)
@@ -79,7 +79,7 @@ const AddNote = forwardRef<HTMLTextAreaElement, AddNoteProps>(
     )
 
     useEffect(() => {
-      if (!showForm || !ref?.current || !isStandalone) return
+      if (!showForm || !ref.current || !isStandalone) return
 
       ref.current.focus()
     }, [isStandalone, ref, showForm, name])
