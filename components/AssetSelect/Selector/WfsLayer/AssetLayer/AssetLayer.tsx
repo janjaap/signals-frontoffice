@@ -1,11 +1,5 @@
-import {
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react'
+import { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
+
 import L from 'leaflet'
 import { useMapInstance } from '@amsterdam/react-maps'
 import isEqual from 'lodash/isEqual'
@@ -13,14 +7,9 @@ import isEqual from 'lodash/isEqual'
 import type { Geometrie } from 'types/incident'
 import type { Item } from '../../../types'
 import type { FunctionComponent } from 'react'
-import type {
-  Point,
-  Feature as GeoJSONFeature,
-  FeatureCollection,
-} from 'geojson'
+import type { Point, Feature as GeoJSONFeature, FeatureCollection } from 'geojson'
 import type {
   LatLng,
-  MarkerCluster as LeafletMarkerCluster,
   LatLngLiteral,
 } from 'leaflet'
 import type { DataLayerProps, Feature } from '../../../types'
@@ -54,10 +43,7 @@ export interface ClusterMarker extends L.Layer {
 /**
  * @description Recursive function that searches for the correct marker for a zoom level inside the cluster
  */
-export const getMarkerByZoomLevel = (
-  parent: ClusterMarker,
-  zoom: number
-): ClusterMarker | undefined => {
+export const getMarkerByZoomLevel = (parent: ClusterMarker, zoom: number): ClusterMarker | undefined => {
   if (parent._zoom === zoom) return parent
   if (!parent.__parent) return undefined
   return getMarkerByZoomLevel(parent.__parent, zoom)
@@ -67,31 +53,21 @@ export const getMarkerByZoomLevel = (
  *              - spyderfied when the current zoom level is the max zoom level
  *              - zoomed to when the zoom level is not max zoom level.
  */
-export const shouldSpiderfy = (
-  cluster: ClusterMarker,
-  maxZoom?: number
-): boolean => {
+export const shouldSpiderfy = (cluster: ClusterMarker, maxZoom?: number): boolean => {
   let bottomCluster = cluster
   while (bottomCluster._childClusters.length === 1) {
     bottomCluster = bottomCluster._childClusters[0]
   }
 
-  return (
-    bottomCluster._zoom === maxZoom &&
-    bottomCluster._childCount === cluster._childCount
-  )
+  return bottomCluster._zoom === maxZoom && bottomCluster._childCount === cluster._childCount
 }
 
-export const AssetLayer: FunctionComponent<DataLayerProps> = ({
-  desktopView,
-  allowClusters,
-}) => {
+export const AssetLayer: FunctionComponent<DataLayerProps> = ({ desktopView, allowClusters }) => {
   const mapInstance = useMapInstance()
   const [layerInstance, setLayerInstance] = useState<ClusterLayer>()
   const selectedCluster = useRef<ClusterMarker>()
   const data = useContext<FeatureCollection>(WfsDataContext)
-  const { featureTypes, selection, removeItem, setItem } =
-    useContext(AssetSelectContext)
+  const { featureTypes, selection, removeItem, setItem } = useContext(AssetSelectContext)
 
   /* istanbul ignore next */
   useEffect(() => {
@@ -106,33 +82,22 @@ export const AssetLayer: FunctionComponent<DataLayerProps> = ({
     }
   }, [mapInstance])
 
-  const iconCreateFunction = useCallback(
-    /* istanbul ignore next */ (cluster: LeafletMarkerCluster) => {
-      const childCount = cluster.getChildCount()
-      const hasSelectedChildren = cluster
-        .getAllChildMarkers()
-        .some((marker) =>
-          marker.options.icon?.options.className?.includes(
-            SELECTED_CLASS_MODIFIER
-          )
-        )
+  const iconCreateFunction = useCallback((cluster: any) => {
+    const childCount = cluster.getChildCount()
+    const hasSelectedChildren = cluster
+      .getAllChildMarkers()
+      .some((marker) => marker.options.icon?.options.className?.includes(SELECTED_CLASS_MODIFIER))
 
-      return new L.DivIcon({
-        html: `<div data-testid="markerClusterIcon"><span>${childCount}</span></div>`,
-        className: `marker-cluster${
-          hasSelectedChildren ? ` marker-cluster${SELECTED_CLASS_MODIFIER}` : ''
-        }`,
-        iconSize: new L.Point(40, 40),
-      })
-    },
-    []
-  )
+    return new L.DivIcon({
+      html: `<div data-testid="markerClusterIcon"><span>${childCount}</span></div>`,
+      className: `marker-cluster${hasSelectedChildren ? ` marker-cluster${SELECTED_CLASS_MODIFIER}` : ''}`,
+      iconSize: new L.Point(40, 40),
+    })
+  }, [])
 
   const clusterOptions = useMemo(
     () => ({
-      disableClusteringAtZoom: allowClusters
-        ? configuration.map.options.maxZoom
-        : configuration.map.options.minZoom,
+      disableClusteringAtZoom: allowClusters ? configuration.map.options.maxZoom : configuration.map.options.minZoom,
       zoomToBoundsOnClick: true,
       iconCreateFunction,
     }),
@@ -141,10 +106,7 @@ export const AssetLayer: FunctionComponent<DataLayerProps> = ({
 
   const getFeatureType = useCallback(
     (feature: Feature) => {
-      return featureTypes.find(
-        ({ typeField, typeValue }) =>
-          feature.properties[typeField] === typeValue
-      )
+      return featureTypes.find(({ typeField, typeValue }) => feature.properties[typeField] === typeValue)
     },
     [featureTypes]
   )
@@ -160,21 +122,15 @@ export const AssetLayer: FunctionComponent<DataLayerProps> = ({
         const id = feature.properties[idField]!
         const isSelectedItem = selection?.id === id
 
-        const iconUrl = isSelectedItem
-          ? '/featureSelectedMarker.svg'
-          : featureType.icon.iconUrl
+        const iconUrl = isSelectedItem ? '/featureSelectedMarker.svg' : featureType.icon.iconUrl
 
         const marker = L.marker(latlng, {
           icon: L.icon({
             ...featureType.icon.options,
-            className: `marker-icon${
-              isSelectedItem ? SELECTED_CLASS_MODIFIER : ''
-            }`,
+            className: `marker-icon${isSelectedItem ? SELECTED_CLASS_MODIFIER : ''}`,
             iconUrl,
           }),
-          alt: `${featureType.description} - ${
-            feature.properties[featureType.idField]
-          }`,
+          alt: `${featureType.description} - ${feature.properties[featureType.idField]}`,
         })
 
         marker.on('click', async () => {
@@ -244,8 +200,7 @@ export const AssetLayer: FunctionComponent<DataLayerProps> = ({
               const latlng = event.layer.getLatLng()
               const selectedLatLng = selectedCluster.current.getLatLng()
 
-              if (!isEqual(latlng, selectedLatLng))
-                selectedCluster.current = event.layer
+              if (!isEqual(latlng, selectedLatLng)) selectedCluster.current = event.layer
             } else {
               selectedCluster.current = event.layer
               selectedCluster.current.spiderfy()
@@ -262,17 +217,12 @@ export const AssetLayer: FunctionComponent<DataLayerProps> = ({
       /* istanbul ignore next */
       if (selectedCluster.current) {
         const selectedLatLng = selectedCluster.current.getLatLng()
-        const cluster = (layerInstance.getLayers() as ClusterMarker[]).find(
-          (layer) => {
-            const latlng = layer.__parent.getLatLng()
-            return isEqual(latlng, selectedLatLng)
-          }
-        )
+        const cluster = (layerInstance.getLayers() as ClusterMarker[]).find((layer) => {
+          const latlng = layer.__parent.getLatLng()
+          return isEqual(latlng, selectedLatLng)
+        })
 
-        const parent = getMarkerByZoomLevel(
-          cluster as any,
-          mapInstance.getZoom()
-        )
+        const parent = getMarkerByZoomLevel(cluster as any, mapInstance.getZoom())
 
         if (parent) {
           selectedCluster.current = parent
@@ -288,12 +238,7 @@ export const AssetLayer: FunctionComponent<DataLayerProps> = ({
     }
   }, [layerInstance, data, options, selectedCluster, mapInstance, desktopView])
 
-  return (
-    <MarkerCluster
-      clusterOptions={clusterOptions}
-      setInstance={setLayerInstance}
-    />
-  )
+  return <MarkerCluster clusterOptions={clusterOptions} setInstance={setLayerInstance} />
 }
 
 export default AssetLayer

@@ -18,11 +18,7 @@
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "strict": false,
-    "target": "es5",
-    "types": [
-      "leaflet",
-      "leaflet.markercluster"
-    ]
+    "target": "es5"
   },
   "include": [
     "next-env.d.ts",
