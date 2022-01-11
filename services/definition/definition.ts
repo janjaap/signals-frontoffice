@@ -34,13 +34,7 @@ export type Questions<T = Record<string, never>> = {
   }
 }
 
-export const determineConfig = ({
-  category,
-  subcategory,
-  ...values
-}: // description,
-// }: Classification & Pick<IncidentState, 'description'>) => {
-Classification): Questions | null => {
+export const determineConfig = ({ category, subcategory, ...values }: Classification): Questions | null => {
   let config: Questions
 
   switch (category) {
@@ -54,15 +48,11 @@ Classification): Questions | null => {
     }
 
     case 'openbaar-groen-en-water':
-      config = openbaarGroenEnWaterConfig as Questions<
-        typeof openbaarGroenEnWaterConfig
-      >
+      config = openbaarGroenEnWaterConfig as Questions<typeof openbaarGroenEnWaterConfig>
       break
 
     case 'overlast-bedrijven-en-horeca':
-      config = overlastBedrijvenEnHoreca as Questions<
-        typeof overlastBedrijvenEnHoreca
-      >
+      config = overlastBedrijvenEnHoreca as Questions<typeof overlastBedrijvenEnHoreca>
       break
 
     default:

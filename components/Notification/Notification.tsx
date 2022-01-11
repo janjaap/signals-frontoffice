@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback, useRef } from 'react'
+import { useState, useCallback, useRef } from 'react'
 import { Column, Row } from '@amsterdam/asc-ui'
 import { Close } from '@amsterdam/asc-assets'
 

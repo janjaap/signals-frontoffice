@@ -3,7 +3,6 @@ import 'leaflet.markercluster'
 import { createLeafletComponent } from '@amsterdam/react-maps'
 
 import type { Dispatch, FunctionComponent, SetStateAction} from 'react';
-// import 'leaflet.markercluster/dist/MarkerCluster.Default.css'
 import './markercluster.module.css'
 
 const SELECTED_CLASS_MODIFIER = '--selected'
@@ -12,8 +11,8 @@ const MarkerClusterGroup = createLeafletComponent('markerClusterGroup')
 
 interface MarkerClusterProps {
   setInstance: Dispatch<SetStateAction<L.GeoJSON | undefined>>
-  clusterOptions?: L.MarkerClusterGroupOptions
-  getIsSelectedCluster?: (cluster: L.MarkerCluster) => boolean
+  clusterOptions?: any
+  getIsSelectedCluster?: (cluster: any) => boolean
 }
 
 const MarkerCluster: FunctionComponent<MarkerClusterProps> = ({
@@ -21,7 +20,7 @@ const MarkerCluster: FunctionComponent<MarkerClusterProps> = ({
   setInstance,
   getIsSelectedCluster,
 }) => {
-  const options: L.MarkerClusterGroupOptions = {
+  const options: any = {
     showCoverageOnHover: false,
     iconCreateFunction: /* istanbul ignore next */ (cluster) => {
       let className = 'marker-cluster'

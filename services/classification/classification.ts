@@ -9,16 +9,12 @@ export type Prediction = {
   subrubriek: [Array<string>, Array<number>]
 }
 
-const resolveClassification = ({
-  hoofdrubriek = [[], []],
-  subrubriek = [[], []],
-}: Prediction): Classification => {
+const resolveClassification = ({ hoofdrubriek = [[], []], subrubriek = [[], []] }: Prediction): Classification => {
   const subrubriekMeetsMinimumCertainty = MINIMUM_CERTAINTY <= subrubriek[1][0]
-  const hoofdrubriekMeetsMinimumCertainty =
-    MINIMUM_CERTAINTY <= hoofdrubriek[1][0]
+  const hoofdrubriekMeetsMinimumCertainty = MINIMUM_CERTAINTY <= hoofdrubriek[1][0]
 
   if (subrubriekMeetsMinimumCertainty) {
-    const [, category, subcategory] = subrubriek[0][0].match(reCategory)
+    const [, category, subcategory] = subrubriek[0][0].match(reCategory) as [void, Classification['category'], string]
 
     return {
       category,
@@ -27,8 +23,8 @@ const resolveClassification = ({
   }
 
   if (hoofdrubriekMeetsMinimumCertainty) {
-    const [, category] = hoofdrubriek[0][0].match(reCategory)
-    let subcategory
+    const [, category] = hoofdrubriek[0][0].match(reCategory) as [void, Classification['category']]
+    let subcategory: string
 
     switch (category) {
       case 'afval':

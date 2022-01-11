@@ -2,7 +2,6 @@ import { getCrsRd } from '@amsterdam/arm-core'
 
 import type {
   LatLngBoundsExpression,
-  LatLngExpression,
   MapOptions,
 } from 'leaflet'
 
@@ -11,7 +10,7 @@ import configuration from '.'
 const mapOptions = configuration.map.options
 
 const MAP_OPTIONS: MapOptions = {
-  center: mapOptions.center as LatLngExpression,
+  center: mapOptions.center,
   maxBounds: mapOptions.maxBounds as LatLngBoundsExpression,
   maxZoom: mapOptions.maxZoom,
   minZoom: mapOptions.minZoom,

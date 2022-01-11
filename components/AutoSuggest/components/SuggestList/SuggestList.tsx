@@ -1,12 +1,10 @@
-// SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2020 - 2021 Gemeente Amsterdam
 import { Fragment, useEffect, useRef, useCallback } from 'react'
 import styled from 'styled-components'
 import { themeColor, themeSpacing, Icon } from '@amsterdam/asc-ui'
 import { ChevronRight } from '@amsterdam/asc-assets'
 
 import type { FC } from 'react'
-import type { PdokResponse } from 'shared/services/map-location'
+import type { PdokResponse } from 'services/map-location'
 
 const StyledList = styled.ul`
   border: 1px solid ${themeColor('tint', 'level5')};

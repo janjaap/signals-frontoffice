@@ -1,9 +1,5 @@
-// SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2020 - 2021 Gemeente Amsterdam
 import { useCallback, useEffect, useState, useRef } from 'react'
 import styled from 'styled-components'
-
-import Input from 'components/Input'
 
 import type { FC } from 'react'
 import type { PdokResponse } from 'services/map-location'
@@ -11,6 +7,7 @@ import type { RevGeo } from 'types/pdok/revgeo'
 
 import SuggestList from './components/SuggestList'
 
+import Input from 'components/Input'
 import useFetch from 'hooks/useFetch'
 import useDebounce from 'hooks/useDebounce'
 

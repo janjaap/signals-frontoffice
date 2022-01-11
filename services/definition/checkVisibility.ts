@@ -1,9 +1,6 @@
-// SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2020 - 2021 Gemeente Amsterdam
 import isEqual from 'lodash/isEqual'
-// import isObject from 'lodash/isObject'
 
-import type { Meta, RecordValue, RenderCondition } from './definition'
+import type { Meta, RecordValue, RenderCondition } from 'components/AssetSelect/types'
 
 const comparisonFuncs = {
   ifAllOf: Array.prototype.every,

@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 import { breakpoint, themeSpacing } from '@amsterdam/asc-ui'
+
 import type { FC } from 'react'
 
 const StyledLogo = styled.img`
