@@ -7,7 +7,7 @@ import type { FC, KeyboardEvent } from 'react'
 import AssetSelectContext from '../context'
 
 import MapStatic from 'components/MapStatic'
-import { formatAddress } from 'services/format-address'
+import formatAddress from 'services/format-address'
 
 const mapWidth = 640
 const mapHeight = 180

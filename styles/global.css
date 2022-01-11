@@ -37,6 +37,10 @@ a {
   box-sizing: border-box;
 }
 
+address {
+  font-style: normal;
+}
+
 .contentWrapper {
   max-width: var(--max-content-container-width);
   background-color: white;

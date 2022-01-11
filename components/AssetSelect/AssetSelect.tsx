@@ -5,7 +5,7 @@ import dynamic from 'next/dynamic'
 import type { Location } from 'types/incident'
 import type { LatLngLiteral } from 'leaflet'
 import type { FC } from 'react'
-import type { EventHandler, FeatureType, Item } from './types'
+import type { FeatureType, Item } from './types'
 import type { Address } from 'types/address'
 
 import { UNREGISTERED_TYPE } from './constants'
@@ -14,21 +14,16 @@ import Intro from './Intro'
 import Summary from './Summary'
 
 import reverseGeocoderService from 'services/reverse-geocoder'
-import {
-  resetLocation,
-  setAddress,
-  setCoordinates,
-  setExtraProperties,
-} from 'app/store/slices/incident'
+import { resetLocation, setAddress, setCoordinates, setExtraProperties } from 'app/store/slices/incident'
 
 export interface AssetSelectProps {
-  // handler: () => { value?: Item }
   address?: Address
   coordinates?: LatLngLiteral
-  layer?: FC
-  name: string
   endpoint?: string
   featureTypes: FeatureType[]
+  layer?: FC
+  name: string
+  onUpdate?: (hasItemSelected: boolean) => void
   selection?: Item
   wfsFilter?: string
 }
@@ -36,18 +31,17 @@ export interface AssetSelectProps {
 const Selector = dynamic(() => import('./Selector'), { ssr: false })
 
 const AssetSelect: FC<AssetSelectProps> = ({
-  // handler,
   address,
   coordinates,
-  layer,
-  featureTypes,
-  selection,
-  name,
   endpoint,
+  featureTypes,
+  layer,
+  name,
+  onUpdate,
+  selection,
   wfsFilter,
 }) => {
   const dispatch = useDispatch()
-  // const selection = handler().value
   const [showMap, setShowMap] = useState(false)
   const [message, setMessage] = useState<string>()
 
@@ -65,8 +59,10 @@ const AssetSelect: FC<AssetSelectProps> = ({
 
         dispatch(setExtraProperties({ [name]: restItem }))
       })
+
+      onUpdate && onUpdate(true)
     },
-    [address, coordinates, name, dispatch]
+    [address, coordinates, name, dispatch, onUpdate]
   )
 
   const removeItem = useCallback(() => {
@@ -75,7 +71,9 @@ const AssetSelect: FC<AssetSelectProps> = ({
 
       dispatch(setExtraProperties({ [name]: undefined }))
     })
-  }, [dispatch, name])
+
+    onUpdate && onUpdate(false)
+  }, [dispatch, name, onUpdate])
 
   /**
    * Callback handler for map clicks; will fetch the address and dispatches both coordinates and
@@ -93,9 +91,7 @@ const AssetSelect: FC<AssetSelectProps> = ({
         // Clicking the map should unset a previous selection and preset it with an item that we know
         // doesn't exist on the map. By setting UNREGISTERED_TYPE, the checkbox in the selection panel
         // will be checked whenever a click on the map is registered
-        dispatch(
-          setExtraProperties({ [name as string]: { type: UNREGISTERED_TYPE } })
-        )
+        dispatch(setExtraProperties({ [name as string]: { type: UNREGISTERED_TYPE } }))
       })
 
       const response = await reverseGeocoderService(latLng)
@@ -103,39 +99,29 @@ const AssetSelect: FC<AssetSelectProps> = ({
       if (response) {
         dispatch(setAddress(response.data.address))
       }
+
+      onUpdate && onUpdate(true)
     },
-    [dispatch, name]
+    [dispatch, name, onUpdate]
   )
 
   const setLocation = useCallback(
     (location: Location) => {
       batch(() => {
         dispatch(setCoordinates(location.coordinates))
-        dispatch(
-          setExtraProperties({ [name as string]: { type: UNREGISTERED_TYPE } })
-        )
+        dispatch(setExtraProperties({ [name as string]: { type: UNREGISTERED_TYPE } }))
         dispatch(setAddress(location.address))
       })
-    },
-    [dispatch, name]
-  )
 
-  const edit = useCallback<EventHandler>(
-    (event) => {
-      event.preventDefault()
-      setShowMap(true)
+      onUpdate && onUpdate(true)
     },
-    [setShowMap]
+    [dispatch, name, onUpdate]
   )
-
-  const close = useCallback(() => {
-    setShowMap(false)
-  }, [setShowMap])
 
   useEffect(() => {
     const closeOnEsc = (event: KeyboardEvent) => {
       if (event.code === 'Escape') {
-        close()
+        setShowMap(false)
       }
     }
 
@@ -144,15 +130,15 @@ const AssetSelect: FC<AssetSelectProps> = ({
     return () => {
       document.removeEventListener('keyup', closeOnEsc)
     }
-  }, [close])
+  }, [])
 
   return (
     <AssetSelectProvider
       value={{
         address,
-        close,
+        close: () => setShowMap(false),
         coordinates,
-        edit,
+        edit: () => setShowMap(true),
         endpoint,
         featureTypes,
         fetchLocation,

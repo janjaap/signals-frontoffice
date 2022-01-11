@@ -49,7 +49,7 @@ const config = {
           description: 'Restafval container',
           icon: {
             options,
-            iconUrl: '/rest.svg',
+            iconUrl: '/container/rest.svg',
           },
           idField: 'id_nummer',
           typeField: 'fractie_omschrijving',
@@ -60,7 +60,7 @@ const config = {
           description: 'Papier container',
           icon: {
             options,
-            iconUrl: '/paper.svg',
+            iconUrl: '/container/papier.svg',
           },
           idField: 'id_nummer',
           typeField: 'fractie_omschrijving',
@@ -71,7 +71,7 @@ const config = {
           description: 'Glas container',
           icon: {
             options,
-            iconUrl: '/glas.svg',
+            iconUrl: '/container/glas.svg',
           },
           idField: 'id_nummer',
           typeField: 'fractie_omschrijving',
@@ -82,7 +82,7 @@ const config = {
           description: 'Plastic container',
           icon: {
             options,
-            iconUrl: '/plastic.svg',
+            iconUrl: '/container/plastic.svg',
           },
           idField: 'id_nummer',
           typeField: 'fractie_omschrijving',
@@ -93,7 +93,7 @@ const config = {
           description: 'Textiel container',
           icon: {
             options,
-            iconUrl: '/textile.svg',
+            iconUrl: '/container/textiel.svg',
           },
           idField: 'id_nummer',
           typeField: 'fractie_omschrijving',
@@ -104,7 +104,7 @@ const config = {
           description: 'Groente- fruit- en tuinafval container',
           icon: {
             options,
-            iconUrl: '/gft.svg',
+            iconUrl: '/container/gft.svg',
           },
           idField: 'id_nummer',
           typeField: 'fractie_omschrijving',
@@ -115,7 +115,7 @@ const config = {
           description: 'Brood container',
           icon: {
             options,
-            iconUrl: '/bread.svg',
+            iconUrl: '/container/brood.svg',
           },
           idField: 'id_nummer',
           typeField: 'fractie_omschrijving',
@@ -134,9 +134,9 @@ const config = {
       ],
     },
     render: 'AssetSelect',
-    // options: {
-    //   validators: [validateObjectLocation('container')],
-    // },
+    options: {
+      validators: ['required'],
+    },
   },
 }
 

@@ -1,11 +1,9 @@
-// SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2018 - 2021 Gemeente Amsterdam
 import type { LatLngLiteral, LatLngTuple } from 'leaflet'
 import type { Geometrie, Location } from 'types/incident'
 import type { Incident } from 'types/api/incident'
 import type { RevGeo, Doc } from 'types/pdok/revgeo'
 
-import { formatAddress } from '../format-address'
+import formatAddress from '../format-address'
 
 export const locationTofeature = ({ lat, lng }: LatLngLiteral): Geometrie => ({
   type: 'Point',

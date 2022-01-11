@@ -1,29 +1,54 @@
-// SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2020 - 2021 Gemeente Amsterdam
+import { useController } from 'react-hook-form'
+import { useEffect } from 'react'
+
 import type { FunctionComponent } from 'react'
-import FormField from '../../../FormField'
+import type { FieldWrapperProps } from 'components/FieldWrapper'
+import type { AssetSelectProps } from '../AssetSelect'
+
 import AssetSelect from '../AssetSelect'
-import type { AssetSelectRendererProps } from '../types'
+
+import FieldWrapper from 'components/FieldWrapper'
+
+interface AssetSelectRendererProps extends FieldWrapperProps, AssetSelectProps {}
 
 const AssetSelectRenderer: FunctionComponent<AssetSelectRendererProps> = ({
-  handler,
-  touched,
-  hasError,
-  meta,
-  parent,
-  getError,
-  validatorsOrOpts,
-}) =>
-  meta?.isVisible ? (
-    <FormField
-      meta={meta}
-      options={validatorsOrOpts}
-      touched={touched}
-      hasError={hasError}
-      getError={getError}
-    >
-      <AssetSelect handler={handler} meta={meta} parent={parent} />
-    </FormField>
-  ) : null
+  error,
+  label,
+  id,
+  address,
+  coordinates,
+  endpoint,
+  featureTypes,
+  name,
+  selection,
+  wfsFilter,
+  required,
+  control,
+}) => {
+  const { field } = useController({ control, name: id, rules: { required } })
+
+  useEffect(() => {
+    if (!coordinates) return
+
+    field.onChange(true)
+  }, [coordinates, field])
+
+  return (
+    <FieldWrapper error={error} label={label} id={id} required={required}>
+      <AssetSelect
+        address={address}
+        coordinates={coordinates}
+        endpoint={endpoint}
+        featureTypes={featureTypes}
+        name={name}
+        selection={selection}
+        wfsFilter={wfsFilter}
+        onUpdate={(hasItemSelected: boolean) => {
+          field.onChange(hasItemSelected)
+        }}
+      />
+    </FieldWrapper>
+  )
+}
 
 export default AssetSelectRenderer

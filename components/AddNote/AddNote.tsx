@@ -1,27 +1,23 @@
-// SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2019 - 2021 Gemeente Amsterdam
 import { forwardRef, useCallback, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { themeSpacing } from '@amsterdam/asc-ui'
 
-import type { ChangeEvent, ReactNode, SyntheticEvent } from 'react'
+import type { SyntheticEvent, ForwardedRef, ChangeEvent, ReactNode } from 'react'
+import type { FieldWrapperProps } from 'components/FieldWrapper'
 
 import Button from '../Button'
 import TextArea from '../TextArea'
 import Label from '../Label'
 
-interface AddNoteProps {
+interface AddNoteProps extends FieldWrapperProps {
   className?: string
   error?: string
   isStandalone?: boolean
   label?: ReactNode
   maxContentLength?: number
   name?: string
-  onChange?: (event: ChangeEvent<HTMLTextAreaElement>) => void
-  onSubmit?: (
-    event: SyntheticEvent<HTMLInputElement>,
-    value?: string | null
-  ) => boolean
+  onChange?: (event: ChangeEvent<HTMLTextAreaElement>, value?: string) => void
+  onSubmit?: (event: SyntheticEvent<HTMLInputElement>, value?: string | null) => boolean
   rows?: number
   value?: string
 }
@@ -63,20 +59,8 @@ export const getAddNoteError = (config: {
 
 const AddNote = forwardRef<HTMLTextAreaElement, AddNoteProps>(
   (
-    {
-      className,
-      error,
-      isStandalone,
-      label,
-      maxContentLength,
-      name,
-      onChange,
-      onSubmit,
-      rows,
-      value,
-      ...rest
-    },
-    ref: any
+    { className, error, isStandalone, label, maxContentLength, name, onChange, onSubmit, rows, value, ...rest },
+    ref: ForwardedRef<HTMLTextAreaElement>
   ) => {
     const [showForm, setShowForm] = useState(!isStandalone)
     const handleSubmit = useCallback(
@@ -124,7 +108,9 @@ const AddNote = forwardRef<HTMLTextAreaElement, AddNoteProps>(
           id="addNoteText"
           maxContentLength={maxContentLength}
           name={name}
-          onChange={onChange}
+          onChange={(event: ChangeEvent<HTMLTextAreaElement>) => {
+            onChange && onChange(event, event.target.value)
+          }}
           ref={ref}
           rows={rows}
           value={value}
@@ -133,12 +119,7 @@ const AddNote = forwardRef<HTMLTextAreaElement, AddNoteProps>(
 
         {isStandalone && (
           <>
-            <NoteButton
-              data-testid="addNoteSaveNoteButton"
-              onClick={handleSubmit}
-              type="submit"
-              variant="secondary"
-            >
+            <NoteButton data-testid="addNoteSaveNoteButton" onClick={handleSubmit} type="submit" variant="secondary">
               Opslaan
             </NoteButton>
 
@@ -156,6 +137,8 @@ const AddNote = forwardRef<HTMLTextAreaElement, AddNoteProps>(
     )
   }
 )
+
+AddNote.displayName = 'AddNote'
 
 AddNote.defaultProps = {
   className: '',

@@ -12,9 +12,12 @@ const Wrapper = styled.fieldset`
   align-items: baseline;
 `
 
-const FormNavigation: FC = () => {
-  const { canGoNext, canGoPrevious, goPrevious, loading } =
-    useContext(FormContext)
+interface FormNavigationProps {
+  isLast?: boolean
+}
+
+const FormNavigation: FC<FormNavigationProps> = ({ isLast }) => {
+  const { canGoNext, canGoPrevious, goPrevious, loading } = useContext(FormContext)
 
   return (
     <Wrapper>
@@ -28,9 +31,9 @@ const FormNavigation: FC = () => {
         <span />
       )}
 
-      {canGoNext && (
+      {(canGoNext || isLast) && (
         <Button type="submit" variant="secondary" taskflow disabled={loading}>
-          Volgende
+          {isLast ? 'Verstuur' : 'Volgende'}
         </Button>
       )}
     </Wrapper>

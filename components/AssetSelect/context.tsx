@@ -5,13 +5,13 @@ import type { LatLngLiteral } from 'leaflet'
 import type { FC } from 'react'
 import type { Address } from 'types/address'
 import type { Location } from 'types/incident'
-import type { EventHandler, Item, Meta } from './types'
+import type { DataLayerProps, EventHandler, Item, FeatureType } from './types'
 
 interface AssetSelectValue {
   address?: Address
   close: () => void
   edit: EventHandler
-  layer?: FC
+  layer?: FC<DataLayerProps>
   coordinates?: LatLngLiteral
   language?: {
     objectTypePlural?: string
@@ -20,9 +20,8 @@ interface AssetSelectValue {
     subTitle?: string
   }
   message?: string
-  // meta: Meta
   endpoint?: string
-  featureTypes?: Meta['featureTypes']
+  featureTypes?: FeatureType[]
   removeItem: () => void
   selection?: Item
   setItem: (item: Item) => void
@@ -33,23 +32,20 @@ interface AssetSelectValue {
 }
 
 export const initialValue: AssetSelectValue = {
-  coordinates: undefined,
   close: () => {},
+  coordinates: undefined,
   edit: () => {},
-  message: undefined,
-  // meta: {
   endpoint: '',
   featureTypes: [],
-  wfsFilter: '',
-  language: {},
-  // extraProperties: [],
-  // },
-  selection: undefined,
   fetchLocation: () => {},
+  language: {},
+  message: undefined,
+  removeItem: () => {},
+  selection: undefined,
+  setItem: () => {},
   setLocation: () => {},
   setMessage: () => {},
-  setItem: () => {},
-  removeItem: () => {},
+  wfsFilter: '',
 }
 
 const AssetSelectContext = createContext(initialValue)
@@ -58,13 +54,8 @@ interface AssetSelectProviderProps {
   value: AssetSelectValue
 }
 
-export const AssetSelectProvider: FC<AssetSelectProviderProps> = ({
-  value,
-  children,
-}) => (
-  <AssetSelectContext.Provider value={value}>
-    {children}
-  </AssetSelectContext.Provider>
+export const AssetSelectProvider: FC<AssetSelectProviderProps> = ({ value, children }) => (
+  <AssetSelectContext.Provider value={value}>{children}</AssetSelectContext.Provider>
 )
 
 export default AssetSelectContext

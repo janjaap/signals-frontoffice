@@ -1,6 +1,6 @@
 import type { Address } from 'types/address'
 
-export const formatAddress = ({
+const formatAddress = ({
   openbare_ruimte,
   huisnummer,
   huisletter,
@@ -20,3 +20,5 @@ export const formatAddress = ({
     .flatMap((parts) => parts.filter(Boolean).join(' '))
     .filter(Boolean)
     .join(', ')
+
+export default formatAddress

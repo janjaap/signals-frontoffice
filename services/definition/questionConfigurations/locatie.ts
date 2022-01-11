@@ -1,15 +1,3 @@
-type Condition = {
-  category?: string | Array<string>
-  subcategory?: string | Array<string>
-  datetime?: string
-}
-
-interface DisplayConditions {
-  ifAllOf?: Condition
-  ifOneOf?: Condition
-  ifNotOf?: Condition
-}
-
 const locatie = {
   meta: {
     featureTypes: [],
@@ -28,13 +16,5 @@ const locatie = {
     validators: ['required'],
   },
 }
-
-export const locatieFn = (displayConditions: DisplayConditions = {}) => ({
-  ...locatie,
-  meta: {
-    ...locatie.meta,
-    ...displayConditions,
-  },
-})
 
 export default locatie

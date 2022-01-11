@@ -2,7 +2,7 @@ import locatie from './locatie'
 
 const config = {
   locatie,
-  extra_afval: {
+  afval: {
     meta: {
       ifOneOf: {
         subcategory: ['grofvuil', 'huisafval', 'puin-sloopafval'],
@@ -11,7 +11,7 @@ const config = {
       shortLabel: 'Waar vandaan',
       pathMerge: 'extra_properties',
     },
-    render: 'TextareaInput',
+    render: 'AddNote',
   },
 }
 

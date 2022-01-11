@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { useCallback, useContext, useEffect, useState } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { useForm } from 'react-hook-form'
 import styled from 'styled-components'
 
@@ -12,11 +12,11 @@ import PlainText from '../PlainText'
 import TextInput from '../TextInput'
 import RadioInput from '../RadioInput'
 import CheckboxInput from '../CheckboxInput'
-import AssetSelect from '../AssetSelect'
 import FormContext from '../../app/incident/context'
 
 import { determineConfig } from 'services/definition'
-import { setExtraProperties } from 'app/store/slices/incident'
+import AddNote from 'components/AddNote'
+import AssetSelectRenderer from 'components/AssetSelect/AssetSelectRenderer'
 
 const Fieldset = styled.fieldset`
   display: grid;
@@ -24,34 +24,18 @@ const Fieldset = styled.fieldset`
 `
 
 const Step2 = () => {
-  const dispatch = useDispatch()
   const router = useRouter()
-  const {
-    address,
-    coordinates,
-    category,
-    subcategory,
-    description,
-    extra_properties,
-  } = useSelector((state: RootState) => state.incident)
+  const { address, coordinates, category, subcategory, description, extra_properties } = useSelector(
+    (state: RootState) => state.incident
+  )
   const { control, formState, handleSubmit, getValues } = useForm({
     defaultValues: extra_properties?.[category],
   })
   const { errors } = formState
 
-  const [config, setConfig] = useState(
-    determineConfig({ category, subcategory })
-  )
+  const [config, setConfig] = useState(determineConfig({ category, subcategory }))
 
   const { onSubmit } = useContext(FormContext)
-
-  const onFormSubmit = useCallback(
-    (formData) => {
-      dispatch(setExtraProperties({ [category]: { ...formData } }))
-      onSubmit()
-    },
-    [category, dispatch, onSubmit]
-  )
 
   const onOptionChange = useCallback(() => {
     const values = getValues()
@@ -68,15 +52,16 @@ const Step2 = () => {
 
   if (!config) return null
 
+  console.log(config)
   return (
     <>
       <Head>
         <title>Locatie en vragen</title>
       </Head>
 
-      <h1>Locatie en vragen</h1>
+      <h1>2. Locatie en vragen</h1>
 
-      <form onSubmit={handleSubmit(onFormSubmit)}>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <Fieldset>
           <legend>
             Vult u alstublieft de volgende vragen in over &ldquot;{description}
@@ -90,8 +75,7 @@ const Step2 = () => {
           {Object.entries(config).map(([key, { meta, options, render }]) => {
             const { label } = meta
             const required = options?.validators.includes('required')
-            const error =
-              errors[key]?.type === 'required' && 'Dit veld is verplicht'
+            const error = errors[key]?.type === 'required' && 'Dit veld is verplicht'
             const inputProps = {
               control,
               error,
@@ -105,12 +89,10 @@ const Step2 = () => {
             }
 
             if (render === 'RadioInput' || render === 'CheckboxInput') {
-              inputProps.options = Object.entries(meta.values).map(
-                ([optionId, optionLabel]) => ({
-                  id: optionId,
-                  label: optionLabel,
-                })
-              )
+              inputProps.options = Object.entries(meta.values).map(([optionId, optionLabel]) => ({
+                id: optionId,
+                label: optionLabel,
+              }))
             }
 
             switch (render) {
@@ -121,18 +103,24 @@ const Step2 = () => {
                 return <RadioInput {...inputProps} onChange={onOptionChange} />
 
               case 'CheckboxInput':
-                return (
-                  <CheckboxInput {...inputProps} onChange={onOptionChange} />
-                )
+                return <CheckboxInput {...inputProps} onChange={onOptionChange} />
 
               case 'Caution':
                 return <PlainText key={key} type="caution" label={meta.value} />
+
+              case 'AddNote':
+                return <AddNote {...inputProps} isStandalone={false} maxContentLength={1000} />
 
               case 'AssetSelect': {
                 const { endpoint, featureTypes, wfsFilter } = config[key].meta
 
                 return (
-                  <AssetSelect
+                  <AssetSelectRenderer
+                    {...inputProps}
+                    error={
+                      errors[key]?.type === 'required' &&
+                      'Typ het dichtsbijzijnde adres of klik de locatie aan op de kaart'
+                    }
                     address={address}
                     coordinates={coordinates}
                     endpoint={endpoint}

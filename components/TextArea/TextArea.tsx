@@ -1,5 +1,3 @@
-// SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2021 Gemeente Amsterdam
 import { forwardRef, useState, useCallback, useEffect } from 'react'
 
 import type { ChangeEvent, ReactNode, ForwardedRef } from 'react'
@@ -14,6 +12,7 @@ import {
 } from './styled'
 
 interface TextAreaProps extends AscTextAreaProps {
+  className?: string
   defaultValue?: string
   errorMessage?: string
   id?: string
@@ -103,6 +102,8 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
     )
   }
 )
+
+TextArea.displayName = 'TextArea'
 
 TextArea.defaultProps = {
   className: undefined,

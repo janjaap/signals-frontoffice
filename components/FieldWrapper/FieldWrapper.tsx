@@ -51,7 +51,7 @@ export interface FieldWrapperProps {
   label?: ReactNode
   control?: Control
   onChange?: (
-    event: ChangeEvent<HTMLInputElement>,
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
     value: string | Array<string>
   ) => void
   options?: Array<{

@@ -93,7 +93,6 @@ export interface WfsFilter {
 }
 
 export interface DataLayerProps {
-  featureTypes: FeatureType[]
   desktopView?: boolean
   allowClusters?: boolean
   reportedLayer?: boolean

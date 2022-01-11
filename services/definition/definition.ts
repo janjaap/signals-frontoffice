@@ -8,6 +8,7 @@ import overlastBedrijvenEnHoreca from './questionConfigurations/overlast-bedrijv
 import checkVisibility from './checkVisibility'
 
 type RenderType =
+  | 'AddNote'
   | 'AssetSelect'
   | 'CaterpillarSelect'
   | 'Caution'

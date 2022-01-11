@@ -36,7 +36,7 @@ import Map from 'components/Map'
 
 import { MapMessage, ZoomMessage } from 'components/MapMessage'
 
-import { formatAddress } from 'services/format-address'
+import formatAddress from 'services/format-address'
 import configuration from 'services/configuration'
 
 const MAP_PANEL_DRAWER_SNAP_POSITIONS = {

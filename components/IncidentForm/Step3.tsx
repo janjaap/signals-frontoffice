@@ -1,6 +1,6 @@
 import Head from 'next/head'
 import { useCallback, useContext } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector, useDispatch, batch } from 'react-redux'
 import { useForm } from 'react-hook-form'
 
 import type { RootState } from 'app/store/store'
@@ -34,7 +34,7 @@ const Step3 = () => {
     (event) => {
       const { id, value } = event.target
 
-      if (!value || incident[id] === value) return
+      if (incident[id] === value) return
 
       switch (id) {
         case 'phone':
@@ -48,13 +48,25 @@ const Step3 = () => {
     [dispatch, incident]
   )
 
+  const onFormSubmit = useCallback((formData: FormData) => {
+    batch(() => {
+      dispatch(setPhone(formData.phone))
+      dispatch(setEmail(formData.email))
+      dispatch(setSharingAllowed(formData.sharing_allowed))
+    })
+
+    onSubmit()
+  }, [dispatch, onSubmit])
+
   return (
     <>
       <Head>
         <title>Contactgegevens</title>
       </Head>
-      <h1>Contactgegevens</h1>
-      <form onSubmit={handleSubmit(onSubmit)}>
+
+      <h1>3. Contactgegevens</h1>
+
+      <form onSubmit={handleSubmit(onFormSubmit)}>
         <fieldset>
           <legend>Geef een korte beschrijving van wat u wilt melden</legend>
 
