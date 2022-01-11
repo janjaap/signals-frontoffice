@@ -1,9 +1,8 @@
-// SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2019 - 2021 Gemeente Amsterdam
-import type { FunctionComponent } from 'react'
 import { useEffect, useState, useCallback, useRef } from 'react'
 import { Column, Row } from '@amsterdam/asc-ui'
 import { Close } from '@amsterdam/asc-assets'
+
+import type { FunctionComponent } from 'react'
 // import { useHistory } from 'react-router-dom'
 // import {
 //   SITE_HEADER_HEIGHT_SHORT,
@@ -14,7 +13,7 @@ import { Close } from '@amsterdam/asc-assets'
 //   ONCLOSE_TIMEOUT,
 //   SLIDEUP_TIMEOUT,
 //   TYPE_GLOBAL,
-//   TYPE_LOCAL,
+//   NOTIFICATION_TYPE_LOCAL,
 //   VARIANT_ERROR,
 //   VARIANT_NOTICE,
 // } from 'containers/Notification/constants'
@@ -22,20 +21,20 @@ import { Close } from '@amsterdam/asc-assets'
 // import useIsFrontOffice from 'hooks/useIsFrontOffice'
 // import type { Type, Variant } from 'containers/Notification/types'
 
+import type { Type, Variant } from './constants'
+
+import { VARIANT_NOTICE, TYPE_LOCAL } from './constants'
 import { Wrapper, Title, Message, CloseButton } from './styled'
 
 // const SITE_HEADER_HEIGHT_TALL = 116
 // const SITE_HEADER_BOTTOM_GAP_HEIGHT = 44
 
 // const TYPE_GLOBAL = 'global'
-const TYPE_LOCAL = 'local'
+// const NOTIFICATION_TYPE_LOCAL = 'local'
 // const VARIANT_ERROR = 'error'
-const VARIANT_NOTICE = 'notice'
+// const VARIANT_NOTICE = 'notice'
 // const VARIANT_SUCCESS = 'success'
 const ONCLOSE_TIMEOUT = 200
-
-type Type = 'global' | 'local'
-type Variant = 'error' | 'notice' | 'success'
 
 interface NotificationProps {
   className?: string
@@ -72,10 +71,10 @@ const Notification: FunctionComponent<NotificationProps> = ({
   // /**
   //  * Subscribe to history changes
   //  * Will reset the notification whenever a navigation action occurs and only when the type of the
-  //  * notifcation is TYPE_LOCAL
+  //  * notifcation is NOTIFICATION_TYPE_LOCAL
   //  */
   // useEffect(() => {
-  //   if (type !== TYPE_LOCAL || typeof onClose !== 'function') {
+  //   if (type !== NOTIFICATION_TYPE_LOCAL || typeof onClose !== 'function') {
   //     return undefined
   //   }
 

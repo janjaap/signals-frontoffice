@@ -1,23 +1,17 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 import type { PayloadAction } from '@reduxjs/toolkit'
-import type {
-  VARIANT_ERROR,
-  VARIANT_SUCCESS,
-  TYPE_GLOBAL,
-} from '../../../components/Notification/constants'
+import type { Type, Variant } from 'components/Notification/constants'
 
 import { fetchClassification } from './incident'
-import {
-  VARIANT_NOTICE,
-  TYPE_LOCAL,
-} from '../../../components/Notification/constants'
+
+import { TYPE_LOCAL, VARIANT_NOTICE } from 'components/Notification/constants'
 
 interface Notification {
-  message: string
+  message?: string
   title: string
-  variant: typeof VARIANT_NOTICE | typeof VARIANT_ERROR | typeof VARIANT_SUCCESS
-  type: typeof TYPE_LOCAL | typeof TYPE_GLOBAL
+  variant: Variant
+  type: Type
 }
 
 export interface GlobalState {

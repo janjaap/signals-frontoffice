@@ -2,7 +2,6 @@ import type { Questions } from '..'
 
 import locatie from './locatie'
 
-
 export default {
   locatie,
   extra_brug: {

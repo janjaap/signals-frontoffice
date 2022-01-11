@@ -20,8 +20,9 @@ const RadioInput: FC<FieldWrapperProps> = ({
   onChange,
   options,
   required,
+  value,
 }) => (
-  <FieldWrapper id={id} error={error} label={label} hint={hint}>
+  <FieldWrapper id={id} error={error} label={label} hint={hint} required={required}>
     <RadioGroup name={id}>
       {options.map((option) => (
         <StyledLabel
@@ -37,6 +38,7 @@ const RadioInput: FC<FieldWrapperProps> = ({
             rules={{ required }}
             render={({ field: { ref, ...field } }) => (
               <Radio
+                checked={value === option.id}
                 id={`${id}.${option.id}`}
                 value={option.id}
                 {...field}

@@ -20,12 +20,13 @@ const CheckboxInput: FC<FieldWrapperProps> = ({
   onChange,
   options,
   required,
+  value = [],
 }) => {
-  const [checked, setChecked] = useState<Set<string>>(new Set())
+  const [checked, setChecked] = useState<Set<string>>(new Set(value as Array<string>))
   const { field } = useController({ control, name: id, rules: { required } })
 
   return (
-    <FieldWrapper id={id} label={label} error={error}>
+    <FieldWrapper id={id} label={label} error={error} required={required}>
       {options.map((option) => (
         <StyledLabel
           key={option.id}
@@ -35,6 +36,8 @@ const CheckboxInput: FC<FieldWrapperProps> = ({
         >
           <Checkbox
             id={option.id}
+            checked={checked.has(option.id)}
+            defaultValue={option.id}
             onChange={(event: ChangeEvent<HTMLInputElement>) => {
               const boxChecked = event.currentTarget.checked
 
@@ -45,7 +48,7 @@ const CheckboxInput: FC<FieldWrapperProps> = ({
 
               setChecked(checked)
               field.onChange(checkedList)
-              onChange(event, checkedList)
+              onChange && onChange(event, checkedList)
             }}
           />
         </StyledLabel>

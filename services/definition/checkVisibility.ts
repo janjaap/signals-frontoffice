@@ -16,8 +16,6 @@ const isValueEqual = (
   key: string,
   comparisonFunc: typeof Array.prototype.every | typeof Array.prototype.some
 ) => {
-  // console.log(objToCompareTo)
-
   if (!Array.isArray(value)) {
     if (isEqual(value, objToCompareTo[key])) return true
   } else {

@@ -7,6 +7,7 @@ import Layout from '../components/Layout'
 import { store } from '../app/store/store'
 
 import '../styles/global.css'
+import 'leaflet.markercluster/dist/MarkerCluster.Default.css'
 
 const App = ({ Component, pageProps }) => (
   <ThemeProvider>

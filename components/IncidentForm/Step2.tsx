@@ -2,16 +2,17 @@ import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { useCallback, useContext, useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { useForm, Controller } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 import styled from 'styled-components'
 
-import type { RootState } from '../../app/store/store'
+import type { RootState } from 'app/store/store'
 
 import FormNavigation from '../FormNavigation'
 import PlainText from '../PlainText'
 import TextInput from '../TextInput'
 import RadioInput from '../RadioInput'
 import CheckboxInput from '../CheckboxInput'
+import AssetSelect from '../AssetSelect'
 import FormContext from '../../app/incident/context'
 
 import { determineConfig } from 'services/definition'
@@ -24,11 +25,18 @@ const Fieldset = styled.fieldset`
 
 const Step2 = () => {
   const dispatch = useDispatch()
-  const { control, formState, handleSubmit, getValues, register } = useForm()
   const router = useRouter()
-  const { category, subcategory, description } = useSelector(
-    (state: RootState) => state.incident
-  )
+  const {
+    address,
+    coordinates,
+    category,
+    subcategory,
+    description,
+    extra_properties,
+  } = useSelector((state: RootState) => state.incident)
+  const { control, formState, handleSubmit, getValues } = useForm({
+    defaultValues: extra_properties?.[category],
+  })
   const { errors } = formState
 
   const [config, setConfig] = useState(
@@ -39,7 +47,6 @@ const Step2 = () => {
 
   const onFormSubmit = useCallback(
     (formData) => {
-      debugger
       dispatch(setExtraProperties({ [category]: { ...formData } }))
       onSubmit()
     },
@@ -94,6 +101,7 @@ const Step2 = () => {
               label,
               options: undefined,
               required,
+              value: extra_properties?.[category]?.[key],
             }
 
             if (render === 'RadioInput' || render === 'CheckboxInput') {
@@ -105,23 +113,41 @@ const Step2 = () => {
               )
             }
 
-            if (render === 'TextInput') {
-              return <TextInput {...inputProps} />
-            }
+            switch (render) {
+              case 'TextInput':
+                return <TextInput {...inputProps} />
 
-            if (render === 'RadioInput') {
-              return <RadioInput {...inputProps} onChange={onOptionChange} />
-            }
+              case 'RadioInput':
+                return <RadioInput {...inputProps} onChange={onOptionChange} />
 
-            if (render === 'CheckboxInput') {
-              return <CheckboxInput {...inputProps} onChange={onOptionChange} />
-            }
+              case 'CheckboxInput':
+                return (
+                  <CheckboxInput {...inputProps} onChange={onOptionChange} />
+                )
 
-            if (render === 'Caution') {
-              return <PlainText key={key} type="caution" label={meta.value} />
-            }
+              case 'Caution':
+                return <PlainText key={key} type="caution" label={meta.value} />
 
-            return <p key={key}>{key}</p>
+              case 'AssetSelect': {
+                const { endpoint, featureTypes, wfsFilter } = config[key].meta
+
+                return (
+                  <AssetSelect
+                    address={address}
+                    coordinates={coordinates}
+                    endpoint={endpoint}
+                    featureTypes={featureTypes}
+                    key={key}
+                    name={key}
+                    selection={extra_properties?.[key]}
+                    wfsFilter={wfsFilter}
+                  />
+                )
+              }
+
+              default:
+                return <p key={key}>{key}</p>
+            }
           })}
         </Fieldset>
 

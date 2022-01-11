@@ -2,6 +2,16 @@
 # yarn lockfile v1
 
 
+"@amsterdam/arm-core@^0.9.0":
+  version "0.9.0"
+  resolved "https://registry.yarnpkg.com/@amsterdam/arm-core/-/arm-core-0.9.0.tgz#22c78bc874256fbba4adab41d7429ada40d330d0"
+  integrity sha512-p7988UILaImnZTVIn7pxFQww8NykbOmg6Pc+lnb3EVjFhbDLaJ762zW2M3Y2QIOEHnPMjjfFPqWUg5WsbmDzlA==
+  dependencies:
+    geojson "^0.5.0"
+    proj4 "^2.6.2"
+    proj4leaflet "^1.0.2"
+    uuid "^8.1.0"
+
 "@amsterdam/asc-assets@^0.35.0":
   version "0.35.0"
   resolved "https://registry.npmjs.org/@amsterdam/asc-assets/-/asc-assets-0.35.0.tgz"
@@ -19,6 +29,11 @@
     react-uid "^2.3.1"
   optionalDependencies:
     objectFitPolyfill ">=2.3.0"
+
+"@amsterdam/react-maps@^0.12.0":
+  version "0.12.0"
+  resolved "https://registry.yarnpkg.com/@amsterdam/react-maps/-/react-maps-0.12.0.tgz#66f1e2328b77535d294c52b4bae8c5423254ce59"
+  integrity sha512-+623q75kwIpP0v9G3u4hSRbabW42azJ1u2Qoj3Ylyfujn5aShAyeSRH87rVWp6KbptmeRbaDuVFKGc733kGQjQ==
 
 "@babel/code-frame@7.12.11":
   version "7.12.11"
@@ -1341,6 +1356,11 @@
   resolved "https://registry.yarnpkg.com/@trysound/sax/-/sax-0.2.0.tgz#cccaab758af56761eb7bf37af6f03f326dd798ad"
   integrity sha512-L7z9BgrNEcYyUYtF+HaEfiS5ebkh9jXqbszz7pC0hRBPaatV0XjSD3+eHrpqFemQfgwiFF0QPIarnIihIDn7OA==
 
+"@types/geojson@*":
+  version "7946.0.8"
+  resolved "https://registry.yarnpkg.com/@types/geojson/-/geojson-7946.0.8.tgz#30744afdb385e2945e22f3b033f897f76b1f12ca"
+  integrity sha512-1rkryxURpr6aWP7R786/UQOkJ3PcpQiWkAXBmdWc7ryFWqN6a4xfK7BtjXvFBKO9LjQ+MWQSWxYeZX1OApnArA==
+
 "@types/hoist-non-react-statics@*", "@types/hoist-non-react-statics@^3.3.0":
   version "3.3.1"
   resolved "https://registry.npmjs.org/@types/hoist-non-react-statics/-/hoist-non-react-statics-3.3.1.tgz"
@@ -1358,6 +1378,27 @@
   version "0.0.29"
   resolved "https://registry.npmjs.org/@types/json5/-/json5-0.0.29.tgz"
   integrity sha1-7ihweulOEdK4J7y+UnC86n8+ce4=
+
+"@types/leaflet.markercluster@^1.4.6":
+  version "1.4.6"
+  resolved "https://registry.yarnpkg.com/@types/leaflet.markercluster/-/leaflet.markercluster-1.4.6.tgz#1159460b374ba5e329cb678d0e427f99dca75be5"
+  integrity sha512-MD+bUDzxHznY0zOlSBUAMNQUGB2+xpJPKrR2MNEoBAAKa3QTKJJySBtCqWyGLvYNNO+Cdyc2c64aF2IFwe4fcQ==
+  dependencies:
+    "@types/leaflet" "*"
+
+"@types/leaflet@*":
+  version "1.7.8"
+  resolved "https://registry.yarnpkg.com/@types/leaflet/-/leaflet-1.7.8.tgz#fbae5a3a3d22780632715287764352f80bbe3d4a"
+  integrity sha512-prZwhmUznkwTYCTZVGTR4U1GzgPP3PAWYYQ3wDgVkIoiuQTheWoycsXx4Rz9ARYhlDTl0Ycd8lvhH2/rNSkqIg==
+  dependencies:
+    "@types/geojson" "*"
+
+"@types/leaflet@^1.7.7":
+  version "1.7.7"
+  resolved "https://registry.yarnpkg.com/@types/leaflet/-/leaflet-1.7.7.tgz#3c9f629126e03405ed68cc1aa395e32df3312376"
+  integrity sha512-5/nNqTviSqUwPxbS3PlHl8ODjfnlpOXSFtUAi7dexnisO8E3pfyotChRY/hlIYGvbBiBcKNd6V18xA8O4OpHiQ==
+  dependencies:
+    "@types/geojson" "*"
 
 "@types/lodash@^4.14.178":
   version "4.14.178"
@@ -2800,6 +2841,11 @@ gensync@^1.0.0-beta.2:
   resolved "https://registry.yarnpkg.com/gensync/-/gensync-1.0.0-beta.2.tgz#32a6ee76c3d7f52d46b2b1ae5d93fea8580a25e0"
   integrity sha512-3hN7NaskYvMDLQY55gnW3NQ+mesEAepTqlg+VEbj7zzqEMBVNhzcGYYeqFo/TlYz6eQiFcp1HcsCZO+nGgS8zg==
 
+geojson@^0.5.0:
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/geojson/-/geojson-0.5.0.tgz#3cd6c96399be65b56ee55596116fe9191ce701c0"
+  integrity sha1-PNbJY5m+ZbVu5VWWEW/pGRznAcA=
+
 get-intrinsic@^1.0.2, get-intrinsic@^1.1.0, get-intrinsic@^1.1.1:
   version "1.1.1"
   resolved "https://registry.npmjs.org/get-intrinsic/-/get-intrinsic-1.1.1.tgz"
@@ -3288,6 +3334,16 @@ language-tags@^1.0.5:
   dependencies:
     language-subtag-registry "~0.3.2"
 
+leaflet.markercluster@^1.5.3:
+  version "1.5.3"
+  resolved "https://registry.yarnpkg.com/leaflet.markercluster/-/leaflet.markercluster-1.5.3.tgz#9cdb52a4eab92671832e1ef9899669e80efc4056"
+  integrity sha512-vPTw/Bndq7eQHjLBVlWpnGeLa3t+3zGiuM7fJwCkiMFq+nmRuG3RI3f7f4N4TDX7T4NpbAXpR2+NTRSEGfCSeA==
+
+leaflet@^1.7.1:
+  version "1.7.1"
+  resolved "https://registry.yarnpkg.com/leaflet/-/leaflet-1.7.1.tgz#10d684916edfe1bf41d688a3b97127c0322a2a19"
+  integrity sha512-/xwPEBidtg69Q3HlqPdU3DnrXQOvQU/CCHA1tcDQVzOwm91YMYaILjNp7L4Eaw5Z4sOYdbBz6koWyibppd8Zqw==
+
 levn@^0.4.1:
   version "0.4.1"
   resolved "https://registry.npmjs.org/levn/-/levn-0.4.1.tgz"
@@ -3389,6 +3445,11 @@ merge2@^1.3.0:
   version "1.4.1"
   resolved "https://registry.npmjs.org/merge2/-/merge2-1.4.1.tgz"
   integrity sha512-8q7VEgMJW4J8tcfVPy8g09NcQwZdbwFEqhe/WZkoIzjn/3TGDwtOCYtXGxA3O8tPzpczCCDgv+P2P5y00ZJOOg==
+
+mgrs@1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/mgrs/-/mgrs-1.0.0.tgz#fb91588e78c90025672395cb40b25f7cd6ad1829"
+  integrity sha1-+5FYjnjJACVnI5XLQLJffNatGCk=
 
 micromatch@^4.0.4:
   version "4.0.4"
@@ -3851,6 +3912,21 @@ progress@^2.0.0:
   version "2.0.3"
   resolved "https://registry.npmjs.org/progress/-/progress-2.0.3.tgz"
   integrity sha512-7PiHtLll5LdnKIMw100I+8xJXR5gW2QwWYkT6iJva0bXitZKa/XMrSbdmg3r2Xnaidz9Qumd0VPaMrZlF9V9sA==
+
+proj4@^2.3.14, proj4@^2.6.2, proj4@^2.7.5:
+  version "2.7.5"
+  resolved "https://registry.yarnpkg.com/proj4/-/proj4-2.7.5.tgz#46c3ef841a9df57470d791f221160a9d68951945"
+  integrity sha512-5ecXUXbHAfvdhfBQpU7EhUfPCQGUCPmVup/4gnZA3bJY3JcK/xxzm4QQDz1xiXokN6ux65VDczlCtBtKrTSpAQ==
+  dependencies:
+    mgrs "1.0.0"
+    wkt-parser "^1.3.1"
+
+proj4leaflet@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/proj4leaflet/-/proj4leaflet-1.0.2.tgz#dec59f1e8a77a1682e320673e1e56f4161714d2a"
+  integrity sha512-6GdDeUlhX/tHUiMEj80xQhlPjwrXcdfD0D5OBymY8WvxfbmZcdhNqQk7n7nFf53ue6QdP9ls9ZPjsAxnbZDTsw==
+  dependencies:
+    proj4 "^2.3.14"
 
 prop-types@^15.7.2:
   version "15.8.0"
@@ -4437,6 +4513,11 @@ svgo@^2.5.0:
     picocolors "^1.0.0"
     stable "^0.1.8"
 
+swr@^1.1.2:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/swr/-/swr-1.1.2.tgz#9f3de2541931fccf03c48f322f1fc935a7551612"
+  integrity sha512-UsM0eo5T+kRPyWFZtWRx2XR5qzohs/LS4lDC0GCyLpCYFmsfTk28UCVDbOE9+KtoXY4FnwHYiF+ZYEU3hnJ1lQ==
+
 symbol-observable@^1.2.0:
   version "1.2.0"
   resolved "https://registry.npmjs.org/symbol-observable/-/symbol-observable-1.2.0.tgz"
@@ -4596,6 +4677,11 @@ util@0.12.4, util@^0.12.0:
     safe-buffer "^5.1.2"
     which-typed-array "^1.1.2"
 
+uuid@^8.1.0:
+  version "8.3.2"
+  resolved "https://registry.yarnpkg.com/uuid/-/uuid-8.3.2.tgz#80d5b5ced271bb9af6c445f21a1a04c606cefbe2"
+  integrity sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==
+
 v8-compile-cache@^2.0.3:
   version "2.3.0"
   resolved "https://registry.npmjs.org/v8-compile-cache/-/v8-compile-cache-2.3.0.tgz"
@@ -4657,6 +4743,11 @@ which@^2.0.1:
   integrity sha512-BLI3Tl1TW3Pvl70l3yq3Y64i+awpwXqsGBYWkkqMtnbXgrMD+yj7rhW0kuEDxzJaYXGjEW5ogapKNMEKNMjibA==
   dependencies:
     isexe "^2.0.0"
+
+wkt-parser@^1.3.1:
+  version "1.3.1"
+  resolved "https://registry.yarnpkg.com/wkt-parser/-/wkt-parser-1.3.1.tgz#a569678eb28f82f6739f736319be073e32bf8191"
+  integrity sha512-XK5qV+Y5gsygQfHx2/cS5a7Zxsgleaw8iX5UPC5eOXPc0TgJAu1JB9lr0iYYX3zAnN3p0aNiaN5c+1Bdblxwrg==
 
 word-wrap@^1.2.3:
   version "1.2.3"

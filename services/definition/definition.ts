@@ -1,9 +1,10 @@
 import type { Classification } from 'app/store/slices/incident'
+import type { Meta } from 'components/AssetSelect/types'
 
 import openbaarGroenEnWaterConfig from './questionConfigurations/openbaar-groen-en-water'
 import afvalConfig from './questionConfigurations/afval'
+import afvalContainerConfig from './questionConfigurations/afval-container'
 import overlastBedrijvenEnHoreca from './questionConfigurations/overlast-bedrijven-en-horeca'
-
 import checkVisibility from './checkVisibility'
 
 type RenderType =
@@ -21,24 +22,7 @@ type RenderType =
 
 type Validator = 'required' | 'optional'
 type AssertValidator = 'max_length' | 'min_length'
-export type RecordValue = Array<string | number> | string | number
 
-export interface RenderCondition {
-  category?: Classification['category']
-  subcategory?:
-    | Classification['subcategory']
-    | Array<Classification['subcategory']>
-  [key: string]: RecordValue
-}
-
-export interface Meta {
-  ifAllOf?: RenderCondition
-  ifOneOf?: RenderCondition
-  label?: string
-  subTitle?: string
-  values?: Record<string, string>
-  value?: string
-}
 export type Questions<T = Record<string, never>> = {
   [Property in keyof T]: {
     meta: Meta
@@ -59,9 +43,14 @@ Classification): Questions | null => {
   let config: Questions
 
   switch (category) {
-    case 'afval':
-      config = afvalConfig as Questions<typeof afvalConfig>
+    case 'afval': {
+      if (subcategory.startsWith('container')) {
+        config = afvalContainerConfig as Questions<typeof afvalContainerConfig>
+      } else {
+        config = afvalConfig as Questions<typeof afvalConfig>
+      }
       break
+    }
 
     case 'openbaar-groen-en-water':
       config = openbaarGroenEnWaterConfig as Questions<

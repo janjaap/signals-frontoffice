@@ -9,14 +9,29 @@ import FieldWrapper from '../FieldWrapper'
 
 type TextInputProps = FieldWrapperProps & Omit<AscInputProps, 'error'>
 
-const TextInput: FC<TextInputProps> = ({ control, required, hint, label, id, error, ...rest }) => (
-  <FieldWrapper error={error} hint={hint} id={id} label={label}>
+const TextInput: FC<TextInputProps> = ({
+  control,
+  error,
+  hint,
+  id,
+  label,
+  required,
+  value,
+  ...rest
+}) => (
+  <FieldWrapper
+    error={error}
+    hint={hint}
+    id={id}
+    label={label}
+    required={required}
+  >
     <Controller
       name={id}
       control={control}
       rules={{ required }}
       render={({ field: { ref, ...field } }) => (
-        <Input id={id} {...field} {...rest} />
+        <Input id={id} defaultValue={value} {...field} {...rest} />
       )}
     />
   </FieldWrapper>

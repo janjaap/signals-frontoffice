@@ -1,7 +1,9 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 
+import type { LatLngLiteral } from 'leaflet'
 import type { PayloadAction } from '@reduxjs/toolkit'
 import type { Prediction } from '../../../services/classification'
+import type { Address } from 'types/address'
 
 import resolveClassification from '../../../services/classification'
 
@@ -32,21 +34,24 @@ export type Classification = {
 }
 
 export interface IncidentState extends Classification {
+  address?: Address
+  coordinates?: LatLngLiteral
   description: string
   source: string
   extra_properties: ExtraProperties
+  phone?: string
+  email?: string
+  sharing_allowed?: boolean
 }
 
 const initialState: IncidentState = {
+  address: undefined,
+  coordinates: null,
   source: 'online',
   description: '',
   category: undefined,
   subcategory: undefined,
-  extra_properties: {
-    afval: {
-      wat: 456,
-    },
-  },
+  extra_properties: undefined,
 }
 
 const fetchClassification = createAsyncThunk(
@@ -74,6 +79,9 @@ export const incidentSlice = createSlice({
   name: 'incident',
   initialState,
   reducers: {
+    setAddress: (state, action: PayloadAction<Address>) => {
+      state.address = action.payload
+    },
     setSource: (state, action: PayloadAction<string>) => {
       state.source = action.payload
     },
@@ -88,6 +96,22 @@ export const incidentSlice = createSlice({
     setExtraProperties: (state, action: PayloadAction<ExtraProperties>) => {
       state.extra_properties = action.payload
     },
+    setPhone: (state, action: PayloadAction<string>) => {
+      state.phone = action.payload
+    },
+    setEmail: (state, action: PayloadAction<string>) => {
+      state.email = action.payload
+    },
+    setSharingAllowed: (state, action: PayloadAction<boolean>) => {
+      state.sharing_allowed = action.payload
+    },
+    setCoordinates: (state, action: PayloadAction<LatLngLiteral>) => {
+      state.coordinates = action.payload
+    },
+    resetLocation: (state) => {
+      state.coordinates = undefined
+      state.address = undefined
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(fetchClassification.fulfilled, (state, action) => {
@@ -95,15 +119,22 @@ export const incidentSlice = createSlice({
         meta: { arg: description },
       } = action
       state.description = description
+      state.extra_properties = undefined
     })
   },
 })
 
 // Action creators are generated for each case reducer function
 export const {
+  resetLocation,
+  setAddress,
   setClassification,
+  setCoordinates,
   setDescription,
+  setEmail,
   setExtraProperties,
+  setPhone,
+  setSharingAllowed,
   setSource,
 } = incidentSlice.actions
 

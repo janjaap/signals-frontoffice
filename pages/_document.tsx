@@ -11,6 +11,12 @@ const AppDocument = () => (
         rel="stylesheet"
         href="https://static.amsterdam.nl/fonts/fonts.css"
       />
+      <link
+        rel="stylesheet"
+        href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+        integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+        crossOrigin=""
+      />
     </Head>
     <body>
       <Main />
@@ -18,8 +24,6 @@ const AppDocument = () => (
     </body>
   </Html>
 )
-
-export default AppDocument
 
 export const getInitialProps = async (ctx) => {
   const sheet = new ServerStyleSheet()
@@ -46,3 +50,5 @@ export const getInitialProps = async (ctx) => {
     sheet.seal()
   }
 }
+
+export default AppDocument

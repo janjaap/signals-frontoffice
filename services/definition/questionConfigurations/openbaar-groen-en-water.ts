@@ -1,18 +1,13 @@
-import oakIcon from '../svg/openbaar-groen-en-water/oak.svg'
-import oakReportedIcon from '../svg/openbaar-groen-en-water/oakReported.svg'
-import oakSelectedReportedIcon from '../svg/openbaar-groen-en-water/oakSelectedReported.svg'
-import featureReportedMarkerUrl from '../svg/icon-reported-marker.svg'
-import featureSelectedMarkerUrl from '../svg/featureSelectedMarker.svg'
-import unknownFeatureMarkerUrl from '../svg/featureUnknownMarker.svg'
+import type { PointTuple } from 'leaflet'
 
 const ICON_SIZE = 40
 const options = {
   className: 'object-marker',
-  iconSize: [ICON_SIZE, ICON_SIZE],
+  iconSize: [ICON_SIZE, ICON_SIZE] as PointTuple,
 }
 
 const config = {
-  extra_eikenprocessierups: {
+  eikenprocessierups: {
     meta: {
       ifAllOf: {
         subcategory: 'eikenprocessierups',
@@ -34,27 +29,27 @@ const config = {
       icons: [
         {
           id: 'oak',
-          iconUrl: oakIcon,
+          iconUrl: '/oak.svg',
         },
         {
           id: 'oakIsReported',
-          iconUrl: oakReportedIcon,
+          iconUrl: '/oakReported.svg',
         },
         {
           id: 'isReported',
-          iconUrl: featureReportedMarkerUrl,
+          iconUrl: '/icon-reported-marker.svg',
         },
         {
           id: 'isSelected',
-          iconUrl: featureSelectedMarkerUrl,
+          iconUrl: '/featureSelectedMarker.svg',
         },
         {
           id: 'isSelectedAndReported',
-          iconUrl: oakSelectedReportedIcon,
+          iconUrl: '/oakSelectedReported.svg',
         },
         {
           id: 'unknown',
-          iconUrl: unknownFeatureMarkerUrl,
+          iconUrl: '/featureUnknownMarker.svg',
         },
       ],
       featureTypes: [
@@ -64,8 +59,8 @@ const config = {
           iconId: 'oak',
           icon: {
             options,
-            iconUrl: oakIcon,
-            reportedIconSvg: oakSelectedReportedIcon,
+            iconUrl: '/oak.svg',
+            reportedIconSvg: '/oakSelectedReported.svg',
           },
           iconIsReportedId: 'oakIsReported',
           idField: 'OBJECTID',
@@ -80,7 +75,7 @@ const config = {
           iconId: 'oakIsReported',
           icon: {
             options,
-            iconUrl: oakSelectedReportedIcon,
+            iconUrl: '/oakSelectedReported.svg',
           },
           iconIsReportedId: 'oakIsReported',
           idField: 'OBJECTID',
@@ -95,7 +90,7 @@ const config = {
           iconId: 'unknown',
           icon: {
             options,
-            iconUrl: unknownFeatureMarkerUrl,
+            iconUrl: '/featureUnknownMarker.svg',
           },
           typeValue: 'not-on-map',
           typeField: '',
@@ -108,7 +103,7 @@ const config = {
     },
     render: 'CaterpillarSelect',
   },
-  extra_nest_grootte: {
+  nest_grootte: {
     meta: {
       ifAllOf: {
         subcategory: 'eikenprocessierups',

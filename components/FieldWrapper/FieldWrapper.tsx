@@ -14,10 +14,6 @@ const Wrapper = styled.div<{ showError: boolean }>`
       border-left: 2px solid ${themeColor('secondary')};
       padding-left: ${themeSpacing(4)};
     `}
-
-  [type=text], [type=email], [type=tel] {
-    border: 2px solid ${themeColor('secondary')};
-  }
 `
 
 const Hint = styled.span`
@@ -44,6 +40,10 @@ const StyledLabel = styled(Label)<{ hasHint: boolean }>`
     `}
 `
 
+const NotRequired = styled.span`
+  font-weight: 400;
+`
+
 export interface FieldWrapperProps {
   error?: string
   hint?: string
@@ -59,6 +59,7 @@ export interface FieldWrapperProps {
     label: string
   }>
   required?: boolean
+  value?: string | number | Array<string | number>
 }
 
 const FieldWrapper: FC<PropsWithChildren<FieldWrapperProps>> = ({
@@ -68,13 +69,19 @@ const FieldWrapper: FC<PropsWithChildren<FieldWrapperProps>> = ({
   label,
   error,
   options,
+  required,
 }) => (
   <Wrapper showError={Boolean(error)}>
     {label && (
       <StyledLabel
         hasHint={Boolean(hint)}
         htmlFor={options ? '' : id}
-        label={label}
+        label={
+          <>
+            {label}
+            {!required && <NotRequired> (niet verplicht)</NotRequired>}
+          </>
+        }
       />
     )}
     {hint && <Hint>{hint}</Hint>}
