@@ -90,7 +90,7 @@ const StyledPDOKAutoSuggest = styled(PDOKAutoSuggest)`
 const Selector = () => {
   // to be replaced with MOUNT_NODE
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  const appHtmlElement = document.getElementById('app')!
+  const appHtmlElement = document.getElementById('mapPortal')!
   const {
     address,
     close,

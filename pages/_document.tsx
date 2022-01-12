@@ -20,6 +20,7 @@ const AppDocument = () => (
     </Head>
     <body>
       <Main />
+      <div id="mapPortal" />
       <NextScript />
     </body>
   </Html>

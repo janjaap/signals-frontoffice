@@ -4,7 +4,8 @@ import { Button } from '@amsterdam/asc-ui'
 
 import type { FunctionComponent } from 'react'
 
-import GPS from 'public/icon-gps.svg'
+import GPS from '../../public/icon-gps.svg'
+
 import LoadingIndicator from 'components/LoadingIndicator'
 import { pointWithinBounds } from 'services/map-location'
 

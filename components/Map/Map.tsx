@@ -20,7 +20,7 @@ const StyledViewerContainer = styled(ViewerContainer)`
   z-index: 400; // this elevation ensures that this container comes on top of the internal leaflet components
 `
 
-const StyledMap = styled(MapComponent)`
+const StyledMap = styled(MapComponent)<{ className?: string }>`
   cursor: default;
 
   &:focus {
@@ -38,6 +38,7 @@ const StyledGPSButton = styled(GPSButton)`
 `
 
 interface MapProps {
+  className?: string
   children?: ReactNode
   'data-testid'?: string
   events: LeafletEventHandlerFnMap
@@ -49,6 +50,7 @@ interface MapProps {
 }
 
 const Map: FC<MapProps> = ({
+  className = '',
   children,
   'data-testid': dataTestId = 'map-base',
   events,
@@ -107,6 +109,7 @@ const Map: FC<MapProps> = ({
 
   return (
     <StyledMap
+      className={className}
       data-max-zoom={maxZoom}
       data-min-zoom={minZoom}
       data-testid={dataTestId}
