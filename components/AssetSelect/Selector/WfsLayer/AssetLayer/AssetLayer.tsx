@@ -8,10 +8,7 @@ import type { Geometrie } from 'types/incident'
 import type { Item } from '../../../types'
 import type { FunctionComponent } from 'react'
 import type { Point, Feature as GeoJSONFeature, FeatureCollection } from 'geojson'
-import type {
-  LatLng,
-  LatLngLiteral,
-} from 'leaflet'
+import type { LatLng, LatLngLiteral } from 'leaflet'
 import type { DataLayerProps, Feature } from '../../../types'
 
 import AssetSelectContext from '../../../context'
@@ -20,7 +17,7 @@ import WfsDataContext from '../context'
 import MarkerCluster from 'components/MarkerCluster'
 
 import configuration from 'services/configuration'
-import { featureTolocation } from 'services/map-location'
+import { featureToCoordinates } from 'services/map-location'
 import reverseGeocoderService from 'services/reverse-geocoder'
 
 const SELECTED_CLASS_MODIFIER = '--selected'
@@ -67,7 +64,7 @@ export const AssetLayer: FunctionComponent<DataLayerProps> = ({ desktopView, all
   const [layerInstance, setLayerInstance] = useState<ClusterLayer>()
   const selectedCluster = useRef<ClusterMarker>()
   const data = useContext<FeatureCollection>(WfsDataContext)
-  const { featureTypes, selection, removeItem, setItem } = useContext(AssetSelectContext)
+  const { featureTypes, selectedObject, removeItem, setItem } = useContext(AssetSelectContext)
 
   /* istanbul ignore next */
   useEffect(() => {
@@ -120,7 +117,7 @@ export const AssetLayer: FunctionComponent<DataLayerProps> = ({ desktopView, all
         const { description, typeValue, idField } = featureType
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         const id = feature.properties[idField]!
-        const isSelectedItem = selection?.id === id
+        const isSelectedItem = selectedObject?.id === id
 
         const iconUrl = isSelectedItem ? '/featureSelectedMarker.svg' : featureType.icon.iconUrl
 
@@ -143,7 +140,7 @@ export const AssetLayer: FunctionComponent<DataLayerProps> = ({ desktopView, all
             return
           }
 
-          const coordinates = featureTolocation(feature.geometry as Geometrie)
+          const coordinates = featureToCoordinates(feature.geometry as Geometrie)
 
           const item: Item = {
             location: {
@@ -167,7 +164,7 @@ export const AssetLayer: FunctionComponent<DataLayerProps> = ({ desktopView, all
         return marker
       },
     }),
-    [getFeatureType, removeItem, selection, setItem]
+    [getFeatureType, removeItem, selectedObject, setItem]
   )
 
   useEffect(() => {
@@ -181,7 +178,7 @@ export const AssetLayer: FunctionComponent<DataLayerProps> = ({ desktopView, all
 
         if (!feature.geometry) return
 
-        const latlng = featureTolocation(feature.geometry as Geometrie)
+        const latlng = featureToCoordinates(feature.geometry as Geometrie)
         const marker = options.pointToLayer(pointFeature, latlng)
 
         /* istanbul ignore else */

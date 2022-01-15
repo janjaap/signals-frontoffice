@@ -37,6 +37,7 @@ const getStyle = (type: PlainTextType) => {
         * {
           // Make sure links contrast with blue background
           color: ${themeColor('tint', 'level1')};
+          font-weight: 400;
         }
       `
     case 'citation':

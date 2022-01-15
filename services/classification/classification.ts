@@ -1,4 +1,4 @@
-import type { Classification } from '../../app/store/slices/incident'
+import type { Classification, RawClassification } from 'app/store/slices/incident/reducer'
 
 export const MINIMUM_CERTAINTY = 0.41
 export const DEFAULT_CLASSIFICATION = 'overig'
@@ -9,7 +9,7 @@ export type Prediction = {
   subrubriek: [Array<string>, Array<number>]
 }
 
-const resolveClassification = ({ hoofdrubriek = [[], []], subrubriek = [[], []] }: Prediction): Classification => {
+const resolveClassification = ({ hoofdrubriek = [[], []], subrubriek = [[], []] }: Prediction): RawClassification => {
   const subrubriekMeetsMinimumCertainty = MINIMUM_CERTAINTY <= subrubriek[1][0]
   const hoofdrubriekMeetsMinimumCertainty = MINIMUM_CERTAINTY <= hoofdrubriek[1][0]
 
@@ -17,8 +17,14 @@ const resolveClassification = ({ hoofdrubriek = [[], []], subrubriek = [[], []] 
     const [, category, subcategory] = subrubriek[0][0].match(reCategory) as [void, Classification['category'], string]
 
     return {
-      category,
-      subcategory,
+      category: {
+        label: category,
+        id: hoofdrubriek[0][0],
+      },
+      subcategory: {
+        label: subcategory,
+        id: subrubriek[0][0],
+      },
     }
   }
 
@@ -72,14 +78,26 @@ const resolveClassification = ({ hoofdrubriek = [[], []], subrubriek = [[], []] 
     }
 
     return {
-      category,
-      subcategory,
+      category: {
+        label: category,
+        id: hoofdrubriek[0][0],
+      },
+      subcategory: {
+        label: subcategory,
+        id: subrubriek[0][0],
+      },
     }
   }
 
   return {
-    category: DEFAULT_CLASSIFICATION,
-    subcategory: DEFAULT_CLASSIFICATION,
+    category: {
+      label: DEFAULT_CLASSIFICATION,
+      id: DEFAULT_CLASSIFICATION,
+    },
+    subcategory: {
+      label: DEFAULT_CLASSIFICATION,
+      id: DEFAULT_CLASSIFICATION,
+    },
   }
 }
 

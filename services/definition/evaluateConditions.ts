@@ -16,43 +16,16 @@ const isValueEqual = (
   if (!Array.isArray(value)) {
     if (isEqual(value, objToCompareTo[key])) return true
   } else {
-    if (
-      comparisonFunc.call(value, (val: RecordValue) =>
-        isValueEqual(objToCompareTo, val, key, comparisonFunc)
-      )
-    )
+    if (comparisonFunc.call(value, (val: RecordValue) => isValueEqual(objToCompareTo, val, key, comparisonFunc)))
       return true
   }
-
-  // if (Array.isArray(objToCompareTo[key])) {
-  //   if (
-  //     objToCompareTo[key].includes(value) ||
-  //     comparisonFunc.call(
-  //       objToCompareTo[key],
-  //       (item: RecordValue) => item === value
-  //     )
-  //   )
-  //     return true
-  // }
-
-  // if (isObject(objToCompareTo[key])) {
-  //   if (objToCompareTo[key].value && isEqual(value, objToCompareTo[key].value))
-  //     return true
-  //   if (objToCompareTo[key].id && isEqual(value, objToCompareTo[key].id))
-  //     return true
-  // }
 
   return false
 }
 
-const evaluateConditions = (
-  conditions: Meta,
-  objToCompareTo: RenderCondition
-) => {
+const evaluateConditions = (conditions: Meta, objToCompareTo: RenderCondition) => {
   const validConditions = ['ifOneOf', 'ifAllOf']
-  const validEntries = Object.entries(conditions).filter(([key]) =>
-    validConditions.includes(key)
-  )
+  const validEntries = Object.entries(conditions).filter(([key]) => validConditions.includes(key))
 
   return validEntries
     .map(([comparisonKey, value]) => {

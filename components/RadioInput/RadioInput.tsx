@@ -1,7 +1,9 @@
 import { RadioGroup, Label, Radio } from '@amsterdam/asc-ui'
 import styled from 'styled-components'
+
 import { Controller } from 'react-hook-form'
 
+import type { Control } from 'react-hook-form'
 import type { ChangeEvent, FC } from 'react'
 import type { FieldWrapperProps } from '../FieldWrapper'
 
@@ -11,26 +13,17 @@ const StyledLabel = styled(Label)`
   align-self: baseline;
 `
 
-const RadioInput: FC<FieldWrapperProps> = ({
-  control,
-  error,
-  hint,
-  id,
-  label,
-  onChange,
-  options,
-  required,
-  value,
-}) => (
+interface RadioInputProps extends FieldWrapperProps {
+  control: Control
+  onChange?: (event: ChangeEvent<HTMLInputElement>, value: string | number) => void
+  value?: string | number
+}
+
+const RadioInput: FC<RadioInputProps> = ({ control, error, hint, id, label, onChange, options, required, value }) => (
   <FieldWrapper id={id} error={error} label={label} hint={hint} required={required}>
     <RadioGroup name={id}>
       {options.map((option) => (
-        <StyledLabel
-          key={`${id}.${option.id}`}
-          htmlFor={`${id}.${option.id}`}
-          label={option.label}
-          noActiveState
-        >
+        <StyledLabel key={`${id}.${option.id}`} htmlFor={`${id}.${option.id}`} label={option.label} noActiveState>
           <Controller
             key={`${id}.${option.id}`}
             name={id}

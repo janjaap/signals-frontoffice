@@ -99,7 +99,7 @@ const Selector = () => {
     fetchLocation,
     language,
     layer,
-    selection,
+    selectedObject,
     setLocation,
   } = useContext(AssetSelectContext)
   const [desktopView] = useMatchMedia({ minBreakpoint: 'tabletM' })
@@ -135,7 +135,7 @@ const Selector = () => {
   const Layer = layer || AssetLayer
 
   const showMarker =
-    coordinates && (!selection || selection.type === UNREGISTERED_TYPE)
+    coordinates && (!selectedObject || selectedObject.type === UNREGISTERED_TYPE)
 
   const mapClick = useCallback(
     ({ latlng }: LeafletMouseEvent) => {
@@ -163,10 +163,10 @@ const Selector = () => {
   )
 
   useEffect(() => {
-    if (!map || !pinMarker || !coordinates || selection) return
+    if (!map || !pinMarker || !coordinates || selectedObject) return
 
     pinMarker.setLatLng(coordinates)
-  }, [map, coordinates, pinMarker, selection])
+  }, [map, coordinates, pinMarker, selectedObject])
 
   const mapWrapper = (
     <Wrapper data-testid="assetSelectSelector">

@@ -1,7 +1,9 @@
+import type { Questions } from '..'
+
 import locatie from './locatie'
 
 const config = {
-  locatie,
+  ...locatie,
   afval: {
     meta: {
       ifOneOf: {
@@ -11,8 +13,8 @@ const config = {
       shortLabel: 'Waar vandaan',
       pathMerge: 'extra_properties',
     },
-    render: 'AddNote',
+    render: 'TextareaInput',
   },
 }
 
-export default config
+export default config as Questions<typeof config>

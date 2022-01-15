@@ -1,8 +1,10 @@
 import { Label, Checkbox } from '@amsterdam/asc-ui'
 import styled from 'styled-components'
+
 import { useController } from 'react-hook-form'
 import { useState } from 'react'
 
+import type { Control } from 'react-hook-form'
 import type { ChangeEvent, FC } from 'react'
 import type { FieldWrapperProps } from '../FieldWrapper'
 
@@ -12,7 +14,16 @@ const StyledLabel = styled(Label)`
   align-self: baseline;
 `
 
-const CheckboxInput: FC<FieldWrapperProps> = ({
+interface CheckboxInputProps extends FieldWrapperProps {
+  control: Control
+  value?: Array<string>
+  onChange?: (
+    event: ChangeEvent<HTMLInputElement>,
+    value: Array<string>
+  ) => void
+}
+
+const CheckboxInput: FC<CheckboxInputProps> = ({
   control,
   error,
   id,
@@ -28,12 +39,7 @@ const CheckboxInput: FC<FieldWrapperProps> = ({
   return (
     <FieldWrapper id={id} label={label} error={error} required={required}>
       {options.map((option) => (
-        <StyledLabel
-          key={option.id}
-          htmlFor={option.id}
-          label={option.label}
-          noActiveState
-        >
+        <StyledLabel key={option.id} htmlFor={option.id} label={option.label} noActiveState>
           <Checkbox
             id={option.id}
             checked={checked.has(option.id)}

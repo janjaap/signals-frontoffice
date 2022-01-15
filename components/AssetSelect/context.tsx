@@ -9,8 +9,8 @@ import type { DataLayerProps, EventHandler, Item, FeatureType } from './types'
 
 interface AssetSelectValue {
   address?: Address
-  close: () => void
-  edit: EventHandler
+  close?: () => void
+  edit?: EventHandler
   layer?: FC<DataLayerProps>
   coordinates?: LatLngLiteral
   language?: {
@@ -22,12 +22,12 @@ interface AssetSelectValue {
   message?: string
   endpoint?: string
   featureTypes?: FeatureType[]
-  removeItem: () => void
-  selection?: Item
-  setItem: (item: Item) => void
-  fetchLocation: (latLng: LatLngLiteral) => void
-  setLocation: (location: Location) => void
-  setMessage: (message?: string) => void
+  removeItem?: () => void
+  selectedObject?: Item
+  setItem?: (item: Item) => void
+  fetchLocation?: (latLng: LatLngLiteral) => void
+  setLocation?: (location: Location) => void
+  setMessage?: (message?: string) => void
   wfsFilter?: string
 }
 
@@ -41,7 +41,7 @@ export const initialValue: AssetSelectValue = {
   language: {},
   message: undefined,
   removeItem: () => {},
-  selection: undefined,
+  selectedObject: undefined,
   setItem: () => {},
   setLocation: () => {},
   setMessage: () => {},

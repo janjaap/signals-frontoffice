@@ -1,5 +1,3 @@
-// SPDX-License-Identifier: MPL-2.0
-// Copyright (C) 2021 Gemeente Amsterdam
 import { useMemo } from 'react'
 import styled from 'styled-components'
 import { Close } from '@amsterdam/asc-assets'
@@ -33,17 +31,17 @@ export interface AssetListProps {
   className?: string
   featureTypes: FeatureType[]
   onRemove?: () => void
-  selection: Item
+  selectedObject: Item
 }
 
 const AssetList: FunctionComponent<AssetListProps> = ({
   onRemove,
-  selection,
+  selectedObject,
   className,
   featureTypes,
 }) => {
   const item = useMemo(() => {
-    const { id, type, isReported } = selection
+    const { id, type, isReported } = selectedObject
     const { description, icon }: Partial<FeatureType> =
       featureTypes.find(({ typeValue }) => typeValue === type) ?? {}
 
@@ -69,7 +67,7 @@ const AssetList: FunctionComponent<AssetListProps> = ({
       iconUrl: icon ? icon.iconUrl : '',
       isReported,
     }
-  }, [featureTypes, selection])
+  }, [featureTypes, selectedObject])
 
   return (
     <IconList data-testid="assetList" className={className}>

@@ -1,12 +1,13 @@
+import type { Questions } from '..'
+
 import locatie from './locatie'
 
-export const overlastOpHetWater = {
-  locatie,
-  extra_boten_snelheid_typeboot: {
+const config = {
+  ...locatie,
+  boten_snelheid_typeboot: {
     meta: {
       label: 'Wat voor type boot is het?',
       shortLabel: 'Type boot',
-      pathMerge: 'extra_properties',
       values: {
         pleziervaart: 'Pleziervaart',
         rondvaartboot_of_salonboot: 'Rondvaartboot of salonboot',
@@ -20,27 +21,25 @@ export const overlastOpHetWater = {
     options: { validators: ['required'] },
     render: 'RadioInput',
   },
-  extra_boten_snelheid_rederij: {
+  boten_snelheid_rederij: {
     meta: {
       label: 'Wat is de naam van de rederij?',
       shortLabel: 'Rederij',
-      pathMerge: 'extra_properties',
       ifAllOf: {
         subcategory: 'overlast-op-het-water-snel-varen',
-        extra_boten_snelheid_typeboot: 'rondvaartboot_of_salonboot',
+        boten_snelheid_typeboot: 'rondvaartboot_of_salonboot',
       },
     },
     render: 'TextInput',
   },
-  extra_boten_snelheid_naamboot: {
+  boten_snelheid_naamboot: {
     meta: {
       label: 'Wat is de naam van de boot?',
       shortLabel: 'Naam boot',
-      pathMerge: 'extra_properties',
       ifAllOf: {
         subcategory: 'overlast-op-het-water-snel-varen',
         ifOneOf: {
-          extra_boten_snelheid_typeboot: [
+          boten_snelheid_typeboot: [
             'pleziervaart',
             'rondvaartboot_of_salonboot',
             'vrachtschip_of_binnenvaartschip',
@@ -51,17 +50,15 @@ export const overlastOpHetWater = {
     },
     render: 'TextInput',
   },
-  extra_boten_snelheid_meer: {
+  boten_snelheid_meer: {
     meta: {
       label: 'Wat weet u nog meer over deze situatie?',
       shortLabel: 'Extra informatie',
-      subtitle:
-        'Bijvoorbeeld: de kleur van de boot, aantal passagiers, vaarrichting, Y of Vignet nummer etc.',
-      pathMerge: 'extra_properties',
+      subtitle: 'Bijvoorbeeld: de kleur van de boot, aantal passagiers, vaarrichting, Y of Vignet nummer etc.',
       ifAllOf: {
         subcategory: 'overlast-op-het-water-snel-varen',
         ifOneOf: {
-          extra_boten_snelheid_typeboot: [
+          boten_snelheid_typeboot: [
             'pleziervaart',
             'rondvaartboot_of_salonboot',
             'vrachtschip_of_binnenvaartschip',
@@ -72,26 +69,23 @@ export const overlastOpHetWater = {
     },
     render: 'TextareaInput',
   },
-  extra_boten_geluid_meer: {
+  boten_geluid_meer: {
     meta: {
       label: 'Wat weet u nog meer over deze situatie?',
       shortLabel: 'Extra informatie',
       subtitle:
         'Bijvoorbeeld: waar de boot naar toe vaart, kleur van de boot, aantal passagiers, kenteken, vignet, etc.',
-      pathMerge: 'extra_properties',
       ifAllOf: {
         subcategory: 'overlast-op-het-water-geluid',
       },
     },
     render: 'TextareaInput',
   },
-  extra_boten_gezonken_meer: {
+  boten_gezonken_meer: {
     meta: {
       label: 'Wat weet u nog meer over deze situatie?',
       shortLabel: 'Extra informatie',
-      subtitle:
-        'Bijvoorbeeld: "er lekt olie", "gevaar voor andere boten", etc.',
-      pathMerge: 'extra_properties',
+      subtitle: 'Bijvoorbeeld: "er lekt olie", "gevaar voor andere boten", etc.',
       ifAllOf: {
         subcategory: 'overlast-op-het-water-gezonken-boot',
       },
@@ -100,4 +94,4 @@ export const overlastOpHetWater = {
   },
 }
 
-export default overlastOpHetWater
+export default config as Questions<typeof config>

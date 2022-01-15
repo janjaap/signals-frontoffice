@@ -5,14 +5,8 @@ import {
   TextArea as AscTextArea,
 } from '@amsterdam/asc-ui'
 
-import ErrorMessage, { ErrorWrapper } from '../ErrorMessage'
-
 const lineHeight = 22
 const infoFontSize = 14
-
-export const StyledErrorMessage = styled(ErrorMessage)`
-  margin-bottom: ${themeSpacing(2)};
-`
 
 export const StyledArea = styled(AscTextArea)<{
   rows?: number
@@ -32,5 +26,3 @@ export const InfoText = styled.div`
   margin-top: ${themeSpacing(2)};
   font-size: ${infoFontSize}px;
 `
-
-export { ErrorWrapper }

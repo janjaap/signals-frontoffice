@@ -3,13 +3,9 @@ import { forwardRef, useState, useCallback, useEffect } from 'react'
 import type { ChangeEvent, ReactNode, ForwardedRef } from 'react'
 import type { TextAreaProps as AscTextAreaProps } from '@amsterdam/asc-ui/es/components/TextArea'
 
-import Label from '../Label'
-import {
-  StyledErrorMessage,
-  StyledArea,
-  InfoText,
-  ErrorWrapper,
-} from './styled'
+import { StyledArea, InfoText } from './styled'
+
+import FieldWrapper from 'components/FieldWrapper'
 
 interface TextAreaProps extends AscTextAreaProps {
   className?: string
@@ -22,23 +18,12 @@ interface TextAreaProps extends AscTextAreaProps {
   maxRows?: number
   onChange?: (event: ChangeEvent<HTMLTextAreaElement>) => void
   rows?: number
-  value?: string
+  value?: string | number
 }
 
 const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
   (
-    {
-      className,
-      defaultValue,
-      errorMessage,
-      id,
-      infoText,
-      label,
-      maxContentLength,
-      onChange,
-      value,
-      ...props
-    },
+    { className = '', defaultValue, errorMessage, id, infoText, label, maxContentLength, onChange, value, ...props },
     ref?: ForwardedRef<HTMLTextAreaElement>
   ) => {
     const [contents, setContents] = useState('')
@@ -62,29 +47,19 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
     )
 
     const textareaInfoText =
-      maxContentLength && maxContentLength > 0
-        ? `${contents.length} / ${maxContentLength} tekens`
-        : infoText
+      maxContentLength && maxContentLength > 0 ? `${contents.length} / ${maxContentLength} tekens` : infoText
 
     useEffect(() => {
-      setContents(defaultValue || value || '')
+      setContents((defaultValue || value || '').toString())
     }, [defaultValue, value])
 
     return (
-      <ErrorWrapper invalid={Boolean(errorMessage)}>
-        {label && (
-          <Label inline htmlFor={id}>
-            {label}
-          </Label>
-        )}
-
-        {errorMessage && (
-          <StyledErrorMessage
-            id="textareaErrorMessage"
-            message={errorMessage}
-          />
-        )}
-
+      <FieldWrapper
+        caption={textareaInfoText && <InfoText id="textareaInfoText">{textareaInfoText}</InfoText>}
+        error={errorMessage}
+        label={label}
+        id={id}
+      >
         <StyledArea
           aria-describedby="textareaInfoText textareaErrorMessage"
           className={className}
@@ -94,19 +69,11 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
           {...props}
           {...contentProps}
         />
-
-        {textareaInfoText && (
-          <InfoText id="textareaInfoText">{textareaInfoText}</InfoText>
-        )}
-      </ErrorWrapper>
+      </FieldWrapper>
     )
   }
 )
 
 TextArea.displayName = 'TextArea'
-
-TextArea.defaultProps = {
-  className: undefined,
-}
 
 export default TextArea

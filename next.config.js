@@ -1,4 +1,7 @@
 module.exports = {
+  experimental: {
+    outputStandalone: true,
+  },
   reactStrictMode: true,
   async redirects() {
     return [
@@ -12,7 +15,14 @@ module.exports = {
   webpack(config) {
     config.module.rules.push({
       test: /\.svg$/,
-      use: ['@svgr/webpack'],
+      use: [
+        {
+          loader: '@svgr/webpack',
+          options: {
+            svgo: false,
+          },
+        },
+      ],
     })
 
     return config

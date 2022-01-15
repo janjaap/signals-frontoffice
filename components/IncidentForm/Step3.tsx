@@ -1,34 +1,30 @@
 import Head from 'next/head'
-import { useCallback, useContext } from 'react'
-import { useSelector, useDispatch, batch } from 'react-redux'
+import { useCallback, useContext, useState } from 'react'
+import { useSelector, batch } from 'react-redux'
 import { useForm } from 'react-hook-form'
 
-import type { RootState } from 'app/store/store'
+import type { ChangeEvent } from 'react'
+import type { IncidentState } from 'app/store/slices/incident/reducer'
 
 import FormNavigation from '../FormNavigation'
 import TextInput from '../TextInput'
 import EmphasisCheckboxInput from '../EmphasisCheckboxInput'
 
 import FormContext from 'app/incident/context'
-import {
-  setEmail,
-  setPhone,
-  setSharingAllowed,
-} from 'app/store/slices/incident'
+import { setEmail, setPhone, setSharingAllowed } from 'app/store/slices/incident/reducer'
+import { incidentSelector } from 'app/store/slices/incident/selectors'
+import { useAppDispatch } from 'app/store/store'
 
-type FormData = {
-  phone?: string
-  email?: string
-  sharing_allowed?: boolean
-}
+type FormData = Pick<IncidentState, 'phone' | 'email' | 'sharing_allowed'>
 
 const Step3 = () => {
-  const dispatch = useDispatch()
-  const incident = useSelector((state: RootState) => state.incident)
+  const dispatch = useAppDispatch()
+  const incident = useSelector(incidentSelector)
   const { phone, email, sharing_allowed } = incident
   const { control, handleSubmit } = useForm<FormData>()
+  const [contactDetails, setContactDetails] = useState<FormData>({ phone, email, sharing_allowed })
 
-  const { onSubmit } = useContext(FormContext)
+  const { goNext } = useContext(FormContext)
 
   const onBlur = useCallback(
     (event) => {
@@ -48,15 +44,23 @@ const Step3 = () => {
     [dispatch, incident]
   )
 
-  const onFormSubmit = useCallback((formData: FormData) => {
+  const onChange = useCallback(
+    (event: ChangeEvent<HTMLInputElement>) => {
+      const { name, value } = event.target
+      setContactDetails({ ...contactDetails, [name]: value })
+    },
+    [contactDetails]
+  )
+
+  const onFormSubmit = useCallback(() => {
     batch(() => {
-      dispatch(setPhone(formData.phone))
-      dispatch(setEmail(formData.email))
-      dispatch(setSharingAllowed(formData.sharing_allowed))
+      dispatch(setPhone(contactDetails.phone))
+      dispatch(setEmail(contactDetails.email))
+      dispatch(setSharingAllowed(contactDetails.sharing_allowed))
     })
 
-    onSubmit()
-  }, [dispatch, onSubmit])
+    goNext()
+  }, [dispatch, goNext, contactDetails])
 
   return (
     <>
@@ -78,8 +82,9 @@ const Step3 = () => {
             label="Wat is uw telefoonnummer?"
             name="phone"
             type="tel"
-            value={phone}
             onBlur={onBlur}
+            onChange={onChange}
+            value={contactDetails.phone}
           />
 
           <h2>Wilt u op de hoogte blijven?</h2>
@@ -90,16 +95,16 @@ const Step3 = () => {
             label="Wat is uw e-mailadres?"
             name="email"
             type="email"
-            value={email}
             onBlur={onBlur}
+            onChange={onChange}
+            value={contactDetails.email}
           />
 
           <h2>Melding doorsturen</h2>
           <p>
-            Soms kan de gemeente niets doen. Een andere organisatie moet dan aan
-            het werk. Bijvoorbeeld de politie of de dierenambulance. Als dat zo
-            is kunnen wij uw melding doorsturen. Wij sturen uw telefoonnummer of
-            e-mailadres mee. Maar dat doen we alleen als u dat goed vindt.
+            Soms kan de gemeente niets doen. Een andere organisatie moet dan aan het werk. Bijvoorbeeld de politie of de
+            dierenambulance. Als dat zo is kunnen wij uw melding doorsturen. Wij sturen uw telefoonnummer of e-mailadres
+            mee. Maar dat doen we alleen als u dat goed vindt.
           </p>
           <EmphasisCheckboxInput
             control={control}
@@ -113,8 +118,9 @@ const Step3 = () => {
               },
             ]}
             value={sharing_allowed ? ['ja'] : undefined}
-            onChange={(event) => {
-              dispatch(setSharingAllowed(event.target.checked))
+            checked={sharing_allowed}
+            onChange={(event: ChangeEvent<HTMLInputElement>) => {
+              setContactDetails({ ...contactDetails, sharing_allowed: event.target.checked })
             }}
           />
         </fieldset>

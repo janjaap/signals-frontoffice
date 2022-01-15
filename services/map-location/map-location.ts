@@ -5,12 +5,12 @@ import type { RevGeo, Doc } from 'types/pdok/revgeo'
 
 import formatAddress from '../format-address'
 
-export const locationTofeature = ({ lat, lng }: LatLngLiteral): Geometrie => ({
+export const coordinatesTofeature = ({ lat, lng }: LatLngLiteral): Geometrie => ({
   type: 'Point',
   coordinates: [lat, lng].sort().reverse() as LatLngTuple,
 })
 
-export const locationToAPIfeature = ({
+export const coordinatesToAPIfeature = ({
   lat,
   lng,
 }: LatLngLiteral): Geometrie => ({
@@ -18,14 +18,14 @@ export const locationToAPIfeature = ({
   coordinates: [lng, lat] as LatLngTuple,
 })
 
-export const featureTolocation = ({
+export const featureToCoordinates= ({
   coordinates,
 }: Geometrie): LatLngLiteral => {
   const [lat, lng] = coordinates.sort().reverse()
   return { lat, lng }
 }
 
-export const wktPointToLocation = (wktPoint: string): LatLngLiteral => {
+export const wktPointToCoordinates = (wktPoint: string): LatLngLiteral => {
   const pointMatch = wktPoint.match(/\d+\.\d+/gi)
 
   if (!wktPoint.includes('POINT') || !pointMatch || pointMatch?.length <= 1) {
@@ -58,7 +58,7 @@ export const formatMapLocation = (
   if (!location?.geometrie?.coordinates || !location.address) return {}
 
   return {
-    coordinates: featureTolocation(location.geometrie),
+    coordinates: featureToCoordinates(location.geometrie),
     addressText: formatAddress(location.address),
     address: location.address,
   }
@@ -114,7 +114,7 @@ export const formatPDOKResponse = (
       id,
       value: weergavenaam,
       data: {
-        location: wktPointToLocation(centroide_ll),
+        location: wktPointToCoordinates(centroide_ll),
         address: serviceResultToAddress(result),
       },
     }

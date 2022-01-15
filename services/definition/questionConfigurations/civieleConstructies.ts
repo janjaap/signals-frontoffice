@@ -2,9 +2,9 @@ import type { Questions } from '..'
 
 import locatie from './locatie'
 
-export default {
-  locatie,
-  extra_brug: {
+const config = {
+  ...locatie,
+  brug: {
     meta: {
       ifAllOf: {
         subcategory: 'bruggen',
@@ -15,4 +15,6 @@ export default {
     },
     render: 'TextInput',
   },
-} as Questions
+}
+
+export default config as Questions<typeof config>

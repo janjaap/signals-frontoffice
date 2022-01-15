@@ -1,7 +1,9 @@
+import type { Questions } from '..'
+
 import locatie from './locatie'
 
 const config = {
-  locatie,
+  ...locatie,
   wat: {
     meta: {
       ifAllOf: {
@@ -11,12 +13,9 @@ const config = {
       shortLabel: 'Soort bedrijf',
       pathMerge: 'extra_properties',
       values: {
-        horecabedrijf:
-          'Horecabedrijf, zoals een café, restaurant, snackbar of kantine',
-        ander_soort_bedrijf:
-          'Ander soort bedrijf, zoals een winkel, supermarkt of sportschool',
-        evenement_festival_markt:
-          'Evenement, zoals een festival, feest of markt',
+        horecabedrijf: 'Horecabedrijf, zoals een café, restaurant, snackbar of kantine',
+        ander_soort_bedrijf: 'Ander soort bedrijf, zoals een winkel, supermarkt of sportschool',
+        evenement_festival_markt: 'Evenement, zoals een festival, feest of markt',
         iets_anders: 'Iets anders',
       },
     },
@@ -46,7 +45,6 @@ const config = {
     options: { validators: ['required'] },
     render: 'TextInput',
   },
-
   muziek_direct_naast: {
     meta: {
       ifAllOf: {
@@ -55,8 +53,7 @@ const config = {
       ifOneOf: {
         wat: ['horecabedrijf', 'ander_soort_bedrijf'],
       },
-      label:
-        'Woont u direct boven of naast het gebouw waar het geluid vandaan komt?',
+      label: 'Woont u direct boven of naast het gebouw waar het geluid vandaan komt?',
       shortLabel: 'Aanpandig',
       pathMerge: 'extra_properties',
       values: {
@@ -68,7 +65,6 @@ const config = {
     },
     render: 'RadioInput',
   },
-
   muziek_ramen_dicht: {
     meta: {
       ifAllOf: {
@@ -77,8 +73,7 @@ const config = {
       ifOneOf: {
         wat: ['horecabedrijf', 'ander_soort_bedrijf'],
       },
-      label:
-        'Hebt u ook last van het geluid als uw ramen en deuren gesloten zijn?',
+      label: 'Hebt u ook last van het geluid als uw ramen en deuren gesloten zijn?',
       shortLabel: 'Overlast met ramen en deuren dicht',
       pathMerge: 'extra_properties',
       values: {
@@ -125,7 +120,6 @@ const config = {
     },
     render: 'RadioInput',
   },
-
   muziek_evenement: {
     meta: {
       ifAllOf: {
@@ -143,7 +137,6 @@ const config = {
     options: { validators: ['required'] },
     render: 'RadioInput',
   },
-
   muziek_evenement_einde: {
     meta: {
       ifAllOf: {
@@ -158,7 +151,6 @@ const config = {
     options: { validators: ['required'] },
     render: 'TextInput',
   },
-
   installaties: {
     meta: {
       ifAllOf: {
@@ -172,7 +164,6 @@ const config = {
     options: { validators: ['required'] },
     render: 'TextInput',
   },
-
   personen: {
     meta: {
       ifAllOf: {
@@ -192,7 +183,6 @@ const config = {
     },
     render: 'CheckboxInput',
   },
-
   terrassen: {
     meta: {
       ifAllOf: {
@@ -203,8 +193,7 @@ const config = {
       values: {
         uitgewaaierd_terras: 'Uitgewaaierd terras (buiten de toegestane grens)',
         doorloop: 'Het terras belemmert de doorloop',
-        stoep_in_beslag:
-          'Terras / terrasbezoekers nemen hele stoep in zodat u via de weg erlangs moet',
+        stoep_in_beslag: 'Terras / terrasbezoekers nemen hele stoep in zodat u via de weg erlangs moet',
         bezoekers_op_straat: 'Bezoekers staan op straat',
         bezoekers_op_terras: 'Bezoekers op terras',
         opruimen_meubels: 'Geluid van opruimen meubels',
@@ -213,7 +202,6 @@ const config = {
     },
     render: 'CheckboxInput',
   },
-
   stank: {
     meta: {
       ifAllOf: {
@@ -226,7 +214,6 @@ const config = {
     },
     render: 'TextInput',
   },
-
   stank_oorzaak: {
     meta: {
       ifAllOf: {
@@ -239,7 +226,6 @@ const config = {
     },
     render: 'TextInput',
   },
-
   stank_weer: {
     meta: {
       ifAllOf: {
@@ -251,14 +237,12 @@ const config = {
     },
     render: 'TextInput',
   },
-
   stank_ramen: {
     meta: {
       ifAllOf: {
         subcategory: 'stankoverlast',
       },
-      label:
-        'Staan de deuren of ramen open van het gebouw waar de geur vandaan komt?',
+      label: 'Staan de deuren of ramen open van het gebouw waar de geur vandaan komt?',
       shortLabel: 'Ramen/deuren open',
       pathMerge: 'extra_properties',
       values: {
@@ -268,7 +252,6 @@ const config = {
     },
     render: 'RadioInput',
   },
-
   vaker: {
     meta: {
       ifAllOf: {
@@ -297,7 +280,6 @@ const config = {
     },
     render: 'TextInput',
   },
-
   muziek_geluidmeting_muziek: {
     meta: {
       ifAllOf: {
@@ -357,8 +339,9 @@ const config = {
         muziek_geluidmeting_overige: 'ja',
       },
       value: 'Let op! Vul uw telefoonnummer in op de volgende pagina',
+      type: 'caution',
     },
-    render: 'Caution',
+    render: 'PlainText',
   },
   muziek_geluidmeting_ja: {
     meta: {
@@ -402,7 +385,6 @@ const config = {
     },
     render: 'TextInput',
   },
-
   caution: {
     meta: {
       ifAllOf: {
@@ -410,9 +392,9 @@ const config = {
       },
       value:
         'Wij geven uw gegevens niet aan de (horeca)ondernemer of organisator.\n\nMeldingen met telefoonnummer en/of e-mailadres pakken wij sneller op dan meldingen zonder telefoonnummer en/of e-mailadres.',
+      type: 'caution',
     },
-    render: 'Caution',
+    render: 'PlainText',
   },
 }
-
-export default config
+export default config as Questions<typeof config>

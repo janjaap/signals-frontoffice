@@ -1,5 +1,4 @@
 import { TileLayer } from '@amsterdam/react-maps'
-import { useDispatch } from 'react-redux'
 import { useMemo, useState, useLayoutEffect, useCallback, useEffect } from 'react'
 import { ViewerContainer } from '@amsterdam/arm-core'
 import { Zoom, Map as MapComponent } from '@amsterdam/arm-core'
@@ -12,9 +11,10 @@ import type Geolocation from 'types/geolocation'
 import GPSButton from '../GPSButton'
 import LocationMarker from '../LocationMarker'
 
-import { showGlobalNotification } from 'app/store/slices/global'
+import { showGlobalNotification } from 'app/store/slices/global/reducer'
 import { TYPE_LOCAL, VARIANT_NOTICE } from 'components/Notification/constants'
 import configuration from 'services/configuration'
+import { useAppDispatch } from 'app/store/store'
 
 const StyledViewerContainer = styled(ViewerContainer)`
   z-index: 400; // this elevation ensures that this container comes on top of the internal leaflet components
@@ -60,7 +60,7 @@ const Map: FC<MapProps> = ({
   mapOptions,
   setInstance,
 }) => {
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
   const [inBrowser, setInBrowser] = useState(false)
   const [mapInstance, setMapInstance] = useState<L.Map>()
   const [geolocation, setGeolocation] = useState<Geolocation>()

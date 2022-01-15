@@ -3,11 +3,10 @@ import { useRouter } from 'next/router'
 import { useCallback, useContext, useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useForm } from 'react-hook-form'
-import styled from 'styled-components'
 
-import type { RootState } from 'app/store/store'
+import type { FieldError } from 'react-hook-form'
+import type { FC } from 'react'
 
-import FormNavigation from '../FormNavigation'
 import PlainText from '../PlainText'
 import TextInput from '../TextInput'
 import RadioInput from '../RadioInput'
@@ -17,25 +16,23 @@ import FormContext from '../../app/incident/context'
 import { determineConfig } from 'services/definition'
 import AddNote from 'components/AddNote'
 import AssetSelectRenderer from 'components/AssetSelect/AssetSelectRenderer'
+import { setExtraProperties } from 'app/store/slices/incident/reducer'
+import { incidentSelector } from 'app/store/slices/incident/selectors'
+import { useAppDispatch } from 'app/store/store'
+import Form from 'components/Form'
 
-const Fieldset = styled.fieldset`
-  display: grid;
-  row-gap: 32px;
-`
-
-const Step2 = () => {
+const Step2: FC = () => {
+  const dispatch = useAppDispatch()
   const router = useRouter()
-  const { address, coordinates, category, subcategory, description, extra_properties } = useSelector(
-    (state: RootState) => state.incident
-  )
+
+  const { canGoNext, goNext } = useContext(FormContext)
+  const { description, extra_properties, category, subcategory } = useSelector(incidentSelector)
   const { control, formState, handleSubmit, getValues } = useForm({
-    defaultValues: extra_properties?.[category],
+    defaultValues: extra_properties,
   })
   const { errors } = formState
 
   const [config, setConfig] = useState(determineConfig({ category, subcategory }))
-
-  const { onSubmit } = useContext(FormContext)
 
   const onOptionChange = useCallback(() => {
     const values = getValues()
@@ -44,15 +41,29 @@ const Step2 = () => {
     setConfig(updatedConfig)
   }, [getValues, category, subcategory])
 
+  const onSubmit = useCallback(
+    (data) => {
+      const { locatie, ...formData } = data
+
+      dispatch(setExtraProperties(formData))
+
+      canGoNext && goNext()
+    },
+    [canGoNext, dispatch, goNext]
+  )
+
   useEffect(() => {
     if (!category) {
       router.replace('/incident/beschrijf')
     }
-  }, [router, category])
+
+    const values = getValues()
+    const updatedConfig = determineConfig({ category, subcategory, ...values })
+    setConfig(updatedConfig)
+  }, [router, category, subcategory, getValues])
 
   if (!config) return null
 
-  console.log(config)
   return (
     <>
       <Head>
@@ -61,8 +72,8 @@ const Step2 = () => {
 
       <h1>2. Locatie en vragen</h1>
 
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <Fieldset>
+      <Form action="" onSubmit={handleSubmit(onSubmit)}>
+        <fieldset>
           <legend>
             Vult u alstublieft de volgende vragen in over &ldquot;{description}
             &rdquot;
@@ -71,11 +82,15 @@ const Step2 = () => {
           <PlainText type="citation" label="Dit hebt u net ingevuld">
             {description}
           </PlainText>
+        </fieldset>
 
+        <fieldset>
           {Object.entries(config).map(([key, { meta, options, render }]) => {
             const { label } = meta
             const required = options?.validators.includes('required')
-            const error = errors[key]?.type === 'required' && 'Dit veld is verplicht'
+            const fieldError = errors[key] as FieldError
+            const error = fieldError?.type === 'required' && 'Dit veld is verplicht'
+            const value = extra_properties?.[key] || ''
             const inputProps = {
               control,
               error,
@@ -85,7 +100,7 @@ const Step2 = () => {
               label,
               options: undefined,
               required,
-              value: extra_properties?.[category]?.[key],
+              value,
             }
 
             if (render === 'RadioInput' || render === 'CheckboxInput') {
@@ -97,37 +112,35 @@ const Step2 = () => {
 
             switch (render) {
               case 'TextInput':
-                return <TextInput {...inputProps} />
+                return <TextInput {...inputProps} value={value as string} />
 
               case 'RadioInput':
-                return <RadioInput {...inputProps} onChange={onOptionChange} />
+                return <RadioInput {...inputProps} value={value as string} onChange={onOptionChange} />
 
               case 'CheckboxInput':
-                return <CheckboxInput {...inputProps} onChange={onOptionChange} />
+                return <CheckboxInput {...inputProps} value={value as string[]} onChange={onOptionChange} />
 
-              case 'Caution':
-                return <PlainText key={key} type="caution" label={meta.value} />
+              case 'PlainText':
+                return <PlainText key={key} type={meta.type} label={meta.value} />
 
-              case 'AddNote':
-                return <AddNote {...inputProps} isStandalone={false} maxContentLength={1000} />
+              case 'TextareaInput':
+                return <AddNote {...inputProps} isStandalone={false} maxContentLength={1000} value={value as string} />
 
               case 'AssetSelect': {
                 const { endpoint, featureTypes, wfsFilter } = config[key].meta
+                const { id, ...props } = inputProps
 
                 return (
                   <AssetSelectRenderer
-                    {...inputProps}
+                    {...props}
+                    id={key}
+                    name={key}
                     error={
-                      errors[key]?.type === 'required' &&
+                      fieldError?.type === 'required' &&
                       'Typ het dichtsbijzijnde adres of klik de locatie aan op de kaart'
                     }
-                    address={address}
-                    coordinates={coordinates}
                     endpoint={endpoint}
                     featureTypes={featureTypes}
-                    key={key}
-                    name={key}
-                    selection={extra_properties?.[key]}
                     wfsFilter={wfsFilter}
                   />
                 )
@@ -137,10 +150,8 @@ const Step2 = () => {
                 return <p key={key}>{key}</p>
             }
           })}
-        </Fieldset>
-
-        <FormNavigation />
-      </form>
+        </fieldset>
+      </Form>
     </>
   )
 }

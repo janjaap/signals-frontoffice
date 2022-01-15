@@ -1,17 +1,17 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import { createSlice } from '@reduxjs/toolkit'
 
 import type { LatLngLiteral } from 'leaflet'
 import type { PayloadAction } from '@reduxjs/toolkit'
-import type { Prediction } from '../../../services/classification'
 import type { Address } from 'types/address'
+import type Location from 'types/location'
 
-import resolveClassification from '../../../services/classification'
+import { createIncident, fetchClassification } from './thunks'
 
-type StrictRecord<KeyT extends PropertyKey, ValueT> = {
-  [Key in KeyT]: Record<string, ValueT>
-}[KeyT]
+// type StrictRecord<KeyT extends PropertyKey, ValueT> = {
+//   [Key in KeyT]: Record<string, ValueT>
+// }[KeyT]
 
-type Category =
+export type Category =
   | 'afval'
   | 'civiele-constructies'
   | 'ondermijning'
@@ -26,27 +26,67 @@ type Category =
   | 'wegen-verkeer-straatmeubilair'
   | 'wonen'
 
-export type ExtraProperties = StrictRecord<Category, any>
+export type ExtraProperties = Record<string, string | number | Array<string | number>>
 
 export type Classification = {
   category: Category
   subcategory: string
 }
 
-export interface IncidentState extends Classification {
+export type RawClassification = {
+  category: {
+    label: Category
+    id: string
+  }
+  subcategory: {
+    label: string
+    id: string
+  }
+}
+
+export interface IncidentState extends RawClassification {
+  id?: number
   address?: Address
   coordinates?: LatLngLiteral
   description: string
-  source: string
-  extra_properties: ExtraProperties
+  files?: ReturnType<typeof URL.createObjectURL>[]
+  source: 'online' | 'app'
+  extra_properties?: ExtraProperties
   phone?: string
   email?: string
   sharing_allowed?: boolean
 }
 
+export type PostRequestData = {
+  category: {
+    sub_category: RawClassification['subcategory']['id']
+  }
+  incident_date_start: string
+  location: Location
+  reporter: Pick<IncidentState, 'phone' | 'email' | 'sharing_allowed'>
+  source?: IncidentState['source']
+  text: IncidentState['description']
+}
+
+export type PostResponseData = {
+  _display: string
+  created_at: string
+  id: number
+  incident_date_end: string | null
+  incident_date_start: string
+  signal_id: string
+  status: {
+    state: 'OPEN' | 'CLOSED'
+    state_display: string
+  }
+  updated_at: string
+}
+
 const initialState: IncidentState = {
+  id: undefined,
   address: undefined,
   coordinates: null,
+  files: [],
   source: 'online',
   description: '',
   category: undefined,
@@ -54,44 +94,18 @@ const initialState: IncidentState = {
   extra_properties: undefined,
 }
 
-const fetchClassification = createAsyncThunk(
-  'category/prediction',
-  async (description: string, { dispatch }) => {
-    const response = await fetch(
-      'https://acc.api.data.amsterdam.nl/signals/category/prediction',
-      {
-        body: JSON.stringify({ text: description }),
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      }
-    )
-
-    const data: Prediction = await response.json()
-    const classification = resolveClassification(data)
-
-    dispatch(setClassification(classification))
-  }
-)
-
-export const incidentSlice = createSlice({
+const incidentSlice = createSlice({
   name: 'incident',
   initialState,
   reducers: {
     setAddress: (state, action: PayloadAction<Address>) => {
       state.address = action.payload
     },
-    setSource: (state, action: PayloadAction<string>) => {
+    setSource: (state, action: PayloadAction<IncidentState['source']>) => {
       state.source = action.payload
     },
     setDescription: (state, action: PayloadAction<string>) => {
       state.description = action.payload
-    },
-    setClassification: (state, action: PayloadAction<Classification>) => {
-      const { category, subcategory } = action.payload
-      state.category = category
-      state.subcategory = subcategory
     },
     setExtraProperties: (state, action: PayloadAction<ExtraProperties>) => {
       state.extra_properties = action.payload
@@ -112,15 +126,27 @@ export const incidentSlice = createSlice({
       state.coordinates = undefined
       state.address = undefined
     },
+    setFiles: (state, action: PayloadAction<IncidentState['files']>) => {
+      state.files = action.payload
+    },
   },
   extraReducers: (builder) => {
-    builder.addCase(fetchClassification.fulfilled, (state, action) => {
-      const {
-        meta: { arg: description },
-      } = action
-      state.description = description
-      state.extra_properties = undefined
-    })
+    builder
+      .addCase(fetchClassification.fulfilled, (state, action) => {
+        const {
+          meta: { arg: description },
+          payload: { category, subcategory },
+        } = action
+
+        state.category = category
+        state.subcategory = subcategory
+        state.description = description
+        state.extra_properties = undefined
+      })
+      .addCase(createIncident.fulfilled, (state, action) => {
+        const { id } = action.payload as PostResponseData
+        state.id = id
+      })
   },
 })
 
@@ -128,15 +154,14 @@ export const incidentSlice = createSlice({
 export const {
   resetLocation,
   setAddress,
-  setClassification,
   setCoordinates,
   setDescription,
   setEmail,
   setExtraProperties,
+  setFiles,
   setPhone,
   setSharingAllowed,
   setSource,
 } = incidentSlice.actions
 
-export { fetchClassification }
 export default incidentSlice.reducer

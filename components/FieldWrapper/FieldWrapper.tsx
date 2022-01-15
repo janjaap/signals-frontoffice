@@ -1,8 +1,7 @@
 import styled, { css } from 'styled-components'
 import { Label, themeColor, Typography, themeSpacing } from '@amsterdam/asc-ui'
 
-import type { Control } from 'react-hook-form'
-import type { ChangeEvent, FC, PropsWithChildren, ReactNode } from 'react'
+import type { FC, PropsWithChildren, ReactNode } from 'react'
 
 const Wrapper = styled.div<{ showError: boolean }>`
   display: flex;
@@ -45,24 +44,20 @@ const NotRequired = styled.span`
 `
 
 export interface FieldWrapperProps {
+  caption?: ReactNode
   error?: string
   hint?: string
   id: string
   label?: ReactNode
-  control?: Control
-  onChange?: (
-    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-    value: string | Array<string>
-  ) => void
   options?: Array<{
     id: string
     label: string
   }>
   required?: boolean
-  value?: string | number | Array<string | number>
 }
 
 const FieldWrapper: FC<PropsWithChildren<FieldWrapperProps>> = ({
+  caption,
   children,
   hint,
   id,
@@ -87,6 +82,7 @@ const FieldWrapper: FC<PropsWithChildren<FieldWrapperProps>> = ({
     {hint && <Hint>{hint}</Hint>}
     {error && <Error>{error}</Error>}
     {children}
+    {caption}
   </Wrapper>
 )
 

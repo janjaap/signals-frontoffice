@@ -1,40 +1,13 @@
-import { useState, useCallback, useRef } from 'react'
+import { useState, useCallback, useRef, useEffect } from 'react'
 import { Column, Row } from '@amsterdam/asc-ui'
 import { Close } from '@amsterdam/asc-assets'
+import { useRouter } from 'next/router'
 
 import type { FunctionComponent } from 'react'
-// import { useHistory } from 'react-router-dom'
-// import {
-//   SITE_HEADER_HEIGHT_SHORT,
-//   SITE_HEADER_HEIGHT_TALL,
-// } from 'containers/SiteHeader/constants'
-
-// import {
-//   ONCLOSE_TIMEOUT,
-//   SLIDEUP_TIMEOUT,
-//   TYPE_GLOBAL,
-//   NOTIFICATION_TYPE_LOCAL,
-//   VARIANT_ERROR,
-//   VARIANT_NOTICE,
-// } from 'containers/Notification/constants'
-// import { getIsAuthenticated } from 'shared/services/auth/auth'
-// import useIsFrontOffice from 'hooks/useIsFrontOffice'
-// import type { Type, Variant } from 'containers/Notification/types'
-
 import type { Type, Variant } from './constants'
 
-import { VARIANT_NOTICE, TYPE_LOCAL } from './constants'
+import { VARIANT_NOTICE, VARIANT_ERROR, TYPE_LOCAL, TYPE_GLOBAL, SLIDEUP_TIMEOUT, ONCLOSE_TIMEOUT } from './constants'
 import { Wrapper, Title, Message, CloseButton } from './styled'
-
-// const SITE_HEADER_HEIGHT_TALL = 116
-// const SITE_HEADER_BOTTOM_GAP_HEIGHT = 44
-
-// const TYPE_GLOBAL = 'global'
-// const NOTIFICATION_TYPE_LOCAL = 'local'
-// const VARIANT_ERROR = 'error'
-// const VARIANT_NOTICE = 'notice'
-// const VARIANT_SUCCESS = 'success'
-const ONCLOSE_TIMEOUT = 200
 
 interface NotificationProps {
   className?: string
@@ -58,70 +31,62 @@ const Notification: FunctionComponent<NotificationProps> = ({
   type = TYPE_LOCAL,
   variant = VARIANT_NOTICE,
 }) => {
+  const router = useRouter()
   const [hasFocus, setHasFocus] = useState(false)
   const [shouldHide, setShouldHide] = useState(false)
-  // const isFrontOffice = useIsFrontOffice()
-  // const tall = isFrontOffice && !getIsAuthenticated()
-  // const history = useHistory()
 
   // persisting timeout IDs across renders
   const onCloseTimeoutRef = useRef<number>()
   const slideUpTimeoutRef = useRef<number>()
 
-  // /**
-  //  * Subscribe to history changes
-  //  * Will reset the notification whenever a navigation action occurs and only when the type of the
-  //  * notifcation is NOTIFICATION_TYPE_LOCAL
-  //  */
-  // useEffect(() => {
-  //   if (type !== NOTIFICATION_TYPE_LOCAL || typeof onClose !== 'function') {
-  //     return undefined
-  //   }
+  /**
+   * Subscribe to history changes
+   * Will reset the notification whenever a navigation action occurs and only when the type of the
+   * notifcation is NOTIFICATION_TYPE_LOCAL
+   */
+  useEffect(() => {
+    if (type !== TYPE_LOCAL || typeof onClose !== 'function') {
+      return undefined
+    }
 
-  //   const unlisten = history.listen(() => {
-  //     onClose()
-  //   })
+    router.events.on('routeChangeStart', onClose)
 
-  //   return () => {
-  //     unlisten()
-  //   }
-  // }, [history, type, title, onClose])
+    return () => {
+      router.events.off('routeChangeStart', onClose)
+    }
+  }, [type, title, onClose, router.events])
 
-  // useEffect(() => {
-  //   if (
-  //     variant === VARIANT_ERROR ||
-  //     type === TYPE_GLOBAL ||
-  //     typeof onClose !== 'function'
-  //   ) {
-  //     return undefined
-  //   }
+  useEffect(() => {
+    if (variant === VARIANT_ERROR || type === TYPE_GLOBAL || typeof onClose !== 'function') {
+      return undefined
+    }
 
-  //   if (hasFocus) {
-  //     window.clearTimeout(onCloseTimeoutRef.current)
-  //     window.clearTimeout(slideUpTimeoutRef.current)
-  //   } else {
-  //     const slideUpTimeoutId = window.setTimeout(() => {
-  //       window.clearTimeout(slideUpTimeoutRef.current)
+    if (hasFocus) {
+      window.clearTimeout(onCloseTimeoutRef.current)
+      window.clearTimeout(slideUpTimeoutRef.current)
+    } else {
+      const slideUpTimeoutId = window.setTimeout(() => {
+        window.clearTimeout(slideUpTimeoutRef.current)
 
-  //       setShouldHide(true)
-  //     }, SLIDEUP_TIMEOUT)
+        setShouldHide(true)
+      }, SLIDEUP_TIMEOUT)
 
-  //     slideUpTimeoutRef.current = slideUpTimeoutId
+      slideUpTimeoutRef.current = slideUpTimeoutId
 
-  //     const onCloseTimeoutId = window.setTimeout(() => {
-  //       window.clearTimeout(onCloseTimeoutRef.current)
+      const onCloseTimeoutId = window.setTimeout(() => {
+        window.clearTimeout(onCloseTimeoutRef.current)
 
-  //       onClose()
-  //     }, ONCLOSE_TIMEOUT + SLIDEUP_TIMEOUT)
+        onClose()
+      }, ONCLOSE_TIMEOUT + SLIDEUP_TIMEOUT)
 
-  //     onCloseTimeoutRef.current = onCloseTimeoutId
-  //   }
+      onCloseTimeoutRef.current = onCloseTimeoutId
+    }
 
-  //   return () => {
-  //     window.clearTimeout(onCloseTimeoutRef.current)
-  //     window.clearTimeout(slideUpTimeoutRef.current)
-  //   }
-  // }, [hasFocus, onClose, type, variant])
+    return () => {
+      window.clearTimeout(onCloseTimeoutRef.current)
+      window.clearTimeout(slideUpTimeoutRef.current)
+    }
+  }, [hasFocus, onClose, type, variant])
 
   const onCloseNotification = useCallback(() => {
     setShouldHide(true)

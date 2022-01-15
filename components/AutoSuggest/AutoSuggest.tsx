@@ -8,7 +8,6 @@ import type { RevGeo } from 'types/pdok/revgeo'
 import SuggestList from './components/SuggestList'
 
 import Input from 'components/Input'
-import useFetch from 'hooks/useFetch'
 import useDebounce from 'hooks/useDebounce'
 
 export const INPUT_DELAY = 350
@@ -71,7 +70,7 @@ const AutoSuggest: FC<AutoSuggestProps> = ({
   value,
   ...rest
 }) => {
-  const { get, data } = useFetch<RevGeo>()
+  const [data, setData] = useState<RevGeo>()
   const [initialRender, setInitialRender] = useState(false)
   const [showList, setShowList] = useState(false)
   const [activeIndex, setActiveIndex] = useState(-1)
@@ -166,17 +165,20 @@ const AutoSuggest: FC<AutoSuggestProps> = ({
   )
 
   const handleFocusOut = useCallback((event) => {
-    if (wrapperRef.current && wrapperRef.current.contains(event.relatedTarget))
-      return
+    if (wrapperRef.current && wrapperRef.current.contains(event.relatedTarget)) return
 
     setActiveIndex(-1)
     setShowList(false)
   }, [])
 
   const serviceRequest = useCallback(
-    (inputValue) => {
+    async (inputValue) => {
       if (inputValue.length >= 3) {
-        get(`${url}${encodeURIComponent(inputValue)}`)
+        const response = await fetch(`${url}${encodeURIComponent(inputValue)}`).then((jsonResponse) =>
+          jsonResponse.json()
+        )
+
+        setData(response)
       } else {
         setShowList(false)
 
@@ -185,7 +187,7 @@ const AutoSuggest: FC<AutoSuggestProps> = ({
         }
       }
     },
-    [get, onClear, url]
+    [onClear, url]
   )
 
   const debouncedServiceRequest = useDebounce(serviceRequest, INPUT_DELAY)
@@ -270,12 +272,7 @@ const AutoSuggest: FC<AutoSuggestProps> = ({
 
   return (
     <Wrapper className={className} ref={wrapperRef} data-testid="autoSuggest">
-      <div
-        aria-controls="as-listbox"
-        aria-expanded={showList}
-        aria-haspopup="listbox"
-        role="combobox"
-      >
+      <div aria-controls="as-listbox" aria-expanded={showList} aria-haspopup="listbox" role="combobox">
         <StyledInput
           aria-activedescendant={activeId.toString()}
           aria-autocomplete="list"

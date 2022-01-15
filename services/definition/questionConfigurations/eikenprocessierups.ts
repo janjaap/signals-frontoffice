@@ -1,5 +1,7 @@
 import type { PointTuple } from 'leaflet'
 
+import type { Questions } from '..'
+
 const ICON_SIZE = 40
 const options = {
   className: 'object-marker',
@@ -9,9 +11,6 @@ const options = {
 const config = {
   eikenprocessierups: {
     meta: {
-      ifAllOf: {
-        subcategory: 'eikenprocessierups',
-      },
       label: 'Waar is het?',
       language: {
         title: 'Locatie',
@@ -98,16 +97,11 @@ const config = {
       ],
       extraProperties: ['GlobalID'],
     },
-    options: {
-      // validators: [validateObjectLocation('boom')],
-    },
+    options: { validators: ['required'] },
     render: 'CaterpillarSelect',
   },
   nest_grootte: {
     meta: {
-      ifAllOf: {
-        subcategory: 'eikenprocessierups',
-      },
       label: 'Wat hebt u op de boom gezien?',
       shortLabel: 'Op de boom gezien',
       pathMerge: 'extra_properties',
@@ -123,4 +117,4 @@ const config = {
   },
 }
 
-export default config
+export default config as Questions<typeof config>

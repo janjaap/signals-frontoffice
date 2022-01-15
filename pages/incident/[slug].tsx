@@ -3,7 +3,6 @@ import { useCallback, useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 
 import type { ReactElement } from 'react'
-import type { RootState } from 'app/store/store'
 
 import Beschrijf from 'components/IncidentForm/Step1'
 import VulAan from 'components/IncidentForm/Step2'
@@ -11,17 +10,17 @@ import Contact from 'components/IncidentForm/Step3'
 import Versturen from 'components/IncidentForm/Step4'
 
 import FormContext from 'app/incident/context'
+import { loadingSelector } from 'app/store/slices/global/selectors'
 
 const steps: Record<string, ReactElement> = {
   beschrijf: <Beschrijf />,
   vulaan: <VulAan />,
   contact: <Contact />,
   versturen: <Versturen />,
-  bedankt: <span>Bedankt!!!1!</span>,
 }
 
 const Page = () => {
-  const { loading } = useSelector((state: RootState) => state.global)
+  const loading = useSelector(loadingSelector)
   const [Step, setStep] = useState<ReactElement>(<Beschrijf />)
   const router = useRouter()
 
@@ -51,10 +50,6 @@ const Page = () => {
     pushNewEntry(index)
   }, [pushNewEntry, slug])
 
-  const onSubmit = useCallback(() => {
-    canGoNext && goNext()
-  }, [canGoNext, goNext])
-
   useEffect(() => {
     if (Step !== steps[slug]) {
       setStep(steps[slug])
@@ -66,8 +61,8 @@ const Page = () => {
       value={{
         canGoNext,
         canGoPrevious,
+        goNext,
         goPrevious,
-        onSubmit,
         loading,
       }}
     >

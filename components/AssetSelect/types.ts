@@ -1,9 +1,10 @@
 import type { Feature as GeoJSONFeature, Point } from 'geojson'
 import type { BaseIconOptions, LatLngLiteral } from 'leaflet'
 import type { Address } from 'types/address'
-import type { Classification } from 'app/store/slices/incident'
-import type { UNREGISTERED_TYPE } from './constants'
+import type { Classification } from 'app/store/slices/incident/reducer'
 import type { MouseEvent, KeyboardEvent } from 'react'
+import type { PlainTextType } from 'components/PlainText'
+import type { UNREGISTERED_TYPE } from './constants'
 
 type Icon = {
   id: string
@@ -11,12 +12,12 @@ type Icon = {
 }
 
 export interface Item extends Record<string, unknown> {
-  location: {
+  location?: {
     address?: Address
     coordinates?: LatLngLiteral
   }
   description?: string
-  id: string | number
+  id?: string | number
   isReported?: boolean
   type?: typeof UNREGISTERED_TYPE | string
 }
@@ -45,14 +46,12 @@ export interface Options {
   iconSize: number[]
 }
 
-export type RecordValue = Array<string | number> | string | number
+export type RecordValue = string | number | Array<string | number>
 
 export interface RenderCondition {
   category?: Classification['category']
-  subcategory?:
-    | Classification['subcategory']
-    | Array<Classification['subcategory']>
-  [key: string]: RecordValue
+  subcategory?: Classification['subcategory'] | Array<Classification['subcategory']>
+  [key: string]: RecordValue | RenderCondition
 }
 
 export interface Meta extends Record<string, unknown> {
@@ -68,6 +67,7 @@ export interface Meta extends Record<string, unknown> {
   pathMerge?: string
   shortLabel?: string
   subTitle?: string
+  type?: PlainTextType
   value?: string
   values?: Record<string, string>
   wfsFilter?: string
@@ -77,9 +77,7 @@ export type FeatureProps = Record<string, string | number | undefined>
 export type Feature = GeoJSONFeature<Point, FeatureProps>
 
 export type EventHandler = (
-  event:
-    | MouseEvent<HTMLButtonElement | HTMLAnchorElement>
-    | KeyboardEvent<HTMLButtonElement | HTMLAnchorElement>
+  event: MouseEvent<HTMLButtonElement | HTMLAnchorElement> | KeyboardEvent<HTMLButtonElement | HTMLAnchorElement>
 ) => void
 
 export interface BaseItem {

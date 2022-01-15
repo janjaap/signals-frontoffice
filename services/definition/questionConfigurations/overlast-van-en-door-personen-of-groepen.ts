@@ -1,8 +1,10 @@
+import type { Questions } from '..'
+
 import locatie from './locatie'
 
-export const overlastPersonenEnGroepen = {
-  locatie,
-  extra_drugs_verkoop: {
+const config = {
+  ...locatie,
+  drugs_verkoop: {
     meta: {
       ifAllOf: {
         category: 'overlast-van-en-door-personen-of-groepen',
@@ -15,7 +17,7 @@ export const overlastPersonenEnGroepen = {
       },
       label: 'Denkt u dat er drugs worden verkocht?',
       shortLabel: 'Verkoop drugs',
-      pathMerge: 'extra_properties',
+      pathMerge: 'properties',
       values: {
         ja: 'Ja, ik denk dat er drugs worden verkocht',
         nee: 'Nee, ik denk dat er geen drugs worden verkocht',
@@ -26,10 +28,10 @@ export const overlastPersonenEnGroepen = {
     },
     render: 'RadioInput',
   },
-  extra_drugs_verkoop_ja: {
+  drugs_verkoop_ja: {
     meta: {
       ifAllOf: {
-        extra_drugs_verkoop: 'ja',
+        drugs_verkoop: 'ja',
       },
       type: 'info',
       value:
@@ -37,7 +39,7 @@ export const overlastPersonenEnGroepen = {
     },
     render: 'PlainText',
   },
-  extra_jongeren_text: {
+  jongeren_text: {
     meta: {
       ifAllOf: {
         category: 'overlast-van-en-door-personen-of-groepen',
@@ -49,14 +51,14 @@ export const overlastPersonenEnGroepen = {
     },
     render: 'PlainText',
   },
-  extra_personen_overig: {
+  personen_overig: {
     meta: {
       ifAllOf: {
         category: 'overlast-van-en-door-personen-of-groepen',
       },
       label: 'Om hoeveel personen gaat het (ongeveer)?',
       shortLabel: 'Aantal personen',
-      pathMerge: 'extra_properties',
+      pathMerge: 'properties',
       values: {
         '1-3': '1, 2 of 3',
         '4-6': '4, 5 of 6',
@@ -69,14 +71,14 @@ export const overlastPersonenEnGroepen = {
     },
     render: 'RadioInput',
   },
-  extra_personen_overig_vaker: {
+  personen_overig_vaker: {
     meta: {
       ifAllOf: {
         category: 'overlast-van-en-door-personen-of-groepen',
       },
       label: 'Gebeurt het vaker?',
       shortLabel: 'Vaker',
-      pathMerge: 'extra_properties',
+      pathMerge: 'properties',
       values: {
         nee: 'Nee',
         ja: 'Ja, het gebeurt vaker',
@@ -87,13 +89,13 @@ export const overlastPersonenEnGroepen = {
     },
     render: 'RadioInput',
   },
-  extra_personen_overig_vaker_momenten: {
+  personen_overig_vaker_momenten: {
     meta: {
       label: 'Wanneer gebeurt het?',
       shortLabel: 'Momenten',
-      pathMerge: 'extra_properties',
+      pathMerge: 'properties',
       ifAllOf: {
-        extra_personen_overig_vaker: 'ja',
+        personen_overig_vaker: 'ja',
         category: 'overlast-van-en-door-personen-of-groepen',
       },
     },
@@ -104,4 +106,4 @@ export const overlastPersonenEnGroepen = {
   },
 }
 
-export default overlastPersonenEnGroepen
+export default config as Questions<typeof config>

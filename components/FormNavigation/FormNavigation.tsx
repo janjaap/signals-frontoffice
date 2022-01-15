@@ -1,15 +1,21 @@
 import { useContext } from 'react'
 import styled from 'styled-components'
+import { themeColor } from '@amsterdam/asc-ui'
 
 import type { FC } from 'react'
 
-import Button from '../Button'
 import FormContext from '../../app/incident/context'
+
+import PreviousButton from 'components/PreviousButton'
+import NextButton from 'components/NextButton'
 
 const Wrapper = styled.fieldset`
   display: flex;
   justify-content: space-between;
-  align-items: baseline;
+  height: 64px;
+  background-color: ${themeColor('tint', 'level3')};
+  padding: 0 16px;
+  margin-top: 28px;
 `
 
 interface FormNavigationProps {
@@ -23,19 +29,9 @@ const FormNavigation: FC<FormNavigationProps> = ({ isLast }) => {
     <Wrapper>
       <legend>Ga naar de vorige of volgende stap in het proces</legend>
 
-      {canGoPrevious ? (
-        <Button type="button" variant="textButton" onClick={goPrevious}>
-          Vorige
-        </Button>
-      ) : (
-        <span />
-      )}
+      {canGoPrevious ? <PreviousButton onClick={goPrevious}>Vorige</PreviousButton> : <span />}
 
-      {(canGoNext || isLast) && (
-        <Button type="submit" variant="secondary" taskflow disabled={loading}>
-          {isLast ? 'Verstuur' : 'Volgende'}
-        </Button>
-      )}
+      {(canGoNext || isLast) && <NextButton disabled={loading}>{isLast ? 'Verstuur' : 'Volgende'}</NextButton>}
     </Wrapper>
   )
 }

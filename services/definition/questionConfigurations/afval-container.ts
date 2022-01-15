@@ -140,4 +140,4 @@ const config = {
   },
 }
 
-export default config as Questions
+export default config as Questions<typeof config>

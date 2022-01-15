@@ -2,7 +2,7 @@ import { forwardRef, useCallback, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { themeSpacing } from '@amsterdam/asc-ui'
 
-import type { SyntheticEvent, ChangeEvent, ReactNode , MutableRefObject} from 'react'
+import type { SyntheticEvent, ChangeEvent, ReactNode, MutableRefObject } from 'react'
 import type { FieldWrapperProps } from 'components/FieldWrapper'
 
 import Button from '../Button'
@@ -19,7 +19,7 @@ interface AddNoteProps extends FieldWrapperProps {
   onChange?: (event: ChangeEvent<HTMLTextAreaElement>, value?: string) => void
   onSubmit?: (event: SyntheticEvent<HTMLInputElement>, value?: string | null) => boolean
   rows?: number
-  value?: string
+  value?: string | number
 }
 
 const Section = styled.section`
@@ -79,7 +79,7 @@ const AddNote = forwardRef<HTMLTextAreaElement, AddNoteProps>(
     )
 
     useEffect(() => {
-      if (!showForm || !ref.current || !isStandalone) return
+      if (!showForm || !ref?.current || !isStandalone) return
 
       ref.current.focus()
     }, [isStandalone, ref, showForm, name])
@@ -88,10 +88,10 @@ const AddNote = forwardRef<HTMLTextAreaElement, AddNoteProps>(
       return (
         <Section data-testid="addNote">
           <Button
-            type="button"
-            variant="application"
             data-testid="addNoteNewNoteButton"
             onClick={() => setShowForm(true)}
+            type="button"
+            variant="application"
           >
             Notitie toevoegen
           </Button>
@@ -101,11 +101,11 @@ const AddNote = forwardRef<HTMLTextAreaElement, AddNoteProps>(
 
     return (
       <Section className={className} data-testid="addNote">
-        <Label htmlFor="addNoteText">{label}</Label>
+        <Label htmlFor={name}>{label}</Label>
         <TextArea
           data-testid="addNoteText"
           errorMessage={error}
-          id="addNoteText"
+          id={name}
           maxContentLength={maxContentLength}
           name={name}
           onChange={(event: ChangeEvent<HTMLTextAreaElement>) => {

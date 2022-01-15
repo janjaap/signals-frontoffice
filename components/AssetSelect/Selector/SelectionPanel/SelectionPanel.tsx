@@ -45,14 +45,14 @@ const SelectionPanel: FC<SelectionPanelProps> = ({
   featureTypes,
   language = {},
 }) => {
-  const { selection, removeItem, setItem, close } =
+  const { selectedObject, removeItem, setItem, close } =
     useContext(AssetSelectContext)
 
   const selectionOnMap =
-    selection && selection.type !== UNREGISTERED_TYPE ? selection : undefined
+    selectedObject && selectedObject.type !== UNREGISTERED_TYPE ? selectedObject : undefined
 
   const unregisteredAsset =
-    selection && selection.type === UNREGISTERED_TYPE ? selection : undefined
+    selectedObject && selectedObject.type === UNREGISTERED_TYPE ? selectedObject : undefined
 
   const [showObjectIdInput, setShowObjectIdInput] = useState(
     unregisteredAsset !== undefined
@@ -118,15 +118,15 @@ const SelectionPanel: FC<SelectionPanelProps> = ({
         ) : null}
       </Paragraph>
 
-      {selection && selectionOnMap && (
+      {selectedObject && selectionOnMap && (
         <StyledAssetList
-          selection={selection}
+          selectedObject={selectedObject}
           onRemove={removeItem}
           featureTypes={featureTypes}
         />
       )}
 
-      {featureTypes.length > 0 && (!selection || unregisteredAsset) && (
+      {featureTypes.length > 0 && (!selectedObject || unregisteredAsset) && (
         <div data-testid="unregisteredObjectPanel">
           <Checkbox
             id="unregisteredAssetCheckbox"
@@ -161,7 +161,7 @@ const SelectionPanel: FC<SelectionPanelProps> = ({
         </div>
       )}
 
-      {selection && (
+      {selectedObject && (
         <StyledButton onClick={close} variant="primary">
           {language.submit || 'Meld dit object'}
         </StyledButton>

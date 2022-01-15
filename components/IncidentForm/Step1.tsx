@@ -1,56 +1,73 @@
 import Head from 'next/head'
-import { useCallback, useContext, useMemo } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import { useCallback, useContext, useEffect, useRef } from 'react'
+import { useSelector } from 'react-redux'
 import { useForm } from 'react-hook-form'
 
-import type { BaseSyntheticEvent, FC } from 'react'
-import type { RootState } from 'app/store/store'
+import type { FC } from 'react'
+import type { IncidentState } from 'app/store/slices/incident/reducer'
 
-import AddNote from 'components/AddNote'
-import FormNavigation from 'components/FormNavigation'
-import { fetchClassification } from 'app/store/slices/incident'
+import AddNote from '../AddNote'
+import FileInput from '../FileInput'
+
+import { setFiles } from 'app/store/slices/incident/reducer'
+import { fetchClassification } from 'app/store/slices/incident/thunks'
 import FormContext from 'app/incident/context'
+import { incidentSelector } from 'app/store/slices/incident/selectors'
+import { loadingSelector } from 'app/store/slices/global/selectors'
+import { useAppDispatch } from 'app/store/store'
+import { showGlobalNotification } from 'app/store/slices/global/reducer'
+import { TYPE_LOCAL, VARIANT_NOTICE } from 'components/Notification/constants'
+import Form from 'components/Form'
 
-type FormData = {
-  source: string
-  description: string
-}
+export type FormData = Pick<IncidentState, 'source' | 'description'> & { files: File[] }
 
 const Step1: FC = () => {
+  const { source, description, files: attachments } = useSelector(incidentSelector)
   const {
+    control,
     formState: { errors },
     handleSubmit,
     register,
-  } = useForm<FormData>()
-  const dispatch = useDispatch()
-  const { onSubmit } = useContext(FormContext)
-  const { description } = useSelector((state: RootState) => state.incident)
+    trigger,
+  } = useForm<FormData>({
+    shouldUnregister: true,
+    defaultValues: { source, description },
+  })
+  const dispatch = useAppDispatch()
+  const { canGoNext, goNext } = useContext(FormContext)
+  const loading = useSelector(loadingSelector)
+  const activeElement = useRef<HTMLElement>(null)
   const maxLength = 1000
 
-  const onBlur = useCallback(
-    (event: BaseSyntheticEvent<FocusEvent, HTMLTextAreaElement>) => {
-      const { value } = event.currentTarget
-      const trimmed = value.trim()
+  const onSubmit = useCallback(
+    async ({ description, files }: FormData) => {
+      if (files?.length) {
+        const objectURLs = files.map((file: File) => window.URL.createObjectURL(file))
+        dispatch(setFiles(objectURLs))
+      }
 
-      if (!trimmed) return
+      const trimmed = description.trim()
 
-      dispatch(fetchClassification(trimmed))
+      await dispatch(fetchClassification(trimmed)).unwrap()
+
+      canGoNext && goNext()
     },
-    [dispatch]
+    [canGoNext, dispatch, goNext]
   )
 
-  const descriptionError = useMemo(() => {
-    switch (errors.description?.type) {
-      case 'maxLength':
-        return `U heeft meer dan de maximale ${maxLength} tekens ingevoerd`;
+  useEffect(() => {
+    if (!activeElement.current || loading) return
 
-      case 'required':
-        return 'Dit veld is verplicht'
+    activeElement.current.focus()
+  }, [loading])
 
-      default:
-        return undefined
-    }
-  }, [errors.description])
+  useEffect(() => {
+    dispatch(showGlobalNotification({
+      title: 'Loading...',
+      variant: VARIANT_NOTICE,
+      type: TYPE_LOCAL,
+    }))
+  }, [dispatch])
 
   return (
     <>
@@ -60,30 +77,46 @@ const Step1: FC = () => {
 
       <h1>1. Beschrijf uw melding</h1>
 
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <Form action="" onSubmit={handleSubmit(onSubmit)}>
         <fieldset>
           <legend>Geef een korte beschrijving van wat u wilt melden</legend>
 
           <input type="hidden" {...register('source', { value: 'online' })} />
 
           <AddNote
-            error={descriptionError}
+            error={errors.description?.message}
             id="description"
             isStandalone={false}
             label="Waar gaat het om?"
             maxContentLength={maxLength}
             value={description}
             {...register('description', {
-              required: true,
-              onBlur,
+              required: 'Dit veld is verplicht',
               value: description,
-              maxLength,
+              maxLength: {
+                value: maxLength,
+                message: `U heeft meer dan de maximale ${maxLength} tekens ingevoerd`,
+              },
+              validate: (value) => {
+                if (value.trim().length === 0) return 'Vul een beschrijving in'
+              },
             })}
           />
         </fieldset>
 
-        <FormNavigation />
-      </form>
+        <fieldset>
+          <FileInput
+            control={control}
+            error={errors?.files?.map((message) => message).join(', ')}
+            files={attachments}
+            hint="Voeg een foto toe om de situatie te verduidelijken"
+            id="files"
+            label="Foto's toevoegen"
+            name="files"
+            trigger={trigger}
+          />
+        </fieldset>
+      </Form>
     </>
   )
 }

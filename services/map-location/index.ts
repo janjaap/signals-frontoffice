@@ -1,12 +1,12 @@
 export {
-  featureTolocation,
+  coordinatesToAPIfeature,
+  coordinatesTofeature,
+  featureToCoordinates,
   formatMapLocation,
   formatPDOKResponse,
-  locationToAPIfeature,
-  locationTofeature,
   pdokResponseFieldList,
   pointWithinBounds,
   serviceResultToAddress,
-  wktPointToLocation,
+  wktPointToCoordinates,
 } from './map-location'
 export type { PdokResponse } from './map-location'

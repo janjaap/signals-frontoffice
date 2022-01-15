@@ -1,16 +1,16 @@
 import { configureStore } from '@reduxjs/toolkit'
+import { useDispatch } from 'react-redux'
 
-import globalReducer from './slices/global'
-import incidentReducer from './slices/incident'
-// import { api as predictionApi } from '../../services/api/prediction'
+import globalReducer from './slices/global/reducer'
+import incidentReducer from './slices/incident/reducer'
+import termsReducer from './slices/terms/reducer'
 
 export const store = configureStore({
   reducer: {
     global: globalReducer,
     incident: incidentReducer,
-    // [predictionApi.reducerPath]: predictionApi.reducer,
+    terms: termsReducer,
   },
-  // middleware: (gDM) => gDM().concat(predictionApi.middleware),
 })
 
 // Infer the `RootState` and `AppDispatch` types from the store itself
@@ -18,3 +18,4 @@ export type RootState = ReturnType<typeof store.getState>
 
 // Inferred type: {posts: PostsState, comments: CommentsState, users: UsersState}
 export type AppDispatch = typeof store.dispatch
+export const useAppDispatch = () => useDispatch<AppDispatch>()

@@ -3,14 +3,11 @@ import { Marker } from '@amsterdam/arm-core'
 import reportedIconUrl from 'public/icon-reported-marker.svg'
 
 import type { FC } from 'react'
-import type {
-  Feature,
-  FeatureType,
-} from '../../../types'
+import type { Feature, FeatureType } from '../../../types'
 
 import type { Geometrie } from 'types/incident'
 
-import { featureTolocation } from 'services/map-location'
+import { featureToCoordinates } from 'services/map-location'
 import './reportedLayer.module.css'
 
 const REPORTED_CLASS_MODIFIER = 'marker-reported'
@@ -20,13 +17,10 @@ export interface ReportedLayerProps {
   reportedFeatureType: FeatureType
 }
 
-const ReportedLayer: FC<ReportedLayerProps> = ({
-  reportedFeatures,
-  reportedFeatureType,
-}) => {
+const ReportedLayer: FC<ReportedLayerProps> = ({ reportedFeatures, reportedFeatureType }) => {
   const getMarker = (feat: any, index: number) => {
     const feature = feat as Feature
-    const latLng = featureTolocation(feature?.geometry as Geometrie)
+    const latLng = featureToCoordinates(feature?.geometry as Geometrie)
 
     if (!feature || !reportedFeatureType) return
 

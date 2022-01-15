@@ -1,6 +1,6 @@
 import Head from 'next/head'
 import { useCallback, useContext, useEffect } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { useForm } from 'react-hook-form'
 import {
   OrderedList,
@@ -13,19 +13,18 @@ import {
 import styled from 'styled-components'
 import { useRouter } from 'next/router'
 
-import type { RootState } from 'app/store/store'
-
 import FormNavigation from '../FormNavigation'
 
-import FormContext from 'app/incident/context'
 import SummarySection from 'components/SummarySection'
 import formatAddress from 'services/format-address'
 import MapStatic from 'components/MapStatic'
-
-type FormData = {
-  source: string
-  description: string
-}
+import { UNREGISTERED_TYPE } from 'components/AssetSelect/constants'
+import { mappedValues } from 'services/definition/definition'
+import { createIncident } from 'app/store/slices/incident/thunks'
+import { incidentSelector } from 'app/store/slices/incident/selectors'
+import { selectedObjectSelector } from 'app/store/slices/global/selectors'
+import FormContext from 'app/incident/context'
+import { useAppDispatch } from 'app/store/store'
 
 const List = styled(OrderedList)`
   & > li {
@@ -61,25 +60,33 @@ const StyledDescriptionList = styled(DescriptionList)`
   }
 
   dt {
-    font-weight: 700;
+    font-weight: 500;
     color: inherit;
   }
 `
 
 const Step4 = () => {
+  const dispatch = useAppDispatch()
   const router = useRouter()
-  const {
-    // formState: { errors },
-    handleSubmit,
-    // register,
-  } = useForm<FormData>()
-  const { category, address, coordinates, extra_properties, description, phone, email, sharing_allowed } = useSelector(
-    (state: RootState) => state.incident
-  )
-  const extraCategory = Object.keys(extra_properties).reduce((_, val) => val, '')
-  const extraType = extra_properties[extraCategory].type.toLowerCase()
+  const { handleSubmit } = useForm<FormData>()
+  const { category, subcategory, address, coordinates, extra_properties, description, phone, email, sharing_allowed } =
+    useSelector(incidentSelector)
+  const selectedObject = useSelector(selectedObjectSelector)
+  const mappedStateValues = mappedValues({ category, subcategory, extra_properties })
+
+  const extraCategory = Object.keys(extra_properties || {}).reduce((_, val) => val, '')
+  const selectedObjectType = selectedObject?.type?.toLowerCase()
   const hasContactDetails = phone || email || sharing_allowed
-  const { onSubmit } = useContext(FormContext)
+  const iconSrc =
+    selectedObjectType === UNREGISTERED_TYPE ? '/icon-select-marker.svg' : `/${extraCategory}/${selectedObjectType}.svg`
+
+  const { canGoNext, goNext } = useContext(FormContext)
+
+  const onSubmit = useCallback(async () => {
+    await dispatch(createIncident()).unwrap()
+
+    canGoNext && goNext()
+  }, [canGoNext, dispatch, goNext])
 
   useEffect(() => {
     if (!category) {
@@ -108,16 +115,30 @@ const Step4 = () => {
               </DescriptionListItem>
 
               <DescriptionListItem term="">
-                <MapStatic width={650} coordinates={coordinates} iconSrc={`/${extraCategory}/${extraType}.svg`} />
+                <MapStatic width={650} coordinates={coordinates} iconSrc={iconSrc} />
               </DescriptionListItem>
 
               <DescriptionListItem term="Uw melding gaat over">{description}</DescriptionListItem>
             </StyledDescriptionList>
           </StyledListItem>
 
-          <StyledListItem>
-            <SummarySection href="/incident/vulaan" link="Wijzig aanvullende informatie" heading="Locatie en vragen" />
-          </StyledListItem>
+          {mappedStateValues && (
+            <StyledListItem>
+              <SummarySection
+                href="/incident/vulaan"
+                link="Wijzig aanvullende informatie"
+                heading="Locatie en vragen"
+              />
+
+              <StyledDescriptionList>
+                {mappedStateValues.map(({ label, value }) => (
+                  <DescriptionListItem key={label} term={label}>
+                    {Array.isArray(value) ? value.map((val) => <div key={val}>- {val}</div>) : value}
+                  </DescriptionListItem>
+                ))}
+              </StyledDescriptionList>
+            </StyledListItem>
+          )}
 
           {hasContactDetails && (
             <StyledListItem>

@@ -28,9 +28,9 @@ const StyledMapStatic = styled(MapStatic)`
 `
 
 const Summary: FC = () => {
-  const { address, coordinates, selection, edit, featureTypes } =
+  const { address, coordinates, selectedObject, edit, featureTypes } =
     useContext(AssetSelectContext)
-  const { id, type } = selection || {}
+  const { id, type } = selectedObject || {}
   const { description } =
     featureTypes.find(({ typeValue }) => typeValue === type) ?? {}
 
@@ -39,16 +39,16 @@ const Summary: FC = () => {
   if (address) summaryAddress = formatAddress(address)
 
   const iconSrc = useMemo(() => {
-    if (!selection?.type || selection.type === 'not-on-map') {
+    if (!selectedObject?.type || selectedObject.type === 'not-on-map') {
       return undefined
     }
 
     const featureType = featureTypes.find(
-      ({ typeValue }) => typeValue === selection.type
+      ({ typeValue }) => typeValue === selectedObject.type
     )
 
     return featureType && featureType.icon.iconUrl
-  }, [selection?.type, featureTypes])
+  }, [selectedObject?.type, featureTypes])
 
   const onKeyUp = useCallback(
     (event: KeyboardEvent<HTMLAnchorElement>) => {
@@ -70,7 +70,7 @@ const Summary: FC = () => {
         />
       )}
 
-      {selection && (
+      {selectedObject && (
         <div data-testid="assetSelectSummaryDescription">
           {summaryDescription}
         </div>
