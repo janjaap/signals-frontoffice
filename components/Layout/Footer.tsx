@@ -1,5 +1,7 @@
-import { FooterBottom, FooterTop, Link } from '@amsterdam/asc-ui'
+import { FooterBottom, FooterTop, Link as AscLink } from '@amsterdam/asc-ui'
 import styled from 'styled-components'
+
+import { ChevronRight } from '@amsterdam/asc-assets'
 
 import type { FC } from 'react'
 
@@ -28,22 +30,27 @@ const FooterContainer = styled.div`
   width: 100%;
 `
 
+const Link = styled(AscLink)`
+  display: flex;
+  align-items: center;
+`
+
 const LayoutFooter: FC = () => (
   <FooterContainer>
     <footer>
       <StyledFooterTop data-testid="siteFooter" />
       <StyledFooterBottom>
-        <Link href="https://www.amsterdam.nl/overdezesite/" inList>
-          Over deze site
+        <Link href="https://www.amsterdam.nl/overdezesite/">
+          <ChevronRight width={12} height={12} />
+          &nbsp;Over deze site
         </Link>
-        <Link
-          href="https://www.amsterdam.nl/privacy/specifieke/privacyverklaringen-wonen/meldingen-overlast-privacy/"
-          inList
-        >
-          Privacy
+        <Link href="https://www.amsterdam.nl/privacy/specifieke/privacyverklaringen-wonen/meldingen-overlast-privacy/">
+          <ChevronRight width={12} height={12} />
+          &nbsp;Privacy
         </Link>
-        <Link href="https://acc.meldingen.amsterdam.nl/toegankelijkheidsverklaring" inList>
-          Toegankelijkheid
+        <Link href="https://acc.meldingen.amsterdam.nl/toegankelijkheidsverklaring">
+          <ChevronRight width={12} height={12} />
+          &nbsp;Toegankelijkheid
         </Link>
       </StyledFooterBottom>
     </footer>
