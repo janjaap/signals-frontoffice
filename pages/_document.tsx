@@ -11,6 +11,8 @@ const AppDocument = () => (
         rel="preload"
         href="https://static.amsterdam.nl/fonts/fonts.css"
         as="style"
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
         onLoad="this.onload=null;this.rel='stylesheet'"
       ></link>
       <link
@@ -18,6 +20,8 @@ const AppDocument = () => (
         href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
         integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
         crossOrigin=""
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
         onLoad="this.onload=null;this.rel='stylesheet'"
       />
     </Head>
