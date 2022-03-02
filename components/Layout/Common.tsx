@@ -5,13 +5,14 @@ import type { FC } from 'react'
 
 import Logo from '../Logo'
 import Footer from './Footer'
+import './common.module.css'
 
 const ContentWrapper = styled.div`
-  background: white;
-  max-width: 1400px;
-  margin: 0 auto;
-  width: 100%;
+  background-color: white;
   height: 100%;
+  margin: 0 auto;
+  max-width: var(--max-content-container-width);
+  width: 100%;
 `
 
 const Container = styled.div`

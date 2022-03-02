@@ -1,16 +1,17 @@
 import { useRouter } from 'next/router'
 import { useCallback, useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
+import dynamic from 'next/dynamic'
 
 import type { ReactElement } from 'react'
 
 import Beschrijf from 'components/IncidentForm/Step1'
-import VulAan from 'components/IncidentForm/Step2'
-import Contact from 'components/IncidentForm/Step3'
-import Versturen from 'components/IncidentForm/Step4'
-
 import FormContext from 'app/incident/context'
 import { loadingSelector } from 'app/store/slices/global/selectors'
+
+const VulAan = dynamic(() => import('components/IncidentForm/Step2'))
+const Contact = dynamic(() => import('components/IncidentForm/Step3'))
+const Versturen = dynamic(() => import('components/IncidentForm/Step4'))
 
 const steps: Record<string, ReactElement> = {
   beschrijf: <Beschrijf />,

@@ -9,7 +9,6 @@ import FormLayout from '../components/Layout/Form'
 import { store } from '../app/store/store'
 
 import '../styles/global.css'
-import 'leaflet.markercluster/dist/MarkerCluster.Default.css'
 
 interface CustomAppProps {
   Component: any

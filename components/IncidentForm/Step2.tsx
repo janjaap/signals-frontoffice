@@ -21,6 +21,8 @@ import { incidentSelector } from 'app/store/slices/incident/selectors'
 import { useAppDispatch } from 'app/store/store'
 import Form from 'components/Form'
 
+import 'leaflet.markercluster/dist/MarkerCluster.Default.css'
+
 const Step2: FC = () => {
   const dispatch = useAppDispatch()
   const router = useRouter()
@@ -68,6 +70,12 @@ const Step2: FC = () => {
     <>
       <Head>
         <title>Locatie en vragen</title>
+        <link
+          rel="stylesheet"
+          href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+          integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+          crossOrigin=""
+        />
       </Head>
 
       <h1>2. Locatie en vragen</h1>
