@@ -1,4 +1,4 @@
-import { StepByStepNav, themeSpacing } from '@amsterdam/asc-ui'
+import { breakpoint, StepByStepNav, themeSpacing } from '@amsterdam/asc-ui'
 import styled from 'styled-components'
 import { useRouter } from 'next/router'
 
@@ -12,20 +12,15 @@ const FormWrapper = styled.div`
 
 const ProgressContainer = styled.div`
   grid-area: progress;
-  padding-top: 2em;
+  padding-top: ${themeSpacing(8)};
+
+  @media only screen and ${breakpoint('max-width', 'tabletM')} {
+    margin-left: ${themeSpacing(4)};
+  }
 
   li {
     line-height: 20px;
   }
-`
-
-const Main = styled.main`
-  display: grid;
-  grid-template-areas:
-    'progress header'
-    'progress form';
-  grid-template-columns: 4fr 8fr;
-  grid-column-gap: ${themeSpacing(5)};
 `
 
 type Step = {
@@ -65,11 +60,16 @@ const FormLayout: FC = ({ children }) => {
   return (
     <CommonLayout>
       <ProgressContainer>
-        <StepByStepNav activeItem={activeItem} steps={steps} itemType="numeric" />
+        <StepByStepNav
+          activeItem={activeItem}
+          breakpoint={breakpoint('max-width', 'tabletM')}
+          itemType="numeric"
+          steps={steps}
+        />
       </ProgressContainer>
 
       <FormWrapper>
-        <Main>{children}</Main>
+        <main>{children}</main>
       </FormWrapper>
     </CommonLayout>
   )
