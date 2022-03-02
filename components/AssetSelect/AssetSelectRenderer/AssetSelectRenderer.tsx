@@ -1,3 +1,4 @@
+import Head from 'next/head'
 import { useController } from 'react-hook-form'
 import { useCallback, useEffect } from 'react'
 import { useSelector } from 'react-redux'
@@ -13,6 +14,8 @@ import { AssetSelectProvider } from '../context'
 import FieldWrapper from 'components/FieldWrapper'
 import { incidentSelector } from 'app/store/slices/incident/selectors'
 import { selectedObjectSelector } from 'app/store/slices/global/selectors'
+
+import 'leaflet.markercluster/dist/MarkerCluster.Default.css'
 
 interface AssetSelectRendererProps extends FieldWrapperProps {
   control: Control
@@ -56,20 +59,30 @@ const AssetSelectRenderer: FunctionComponent<AssetSelectRendererProps> = ({
   )
 
   return (
-    <FieldWrapper error={error} label={label} required={required} id={name}>
-      <AssetSelectProvider
-        value={{
-          address,
-          coordinates,
-          endpoint,
-          featureTypes,
-          selectedObject,
-          wfsFilter,
-        }}
-      >
-        <AssetSelect onUpdate={onUpdate} />
-      </AssetSelectProvider>
-    </FieldWrapper>
+    <>
+      <Head>
+        <link
+          rel="stylesheet"
+          href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+          integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+          crossOrigin=""
+        />
+      </Head>
+      <FieldWrapper error={error} label={label} required={required} id={name}>
+        <AssetSelectProvider
+          value={{
+            address,
+            coordinates,
+            endpoint,
+            featureTypes,
+            selectedObject,
+            wfsFilter,
+          }}
+        >
+          <AssetSelect onUpdate={onUpdate} />
+        </AssetSelectProvider>
+      </FieldWrapper>
+    </>
   )
 }
 
