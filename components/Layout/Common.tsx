@@ -1,11 +1,10 @@
-import { breakpoint, Header, themeSpacing } from '@amsterdam/asc-ui'
+import { breakpoint, themeSpacing } from '@amsterdam/asc-ui'
 import styled from 'styled-components'
 
 import type { FC } from 'react'
 
 import Logo from '../Logo'
 import Footer from './Footer'
-import './common.module.css'
 
 const ContentWrapper = styled.div`
   background-color: white;
@@ -30,9 +29,18 @@ const Container = styled.div`
   }
 `
 
+const Header = styled.header`
+  padding: ${themeSpacing(4, 0)};
+  margin: ${themeSpacing(0, -4)};
+`
+
 const CommonLayout: FC = ({ children }) => (
   <ContentWrapper className="contentWrapper" id="app">
-    <Header tall fullWidth headerLogoTextAs="div" homeLink="./" logo={Logo} />
+    <Container>
+      <Header>
+        <Logo />
+      </Header>
+    </Container>
 
     <Container>{children}</Container>
 
